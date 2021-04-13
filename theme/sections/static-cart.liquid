@@ -1,0 +1,132 @@
+<dialog id="popupAddCart" class="modal-ui" aria-hidden="true">
+  <div tabindex="-1" data-dialog-close></div>
+  <div role="dialog" aria-modal="true">
+    <button class="btn btn-dialog--close" type="button" data-dialog-close>&times;</button>
+
+    <div class="cart-section">
+      <div class="container">
+        <div class="page-heading">
+          <div class="cart-title">
+            <h3>{{- 'cart.general.shopping_cart' | t -}}</h3>
+          </div>
+        </div>
+
+        <form action="{{routes.cart_url}}" method="post" novalidate class="cart">
+
+          <div class="cart-table">
+            <div class="line-title d-flex">
+              <div class="line-col-title line-col-1">{{ 'cart.general.product' | t }}</div>
+              <div class="line-col-title line-col-2 d-lg-none">{{ 'cart.general.information' | t }}</div>
+              <div class="line-col-title line-col-2 d-none d-lg-block">{{ 'cart.general.quantity' | t }}</div>
+              <div class="line-col-title line-col-3 d-none d-lg-block">{{ 'cart.general.price' | t }}</div>
+            </div>
+
+            <div class="line-items-wrapper">
+              {% for line in cart.items %}
+                <section class="line-item" data-item>
+                  <div class="line-item-inner">
+                    <div class="item-header">
+                      <figure>
+                        <a href="{{line.url}}">{%- render 'image-style', image: line.image -%}</a>
+                      </figure>
+
+                      <div class="item-detail-information d-none d-lg-block">
+                        <p class="item-title"><a href="{{line.url}}">{{line.product.title}}</a></p>
+
+                        {%- unless line.product.has_only_default_variant -%}
+                        <div class="line-item-options">
+                          {%- for option in line.options_with_values -%}
+                          <p>{{ option.name }}: {{ option.value }}</p>
+                          {%- endfor -%}
+                        </div>
+                        {%- endunless -%}
+
+                        {%- unless line.properties == blank -%}
+                        <p class="line-item-properties">
+                          {%- for p in line.properties -%}
+                          {%- unless p.last == blank -%}
+                          {{ p.first }}:{%- if p.last contains '/uploads/' -%}<a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>{%- else -%}{{ p.last }}{%- endif -%}
+                          {%- endunless -%}
+                          {%- endfor -%}
+                        </p>
+                        {%- endunless -%}
+                      </div>
+                    </div>
+
+                    <div class="line-quantity">
+
+                      <div class="item-detail-information d-lg-none">
+                        <p class="item-title"><a href="{{line.url}}">{{line.product.title}}</a></p>
+
+                        {%- unless line.product.has_only_default_variant -%}
+                        <div class="line-item-options">
+                          {%- for option in line.options_with_values -%}
+                          <p>{{ option.name }}: {{ option.value }}</p>
+                          {%- endfor -%}
+                        </div>
+                        {%- endunless -%}
+
+                        {%- unless line.properties == blank -%}
+                        <p class="line-item-properties">
+                          {%- for p in line.properties -%}
+                          {%- unless p.last == blank -%}
+                          {{ p.first }}:{%- if p.last contains '/uploads/' -%}<a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>{%- else -%}{{ p.last }}{%- endif -%}
+                          {%- endunless -%}
+                          {%- endfor -%}
+                        </p>
+                        {%- endunless -%}
+                        <p class="line-price-total" data-item-price>{%- render 'money-format', price: line.final_line_price -%}</p>
+                      </div>
+
+                      <div class="qty-select">
+                        <a href="javascript:void(0);" class="qty-minus">-</a>
+                        <input type="text" name="updates[]" id="updates_{{ line.id }}" value="{{ line.quantity }}" pattern="[0-9]+" data-item-key="{{ line.key }}" min="1"{% if line.variant.inventory_policy != 'continue' %} max="{{line.variant.inventory_quantity}}"{% endif %} data-item-quantity/>
+                        <a href="javascript:void(0);" class="qty-plus">+</a>
+                      </div>
+                    </div>
+
+                    <div class="line-price-total">
+                      <p data-item-price>{%- render 'money-format', price: line.final_line_price -%}</p>
+                    </div>
+                  </div>
+                </section>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="cart-footer">
+            <div class="row">
+              <div class="order-md-2 col-md-4 col-12">
+
+                <div class="cart-detail">
+                  <div class="cart-total">
+                    <span class="cart-detail-label">{{- 'cart.general.cart_total' | t -}}</span>
+                    <span class="cart-detail-value" data-cart-total>{%- render 'money-format', price: cart.total_price -%}</span>
+                  </div>
+
+                  <div class="cart-shipping">
+                    <span class="cart-detail-label">{{- 'cart.general.shipping' | t -}}</span>
+                  </div>
+
+                  <div class="cart-button">
+                    <div class="cart-condition">
+                      <input type="checkbox" name="cartcondition" id="cartCondition_{{section.id}}" required>
+                      <label for="cartCondition_{{section.id}}">{{- 'cart.general.agree_to' | t -}}<a href="{{settings.term_and_condition | default: 'javascript:void(0);'}}">{{- 'cart.general.term_and_condition' | t -}}</a></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="order-md-1 col-md-8 col-12"></div>
+              <div class="order-md-3 col-12">
+                <div class="cart-button-group">
+                  <a href="{{ routes.cart_url }}" class="btn btn-1">{{- 'cart.general.go_to_cart' | t -}}</a>
+                  <button class="btn btn-1" type="submit" name="checkout">{{- 'cart.general.proceed_to_checkout' | t -}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</dialog>

@@ -1,0 +1,74 @@
+{%- case type -%}
+  	{%- when 'toolbar' -%}
+		<div class="collection-toolbar">
+			<div class="collection-toolbar-inner">
+				<div class="collection-view-type">
+					<ul class="toolbar_view-list">
+						<li class="view-item">
+							<a href="javascript:void(0)" title="{{- 'collections.general.list' | t -}}" class="{% if viewMode == 'list' %}active{% endif %}" data-view="list">
+								<span class="svg__ui">{%- render 'svg', type: 'list' -%}</span>
+							</a>
+						</li>
+
+						<li class="view-item">
+							<a href="javascript:void(0)" title="{{- 'collections.general.grid' | t -}}" class="{% if viewMode == 'grid' %}active{% endif %}" data-view="grid">
+								<span class="svg__ui">{%- render 'svg', type: 'grid' -%}</span>
+							</a>
+						</li>
+						<li class="filter-nav d-md-none">
+							<button class="filter-toggle" type="button">{{- 'collections.general.filter' | t -}}</button>
+						</li>
+					</ul>
+				</div>
+
+				<div class="collection-page-view"> 
+					{%- assign currentTotal = paginate.current_offset | plus: paginate.page_size -%}
+					{%- if currentTotal > collection.all_products_count -%}
+						{%- assign currentTotal = collection.all_products_count -%}
+					{%- endif -%}
+					{%- capture showPaginate -%}{{paginate.current_offset | plus: 1 }}-{{ currentTotal }}{%- endcapture -%}
+					<p>{{- 'collections.general.show' | t: total: collection.all_products_count, page: showPaginate -}}</p>
+				</div>
+
+				<div class="collection-sort">
+					{%- liquid
+						assign currentSort = collection.sort_by | default: collection.default_sort_by
+						assign sortBy = collection.sort_options | where: 'value', currentSort
+					-%}
+
+					<a href="javascript:void(0);" class="toolbar-link-target toolbar-sort--list dropdown-click" data-sort>{{- 'collections.general.sort_by' | t -}}
+						<span class="expand">{%- render 'svg', type: 'icon_plus' -%}</span>
+					</a>
+
+					<ul id="collectionSortList" class="toolbar-sort-list overlay-ui">
+						{%- for option in collection.sort_options -%}
+							{%- assign sortValue = option.value -%}
+							{%- capture label -%}collections.sorting.{{sortValue}}{%- endcapture -%}
+
+							<li class="sort-action {{sortValue}}{% if currentSort == sortValue %} active{% endif %}" data-sort="{{sortValue}}">
+								<a href="{{ collection.url | sort_by: sortValue }}">{{- label | t -}}</a>
+							</li>
+						{%- endfor -%}
+					</ul>
+				</div>
+			</div>
+		</div>
+
+  	{%- when 'filter' -%}
+        {%- assign filterBlocks = section.blocks | where: 'type', 'filter_group' -%}
+        {%- if filterBlocks.size > 0 -%}
+	        <div class="collection-sidebar">
+	        	<div class="collection-filter-title">
+	        		<h3>{{- 'collections.general.filter_by' | t -}}</h3>
+	        		<button class="filter-toggle" type="button">
+	        			{%- render 'svg', type: 'close' -%}
+	        		</button>
+	        	</div>
+	        	{%- for block in filterBlocks -%}
+		        	<div class="collection-filter"{{block.shopify_attributes}}>
+		        		{%- render 'filter-group', block: block -%}
+		        	</div>
+	        	{%- endfor -%}
+	        </div>
+        {%- endif -%}
+{%- endcase -%}

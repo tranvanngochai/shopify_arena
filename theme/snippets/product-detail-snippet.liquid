@@ -1,0 +1,232 @@
+{%- liquid
+	assign productSelect 		= product.selected_or_first_available_variant
+	assign product_metafield 	= product.metafields.c_f
+-%}
+
+{%- unless product.has_only_default_variant -%}
+	{%- assign disableDefaultVariant = settings.disable_auto_product_selected -%}
+{%- endunless -%}
+
+{%- case type -%}
+  	{%- when 'title' -%}
+  		{%- if section.id == 'static-quickview' -%}
+		  	<h1 class="product-title h3">
+		  		<a href="{{product.url}}">{{product.title}}</a>
+		  	</h1>
+
+  		{%- else -%}
+	  		<h3 class="product-title">{{product.title}}</h3>
+  		{%- endif -%}
+
+  	{%- when 'review' -%}
+  		{%- unless settings.review_app == 'none' -%}
+	  		<div class="product-review">
+	  			{%- render 'review', type: 'badge', showBadgeText: true, page: 'product' -%}
+	  		</div>
+  		{%- endunless -%}
+
+  	{%- when 'stock' -%}
+  		<div class="product-stock">
+  			<p>{{- 'products.product.availability' | t -}}:
+  				<span id="stock">
+  					{%- if productSelect.available -%}{{- 'products.product.in_stock' | t -}}
+  					{%- else -%}{{- 'products.product.out_stockk' | t -}}
+  					{%- endif -%}
+  				</span>
+  			</p>
+  		</div>
+
+  	{%- when 'information' -%}
+  		<div class="product-information">
+  			<div class="product-vendor">
+  				<p><span class="vendor-title">{{- 'products.product.vendor' | t -}}:</span>{{product.vendor}}</p>
+  			</div>
+  			<div class="product-share">
+  				<p class="share-title">{{- 'products.product.share' | t -}}:</p>
+  				{%- render 'social-sharing' -%}
+  			</div>
+  		</div>
+
+  	{%- when 'price' -%}
+		{%- liquid
+			assign compare_price 		= productSelect.compare_at_price
+			assign price         		= productSelect.price
+		-%}
+		{%- if productSelect.available and compare_price > price -%}
+			{%- assign showComparePrice = true -%}
+		{%- else -%}
+			{%- assign showComparePrice = false -%}
+		{%- endif -%}
+
+		{%- capture __productPrice -%}
+			<span class="price-sale{% unless showComparePrice %} hide{% endunless %}" data-price-sale>{%- render 'money-format', price: price -%}</span>
+			<span class="price-compare{% unless showComparePrice %} hide{% endunless %}" data-price-compare>{%- render 'money-format', price: compare_price -%}</span>
+			<span class="price{% if productSelect.available == false or compare_price > price %} hide{% endif %}" data-price-single>{%- render 'money-format', price: price -%}</span>
+			<span class="price soldout{% if productSelect.available %} hide{% endif %}" data-soldout>{{- 'products.product.sold_out' | t -}}</span>
+		{%- endcapture -%}
+
+		{%- if disableDefaultVariant -%}
+			<div class="product-price product-price-range notranslate">
+				<span class="price">{%- render 'money-format', price: product.price_min -%}</span>
+				{%- if product.price_min < product.price_max -%}
+					<span class="price-label">{{- 'products.product.to' | t -}}</span>
+					<span class="price">{%- render 'money-format', price: product.price_max -%}</span>
+				{%- endif -%}
+			</div>
+		{%- endif -%}
+
+	    <div class="product-price notranslate{% if disableDefaultVariant %} hide{% endif %}" data-product-price>{{__productPrice}}</div>
+
+	{%- when 'form' -%}
+		<div class="product-form-cart">
+
+	        {%- form 'product', product, class:'product-form', data-product-form: '', data-product-handle: product.handle -%}
+
+	          	<div id="product-action-{{ product.id }}" class="group-cw options">
+
+	          		{%- unless product.has_only_default_variant -%}
+	          			{%- render 'swatch', product: product, section_id: section.id -%}
+	          		{%- endunless -%}
+
+		            <div class="variants-wrapper">
+		            	{%- unless product.has_only_default_variant -%}
+			            	{%- for option in product.options_with_values -%}
+				            	<div class="select-option select-option-{{forloop.index0}} js-enabled" data-option="{{option.name | handle}}">
+				            		<label for="Option{{ option.position }}">{{ option.name }}</label>
+				            		<select id="Option{{ option.position }}" name="options[{{ option.name | escape }}]" data-linked-option-select="{{forloop.index0}}">
+				            			{%- if disableDefaultVariant -%}
+				            				<option value="null" disabled>{{ 'products.product.select' | t }}</option>
+				            			{%- endif -%}
+				            			{%- for value in option.values -%}
+				            				<option value="{{ value | escape }}" {% if option.selected_value == value and disableDefaultVariant != true %} selected{% endif %}>{{ value }}</option>
+				            			{%- endfor -%}
+				            		</select>
+				            	</div>
+			            	{%- endfor -%}
+		            	{%- endunless -%}
+
+	            		<select name="id" style="display: none;">
+	            			{%- if disableDefaultVariant -%}
+	            				<option value="null" disabled>{{ 'products.product.select' | t }}</option>
+	            			{%- endif -%}
+	            			{%- for variant in product.variants -%}
+		            			<option {% if variant == productSelect and disableDefaultVariant != true %}selected{% endif %}{% unless variant.available %} disabled{% endunless %} value="{{ variant.id }}">
+		            				{{- variant.title -}}
+		            			</option>
+		            		{%- endfor -%}
+	            		</select>
+		            </div>
+	          	</div>
+
+	          	<div class="product-cart">
+		          	<div class="product-cart-inner">
+
+		          		<div class="product-cart-qty" data-quantity>
+		          			<div class="qty-wrapper">
+		          				<div class="qty-select">
+		          					<input type="number" name="quantity" value="1" min="1">
+		          					<div class="qty-group">
+		          						<a href="javascript:void(0);" class="qty-plus">{%- render 'svg', type: 'icon_plus', fill: '#333333' -%}</a>
+		          						<a href="javascript:void(0);" class="qty-minus">{%- render 'svg', type: 'icon_minus', fill: '#333333' -%}</a>
+		          					</div>
+		          				</div>
+		          			</div>
+		          		</div>
+
+			            <div class="product-cart_button">
+
+			            	<button type="submit" id="addToCartBtn" name="add" class="btn add-to-cart btn-1{% if disableDefaultVariant %} btn-require-options{% endif %}"{% unless productSelect.available  %} disabled{% endunless %}>
+			            		<span>{{- 'products.product.add_to_cart' | t -}}</span>
+			            	</button>
+			            </div>
+		          	</div>
+
+		            {%- if section.settings.enable_dynamic_checkout -%}
+		              <div class="dynamic-btn">{{ form | payment_button }}</div>
+		            {%- endif -%}
+
+	          	</div>
+	        {%- endform -%}
+        </div>
+
+  	{%- when 'short_description' -%}
+	  	{%- if product_metafield.description_excerpt != blank-%}
+	  		<div class="product-detail_short-description">{{ product_metafield.description_excerpt }}</div>
+	  	{%- endif -%}
+
+	{%- when 'json' -%}
+		{%- capture content -%}
+			{%- assign days_product_price_valid_until = 10 | times: 86400 -%}
+
+			{%- assign gtin_option = 'gtin' -%}
+			{%- if product.selected_or_first_available_variant.barcode != blank -%}
+			{%- assign is_barcode_available = true -%}
+			{%- assign gtin_string_length = product.selected_or_first_available_variant.barcode | size -%}
+
+			{%- if gtin_string_length == 8 or gtin_string_length == 12 or gtin_string_length == 13 or gtin_string_length == 14 -%}
+			  {%- assign is_valid_gtin_length = true -%}
+			  {%- assign gtin_option = gtin_option | append: gtin_string_length -%}
+			{%- endif -%}
+			{%- endif -%}
+
+			{%- capture main_entity_microdata -%}
+				"@type": "Product",
+				"offers": [
+				  {%- for variant in product.variants -%}
+				    {
+				      "@type": "Offer",
+				      "name": {{ variant.title | json }},
+				      "availability": {%- if variant.available -%}"https://schema.org/InStock"{%- else -%}"https://schema.org/OutOfStock"{%- endif -%},
+				      "price": {{ variant.price | divided_by: 100.0 | json }},
+				      "priceCurrency": {{ cart.currency.iso_code | json }},
+				      "priceValidUntil": "{{ 'now' | date: '%s' | plus: days_product_price_valid_until | date: '%Y-%m-%d'}}",
+				      {%- if variant.sku != blank -%}
+				        "sku": {{ variant.sku | json }},
+				      {%- endif -%}
+				      "url": "{{ product.url }}?variant={{ variant.id }}"
+				    }{% unless forloop.last %},{% endunless %}
+				  {%- endfor -%}
+				],
+				{%- if is_barcode_available and is_valid_gtin_length %}
+				  "{{gtin_option}}": {{ product.selected_or_first_available_variant.barcode | json }},
+				  "productId": {{ product.selected_or_first_available_variant.barcode | json }},
+				{%- elsif is_barcode_available %}
+				  "mpn": {{ product.selected_or_first_available_variant.barcode | json }},
+				  "productId": {{ product.selected_or_first_available_variant.barcode | json }},
+				{%- endif %}
+				"brand": {
+				  "name": {{ product.vendor | json }}
+				},
+				"name": {{ product.title | json }},
+				"description": {{ product.description | strip_html | json }},
+				"category": {{ product.type | json }},
+				"url": "{{ product.url }}",
+				"sku": {{ product.selected_or_first_available_variant.sku | json }},
+				"image": {
+				  "@type": "ImageObject",
+				  "url": "https:{{ product.featured_media | img_url: '1024x' }}",
+				  "image": "https:{{ product.featured_media | img_url: '1024x' }}",
+				  "name": {{ product.featured_media.alt | json }},
+				  "width": "1024",
+				  "height": "1024"
+				}
+			{%- endcapture -%}
+			<script type="application/ld+json">
+				{
+					"@context": "http://schema.org",
+					{{ main_entity_microdata }}
+				}
+			</script>
+		{%- endcapture -%}
+		{%- render 'compress', content: content -%}
+
+	{%- when 'wlcp' -%}
+		<div class="product-wlcp">
+		  	<div class="product-card--wishlist">
+		  		{%- render 'button', type: 'wishlist_add', product: product, fill: '#333333' -%}
+		  	</div>
+		  	<div class="product-card--compare">
+		  		{%- render 'button', type: 'compare_add', product: product, fill: '#333333' -%}
+		  	</div>
+		</div>
+{%- endcase -%}

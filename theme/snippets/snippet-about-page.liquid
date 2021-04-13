@@ -1,0 +1,23 @@
+{%- capture content -%}
+  {%- liquid
+    assign id = ' .block__content-text-' | append: i
+    assign cl = 'text_cl_' | append: i
+    assign fs = 'text_fs_' | append: i
+    assign lh = 'text_lh_' | append: i
+    assign cl = block.settings[cl] | remove: 'rgba(0,0,0,0)'
+    assign fs = block.settings[fs]
+    assign lh = block.settings[lh]
+  -%}
+
+  {%- capture firstValues -%}
+    {%- unless cl.size == 0 -%}color : {{cl}};{%- endunless -%}
+    {%- render  'css-resp', type: 'value', showFirst: true, css_property: 'font-size', css_value: fs -%}
+    {%- render  'css-resp', type: 'value', showFirst: true, css_property: 'line-height', css_value: lh -%}
+  {%- endcapture -%}
+
+  {%- render 'css-resp', classID: blockID, nextClassID: id, css_values: firstValues -%}
+  {%- render 'css-resp', classID: blockID, nextClassID: id, showLast: true, css_property: 'font-size', css_value: fs -%}
+  {%- render 'css-resp', classID: blockID, nextClassID: id, showLast: true, css_property: 'line-height', css_value: lh -%}
+{%- endcapture -%}
+
+{%- unless content == blank -%}{{content}}{%- endunless -%}

@@ -1,0 +1,219 @@
+{%- render 'breadcrumb', _layout: 'boxed' -%}
+
+<div class="article-main-page">
+	<div class="container">
+		<div class="row">
+			<div class="main-page col-lg-9 col-md-8 col-12">
+				<div class="article-heading">
+					<h1 class="page-title h3">{{article.title}}</h1>
+					{%- capture publishDate -%}{{ article.published_at | date: '%B, %d' }}{%- endcapture -%}
+					<div class="release-info">{{- 'blogs.article.posted_by' | t: author: article.author, date: publishDate -}}</div>
+					<h2 class="{% unless section.settings.show_excerpt %}hide{% endunless %}">{{ article.excerpt }}</h2>
+				</div>
+				<div class="article-body">{{article.content}}</div>
+
+				<div class="social-share">
+					<p class="share-title">{{- 'blogs.article.share' | t -}}</p>
+					{%- render 'social-sharing' -%}
+				</div>
+
+				<div class="relate-article">
+					<div class="col-6">
+						{%- if blog.previous_article != blank -%}
+						<article class="prev-article">
+							<div class="article-relate-title">{{- 'blogs.article.pre_post' | t -}}</div>
+							{%- render 'article-item', article: blog.previous_article, type: 'related' -%}
+						</article>
+						{%- endif -%}
+					</div>
+
+					<div class="col-6">
+						{%- if blog.next_article != blank -%}
+							<article class="next-article">
+								<div class="article-relate-title">{{- 'blogs.article.next_post' | t -}}</div>
+								{%- render 'article-item', article: blog.next_article, type: 'related' -%}
+							</article>
+						{%- endif -%}
+					</div>
+				</div>
+
+				{%- comment -%}
+				-------------------------------
+				COMMENT
+				-------------------------------
+				{%- endcomment-%}
+				{%- if blog.comments_enabled? -%}
+					<div class="article-bottom">
+					    <div id="comments">
+					    	{%- if article.comments.size > 0 -%}
+					    		{%- assign _comment  = 'blogs.article.comment' | t -%}
+					    		{%- assign _comments = 'blogs.article.comments' | t -%}
+
+						      	<h4>{{article.comments.size}} {{article.comments.size | pluralize: _comment, _comments}}</h4>
+								{%- comment -%}
+								-------------------------------
+								LIST ALL COMMENTS
+								-------------------------------
+								{%- endcomment-%}
+						      	<ul id="comment-list">
+							        {%- for comment in article.comments -%}
+								        <li>
+							        		<div class="comment-details">
+							        			<p class="comment-author">{{ comment.author }}</p>
+							        			<span class="comment-date">{{ comment.created_at | date: "%B %d %Y, %I:%M%p" }}</span>
+							        		</div>
+							        		<div class="comment">{{ comment.content }}</div>
+								        </li>
+							        {%- endfor -%}
+						      	</ul>
+					    	{%- endif -%}
+
+							{%- comment -%}
+							-------------------------------
+							FORM
+							-------------------------------
+							{%- endcomment-%}
+					      	<div id="comment-form">
+					        {%- liquid
+								assign formTitle           =  'blogs.comments.title' | t
+								assign formSubtitle        =  'blogs.comments.subtitle' | t
+								assign formText_1          =  'blogs.comments.name' | t
+								assign formText_2          =  'blogs.comments.email' | t
+								assign formText_3          =  'blogs.comments.message' | t
+								assign formButton          =  'blogs.comments.submit' | t
+								assign moderated           =  'blogs.comments.moderated' | t
+								assign success_moderated   =  'blogs.comments.success_moderated' | t
+								assign success             =  'blogs.comments.success' | t
+								assign form_error          =  'blogs.comments.error' | t
+					        -%}
+
+							<h5>{{ formTitle }}</h5>
+							<p>{{ formSubtitle }}</p>
+
+							{%- comment -%}
+							-------------------------------
+							Check if a comment has been submitted in the last request, and if yes display an appropriate message
+							-------------------------------
+							{%- endcomment-%}
+							{%- form article -%}
+								{%- if form.posted_successfully? -%}
+									{%- if blog.moderated? -%}<div class="notice">{{success_moderated}}</div>
+									{%- else -%}<div class="notice">{{ success }}</div>
+									{%- endif -%}
+								{%- endif -%}
+
+								{%- if form.errors -%}<div class="notice error">{{ form_error }}</div>{%- endif -%}
+								{%- unless form.posted_successfully? -%}
+
+									<div class="form-control">
+										<div class="row">
+											<div class="col-md-6 col-12">
+												<div class="form-row">
+													<label for="comment_email">{{ formText_2 }}</label>
+													<input type="text" id="comment_email" name="comment[email]" value="{{form.email}}" class="{% if form.errors contains 'email' %}input-error{% endif %}" required/>
+												</div>
+											</div>
+											<div class="col-md-6 col-12">
+												<div class="form-row">
+													<label for="comment_author">{{ formText_1 }}</label>
+													<input type="text" id="comment_author" name="comment[author]" value="{{form.author}}" class="{% if form.errors contains 'author' %}input-error{% endif %}" required/>
+												</div>
+											</div>
+											<div class="col-12">
+												<div class="form-row">
+													<label for="comment_body">{{ formText_3 }}</label>
+													<textarea id="comment_body" name="comment[body]" cols="40" rows="5" class="{% if form.errors contains 'body' %}input-error{% endif %}" required>{{form.body}}</textarea>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-button">
+										<button type="submit" class="btn btn-1">{{ formButton }}</button>
+										{%- if blog.moderated? -%}<p class="hint">{{ moderated }}</p>{%- endif -%}
+									</div>
+								{%- endunless -%}
+							{%- endform -%}
+					      	</div>
+
+					    </div>
+					</div>
+				{%- endif -%}
+			</div>
+
+			<div class="article-sidebar col-lg-3 col-md-4 col-12">
+				<div class="sb-search">
+					{%- render 'search', search_type: 'article' -%}
+				</div>
+
+				<div class="sb-recent-post">
+					<div class="sb-recent-post-title">
+						<h5>{{- 'blogs.article.recent_post' | t -}}</h5>
+					</div>
+					{%- for a in blog.articles -%}
+						{%- if article.handle == a.handle -%}{%- continue -%}{%- endif -%}
+						{%- render 'article-item', type: 'list', article: a -%}
+					{%- endfor -%}
+				</div>
+
+				<div class="sb-tag">
+					<p class="sb-title">{{- 'blogs.article.tags' | t -}}</p>
+					<ul class="tags-listing">
+						{%- for tag in article.tags -%}
+							<li>{{ tag | link_to_tag: tag }}</li>
+						{%- endfor -%}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{%- capture main_entity_microdata -%}
+	"@type": "BlogPosting",
+	"mainEntityOfPage": "{{ article.url }}",
+	"articleSection": {{ blog.title | json }},
+	"keywords": "{{ article.tags | join: ', ' }}",
+	"headline": {{ article.title | json }},
+	"description": {{ article.excerpt_or_content | strip_html | truncatewords: 25 | json }},
+	"dateCreated": "{{ article.created_at | date: '%Y-%m-%dT%T' }}",
+	"datePublished": "{{ article.published_at | date: '%Y-%m-%dT%T' }}",
+	"dateModified": "{{ article.published_at | date: '%Y-%m-%dT%T' }}",
+	"image": {
+	  "@type": "ImageObject",
+	  "url": "https:{{ article.image | img_url: '1024x' }}",
+	  "image": "https:{{ article.image | img_url: '1024x' }}",
+	  "name": {{ article.image.alt | json }},
+	  "width": "1024",
+	  "height": "1024"
+	},
+	"author": {
+	  "@type": "Person",
+	  "name": "{{ article.user.first_name | escape }} {{ article.user.last_name | escape }}",
+	  "givenName": {{ article.user.first_name | json }},
+	  "familyName": {{ article.user.last_name | json }}
+	},
+	"publisher": {
+	  "@type": "Organization",
+	  "name": {{ shop.name | json }}
+	},
+	"commentCount": {{ article.comments_count }},
+	"comment": [
+	  {%- for comment in article.comments limit: 5 -%}
+	    {
+	      "@type": "Comment",
+	      "author": {{ comment.author | json }},
+	      "datePublished": "{{ comment.created_at | date: '%Y-%m-%dT%T' }}",
+	      "text": {{ comment.content | json }}
+	    }{%- unless forloop.last -%},{%- endunless -%}
+	  {%- endfor -%}
+	]
+{%- endcapture -%}
+
+{% if main_entity_microdata != blank %}
+  <script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    {{ main_entity_microdata }}
+  }
+  </script>
+{% endif %}

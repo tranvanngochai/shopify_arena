@@ -1,0 +1,97 @@
+{%- unless value == blank -%}
+  {%- case type -%}
+    {%- when 'slider' -%}
+      {%- liquid
+        assign _value       = value | remove: ' ' | split: ','
+        assign _padding     = gutter | default: '0' | split: ','
+        assign _loop        = loop | default: false
+        assign _nav         = nav | default: section.settings.slide_nav | default: false
+        assign _dot         = dot | default: section.settings.slide_dot | default: false
+      -%}
+      {%- comment -%}         1200  992  768  576  375  0{%- endcomment-%}
+      {%- capture itemsResp -%}
+        {%- case _value.size -%}
+          {%- when 1  -%}{{- _value -}},{{- _value -}},{{- _value -}},{{- _value -}},{{- _value -}},{{- _value -}}
+          {%- when 2  -%}{{- _value[0] -}},{{- _value[0] -}},{{- _value[0] -}},{{- _value[1] -}},{{- _value[1] -}},{{- _value[1] -}}
+          {%- when 3  -%}{{- _value[0] -}},{{- _value[0] -}},{{- _value[1] -}},{{- _value[2] -}},{{- _value[2] -}},{{- _value[2] -}}
+          {%- when 4  -%}{{- _value[0] -}},{{- _value[1] -}},{{- _value[2] -}},{{- _value[3] -}},{{- _value[3] -}},{{- _value[3] -}}
+          {%- when 5  -%}{{- _value[0] -}},{{- _value[1] -}},{{- _value[2] -}},{{- _value[3] -}},{{- _value[4] -}},{{- _value[4] -}}
+          {%- else    -%}{{- _value[0] -}},{{- _value[1] -}},{{- _value[2] -}},{{- _value[3] -}},{{- _value[4] -}},{{- _value[5] -}}
+        {%- endcase -%}
+      {%- endcapture -%}
+
+      {%- capture gutterResp -%}
+        {%- case _padding.size -%}
+          {%- when 1  -%}{{- _padding -}},{{- _padding -}},{{- _padding -}},{{- _padding -}},{{- _padding -}},{{- _padding -}}
+          {%- when 2  -%}{{- _padding[0] -}},{{- _padding[0] -}},{{- _padding[0] -}},{{- _padding[1] -}},{{- _padding[1] -}},{{- _padding[1] -}}
+          {%- when 3  -%}{{- _padding[0] -}},{{- _padding[0] -}},{{- _padding[1] -}},{{- _padding[2] -}},{{- _padding[2] -}},{{- _padding[2] -}}
+          {%- when 4  -%}{{- _padding[0] -}},{{- _padding[1] -}},{{- _padding[2] -}},{{- _padding[3] -}},{{- _padding[3] -}},{{- _padding[3] -}}
+          {%- when 5  -%}{{- _padding[0] -}},{{- _padding[1] -}},{{- _padding[2] -}},{{- _padding[3] -}},{{- _padding[4] -}},{{- _padding[4] -}}
+          {%- else    -%}{{- _padding[0] -}},{{- _padding[1] -}},{{- _padding[2] -}},{{- _padding[3] -}},{{- _padding[4] -}},{{- _padding[5] -}}
+        {%- endcase -%}
+      {%- endcapture -%}
+
+      <input type="hidden" name="sectionSlideConfig"
+       data-items="{{ itemsResp | strip }}"
+       data-item-class="{{itemClass}}"
+       data-loop="{{ _loop }}"
+       data-nav="{{ _nav }}"
+       data-dot="{{ _dot }}"
+       data-gutters="{{ gutterResp }}"
+       data-autoplay="{{ autoplay | default: 0 }}"
+      >
+
+        {%- comment -%}
+          **
+          * Slideshow navigation
+          *
+        {%- endcomment-%}
+        <div class="slide_ui-controls slide_ui-controls--nav{% unless _nav %} d-none{% endunless %}"{{navAttribute}}>
+          <button class="slide_ui-btn-prev">
+            <svg width="9" height="16" viewBox="0 0 9 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 15L1 8L8 1" stroke="{{fill | default: settings.main_color }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button class="slide_ui-btn-next">
+            <svg width="9" height="16" viewBox="0 0 9 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1L8 8L1 15" stroke="{{fill | default: settings.main_color }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+    {%- else -%}
+      {%- assign _item_resp = value | strip | split: ',' -%}
+      {%- if _item_resp.size > 1 -%}
+        {%- case _item_resp.size -%}
+          {%- when 2 -%}{%- assign ii = 1 -%}{%- assign arClass = 'col-md-, col-' -%}
+          {%- when 3 -%}{%- assign ii = 2 -%}{%- assign arClass = 'col-lg-, col-md-, col-' -%}
+          {%- when 4 -%}{%- assign ii = 3 -%}{%- assign arClass = 'col-lg-, col-md-, col-sm-, col-' -%}
+          {%- when 5 -%}{%- assign ii = 4 -%}{%- assign arClass = 'col-xl-, col-lg-, col-md-, col-sm-, col-' -%}
+          {%- else -%}  {%- assign ii = 5 -%}{%- assign arClass = 'col-xl-, col-lg-, col-md-, col-sm-, col-xxs-, col-' -%}
+        {%- endcase -%}
+
+        {%- assign items_resp  = '' -%}
+        {%- assign arrClass    = arClass | split: ',' -%}
+        {%- for i in (0..ii) -%}
+          {%- capture _out -%}{%- render 'set-width', number: _item_resp[i] -%}{%- endcapture -%}
+          {%- assign _classItem = _out | prepend: arrClass[i] -%}
+          {%- if _out == '5' -%}{%- assign _classItem = _classItem | append: 'th' -%}{%- endif -%}
+          {%- assign items_resp = items_resp | append: _classItem -%}
+        {%- endfor -%}
+        {%- capture output -%}{{- items_resp -}}{%- endcapture -%}
+
+      {%- else -%}
+        {%- capture _out -%}{%- render 'set-width', number: _item_resp[0] -%}{%- endcapture -%}
+        {%- assign _class_xs = _out | strip | prepend: 'col-' -%}
+        {%- if _out == '5' -%}{%- assign _class_xs = _class_xs | append: 'th' -%}{%- endif -%}
+        {%- capture output -%}{{- _class_xs -}}{%- endcapture -%}
+      {%- endif -%}
+  {%- endcase -%}
+
+  {%- comment -%}
+    **
+    * Output
+    *
+  {%- endcomment-%}
+  {{- output -}}
+{%- endunless -%}

@@ -1,0 +1,244 @@
+{%- layout none -%}
+{%- liquid
+	assign productSelect 		= product.selected_or_first_available_variant
+	assign product_metafield 	= product.metafields.c_f
+	assign compare_price 		= productSelect.compare_at_price
+	assign price         		= productSelect.price
+	if productSelect.available and compare_price > price
+		assign showComparePrice = true
+	else
+		assign showComparePrice = false
+	endif
+	assign stock_range 	 = 10
+-%}
+
+<dialog id="quickView" class="modal-ui" aria-hidden="true">
+	{% comment %}<link rel="stylesheet" href="{{ 'quickview.css' | asset_url }}">{% endcomment %}
+
+	<div tabindex="-1" data-dialog-close></div>
+	<div role="dialog" aria-modal="true" aria-labelledby="quickView">
+		<header><button aria-label="Close modal" data-dialog-close>{%- render 'svg', type: 'close' -%}</button></header>
+
+		<div id="quickView_body">
+			<div class="quickview-container">
+
+
+				{%- comment -%}
+					-------------------------------------------------
+					--	PRODUCT GALLERY
+					-------------------------------------------------
+				{%- endcomment-%}
+				<div class="qView-col qView-col-left">
+					<div class="product-media">
+						<div class="product-main-media">
+							<div class="slide_ui-element imageCrop-false" item-main-media>
+								{%- for media in product.media -%}
+									{%- if media.media_type != 'image' -%}{%- continue -%}{%- endif -%}
+
+									{%- capture mediaClass -%}
+										{%- if productSelect.image != blank and media.src == productSelect.image.src -%}true
+										{%- elsif forloop.first and productSelect.image == blank-%}true
+										{%- endif -%}
+									{%- endcapture -%}
+									{%- if mediaClass != blank -%}{%- assign saveActivePosition = forloop.index -%}{%- endif -%}
+
+
+									<div class="feature-product-media{% unless mediaClass == blank %} active{% endunless %}" data-media-id="{{ media.id }}" data-index="{%- increment mediaCount -%}">
+										<figure>{%- render 'image-style', image: media, enableZoom: false -%}</figure>
+									</div>
+								{%- endfor -%}
+							</div>
+
+
+							<div class="slide_ui-controls slide_ui-controls--nav{% unless product.images.size > 1 %} hide{% endunless %}" item-main-nav>
+								<button class="slide_ui-btn-prev">
+									<svg width="11" height="21" viewBox="0 0 11 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.85 10.373L11 17.999L7.638 20.418L0.257999 10.209L7.638 0L11 2.419L4.85 10.373Z" fill="white"/></svg>
+								</button>
+								<button class="slide_ui-btn-next">
+									<svg width="11" height="21" viewBox="0 0 11 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.15 10.373L0 17.999L3.362 20.418L10.742 10.209L3.362 0L0 2.419L6.15 10.373Z" fill="white"/></svg>
+								</button>
+							</div>
+						</div>
+
+						<div class="product-thumbail-media">
+							{%- assign mediaThumbnail_item_per_row = '6,4' -%}
+							{%- capture gridClass -%}{%- render 'set-item-per-row', value: mediaThumbnail_item_per_row -%}{%- endcapture -%}
+
+							<div class="row slide_ui-element" item-media-thumbnail data-class="{{gridClass}}">
+								{%- for media in product.media -%}
+									{%- if media.media_type != 'image' -%}{%- continue -%}{%- endif -%}
+
+									<div class="thumbnail-media {{gridClass}}{% if saveActivePosition == forloop.index %} active{% endif %}" data-media-thumbnail-id="{{ media.id }}">
+										<figure class="media-thumb-{{media.media_type}}">
+											{%- render 'image-style', imagePadding: ratioImage, image: media -%}
+										</figure>
+									</div>
+								{%- endfor -%}
+							</div>
+							{%- render 'set-item-per-row', value: mediaThumbnail_item_per_row, type: 'slider', itemClass: 'thumbnail-media', nav: true, gutter: '12', navAttribute: 'item-thumb-nav' -%}
+						</div>
+					</div>
+				</div>
+
+
+
+
+				{%- comment -%}
+					-------------------------------------------------
+					--	PRODUCT INFO
+					-------------------------------------------------
+				{%- endcomment-%}
+				<div class="qView-col qView-col-right">
+					<div class="product-info">
+						<div class="product-info-row">
+
+							<div class="product-stock-available">
+								<div class="stock-variant{% if productSelect.inventory_quantity > stock_range %} hide{% endif %}" data-limit-in-stock="{{stock_range}}">
+									<div class="label_ui-group">
+										{%- capture inventoryHTML -%}<span data-variant-inventory>{{productSelect.inventory_quantity}}</span>{%- endcapture -%}
+										{%- assign invenText = 'products.product.in_stock_with_quantity' | t: number: '(number)' -%}
+
+										<span class="label_ui inventory-label-count label_ui-new{% unless productSelect.available %} hide{% endunless %}">{{invenText | replace: '(number)', inventoryHTML }}</span>
+										<span class="label_ui inventory-label-soldout label_ui-hot{% if productSelect.available %} hide{% endif %}">{{ 'products.product.sold_out' | t }}</span>
+									</div>
+								</div>
+							</div>
+
+							{%- if settings.show_vendor -%}
+								<small class="product-vendor">{{product.vendor}}</small>
+							{%- endif -%}
+
+							<p class="product-title">
+								<a href="{{product.url}}" data-item-url>{{ product.title }}</a>
+							</p>
+
+					  		{%- unless settings.review_app == 'none' -%}
+						  		<div class="product-review">
+						  			{%- render 'review', product: product, type: 'badge', showBadgeText: true, page: 'product' -%}
+						  		</div>
+					  		{%- endunless -%}
+						</div>
+
+						<div class="product-info-row section-{{product.id}}">
+
+
+
+							{%- comment -%}
+								-------------------------------------------------
+								--	FORM ADD CART
+								-------------------------------------------------
+							{%- endcomment-%}
+							{%- form 'product', product, class:'product-form', data-product-form: '', data-product-handle: product.handle -%}
+
+								{%- capture __productPrice -%}
+									<span class="price-sale{% unless showComparePrice %} hide{% endunless %}" item-price-sale>{%- render 'money-format', price: price -%}</span>
+									<span class="price-compare{% unless showComparePrice %} hide{% endunless %}" item-price-compare>{%- render 'money-format', price: compare_price -%}</span>
+									<span class="price{% if productSelect.available == false or compare_price > price %} hide{% endif %}" item-price-single>{%- render 'money-format', price: price -%}</span>
+									<span class="price soldout{% if productSelect.available %} hide{% endif %}" item-soldout>{{- 'products.product.sold_out' | t -}}</span>
+								{%- endcapture -%}
+
+								<div class="product-price notranslate" data-product-price>{{__productPrice}}</div>
+
+					          	<div id="product-action-{{ product.id }}" class="group-cw options product-form">
+
+					          		{%- unless product.has_only_default_variant -%}
+					          			{%- render 'swatch', product: product, section_id: product.id -%}
+					          		{%- endunless -%}
+
+						            <div class="variants-wrapper">
+						            	{%- unless product.has_only_default_variant -%}
+							            	{%- for option in product.options_with_values -%}
+								            	<div class="select-option js-enabled" data-option="{{option.name | handle}}">
+								            		<label for="qs_Option{{ option.position }}">{{ option.name }}</label>
+								            		<select id="qs_Option{{ option.position }}" name="options[{{ option.name | escape }}]">
+								            			{%- for value in option.values -%}
+								            				<option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
+								            			{%- endfor -%}
+								            		</select>
+								            	</div>
+							            	{%- endfor -%}
+						            	{%- endunless -%}
+					            		<select name="id" style="display: none;">
+					            			{%- for variant in product.variants -%}
+						            			<option {% if variant == productSelect %}selected="selected"{% endif %}{% unless variant.available %} disabled="disabled"{% endunless %} value="{{ variant.id }}">
+						            				{{- variant.title -}}
+						            			</option>
+						            		{%- endfor -%}
+					            		</select>
+						            </div>
+					          	</div>
+
+
+								<div class="product-form">
+									<div class="product-cart">
+										<div class="product-cart-qty">
+											<div class="qty-wrapper" data-quantity>
+												<label for="quantity">{{- 'products.product.quantity' | t -}}</label>
+												<div class="qty-select">
+													<a href="javascript:void(0);" class="qty-minus">-</a>
+													<input type="number" name="quantity" value="1" item-quantity min="1"{% if item.variant.inventory_policy != 'continue' %} max="{{productSelect.inventory_quantity}}"{% endif %}>
+													<a href="javascript:void(0);" class="qty-plus">+</a>
+												</div>
+											</div>
+										</div>
+
+										<div class="product-cart_button">
+											<button type="submit" name="add" class="btn add-to-cart btn-1"{% unless productSelect.available %} disabled="disabled"{% endunless %}>
+												<span class="cart-btn-label" item-cart-btn-label>
+													{%- unless productSelect.available -%} {{- 'products.product.sold_out' | t -}}
+													{%- else -%} {{- 'products.product.add_to_cart' | t -}}
+													{%- endunless -%}
+												</span>
+											</button>
+										</div>
+									</div>
+								</div>
+        					{%- endform -%}
+						</div>
+
+						<div class="product-info-row">
+							<div class="product-wlcp-target">
+								<div class="wlcp-target wl-target">
+									{%- render 'button', type: 'wishlist_add', product: product -%}
+								</div>
+
+								<div class="wlcp-target cp-target">
+									{%- render 'button', type: 'compare_add', product: product -%}
+								</div>
+							</div>
+						</div>
+
+						<div class="product-info-row">
+							{%- capture tagContent -%}
+								{%- for tag in product.tags -%}
+									{%- assign _tag = tag | downcase -%}
+
+									{%- if _tag contains 'label' and _tag contains 'hot' or _tag contains 'label' and _tag contains 'new' -%}
+										{%- continue -%}
+									{%- endif -%}
+
+									{%- capture tag_url -%}/collections/all/{{ tag | handle }}{%- endcapture -%}
+									{{- tag | link_to: tag_url , '[tag_title]' | replace: 'title="[tag_title]"', 'class="tag-item"' -}}
+									{% unless forloop.last %}, {% else %} {% if product.tags.size > 4 %}<span>...</span>{% endif %}{%- endunless -%}
+								{%- endfor -%}
+							{%- endcapture -%}
+
+							{%- unless tagContent == blank -%}
+								<div class="product-detail-info product-tags">
+									<span class="product-detail-info--heading">{{'products.product.tags' | t }} </span>
+									<span class="product-detail-info--content" item-tag>{{tagContent}}</span>
+								</div>
+							{%- endunless -%}
+
+							<div class="product-detail-info product-sku{% if productSelect.sku == blank %} hide{% endif %}">
+								<span class="product-detail-info--heading">{{ 'products.product.sku' | t }}</span>
+								<span class="product-detail-info--content" item-sku>{{ productSelect.sku }}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="{{ 'quickview-import.js' | asset_url }}"></script>
+</dialog>

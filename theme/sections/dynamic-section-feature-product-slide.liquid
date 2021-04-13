@@ -1,0 +1,217 @@
+{%- capture content -%}
+{%- render 'section-snippet', type: 'section_id' -%}
+
+{%- if section.settings.boxed_layout -%}{%- assign _layout = 'boxed' -%}{%- else -%}{%- assign _layout = 'full' -%}{%- endif -%}
+{%- liquid
+  assign sectionType    = 'featured-product'
+  assign _enable_slider = true
+  assign _collection    = section.settings.collection
+  assign sectionID      = '.section' | append: section.id
+
+  assign collection     = collections[_collection]
+  assign _items_resp    = section.settings.items_resp | default: '5,2'
+  assign _total         = section.settings.total | default: '3' | times: 1
+-%}
+
+{%- capture gridClass -%}{%- render 'set-item-per-row', value: _items_resp -%}{%- endcapture -%}
+{%- capture section_class -%}
+  home-products-grid
+  |home-products-grid-slide
+  |layout-{{- _layout -}}
+  |{{- sectionID | remove_first: '.' -}}
+{%- endcapture -%}{%- assign section_class = section_class | strip | split: '|' | join: ' ' -%}
+
+<div class="{{section_class}}" data-section-type="{{sectionType}}" data-section-id="{{section.id}}">
+
+  {%- render 'section-snippet', type: 'style', object: section -%}
+
+  {%- if _layout == 'boxed' -%}<div class="container">{%- endif -%}
+    <div class="section-inner section_content-wrapper">
+
+      {%- render 'section-snippet', type: 'heading', object: section -%}
+
+
+      {%- comment -%}
+      -------------------------------
+      BODY
+      -------------------------------
+      {%- endcomment-%}
+      <div class="section_content-body" data-slide-wrapper>
+
+        <div class="row{% if _enable_slider %} slide_ui-element{% endif %}">
+          {%- if _collection != blank -%}
+            {%- if collection.products.size > 0 -%}              
+              {%- for product in collection.products limit: _total -%}
+                <section class="product-section {{gridClass}}">
+                  {%- render 'product-item', product: product -%}
+                </section>
+              {%- endfor -%}
+            {%- else -%}
+              <p>{{- 'collections.general.no_product' | t -}}</p>
+            {%- endif -%}
+          {%- else -%}
+            {%- for i in (1.._total) -%}
+              {%- capture index -%}{%- cycle svg_group: 1, 2, 3, 4, 5, 6 -%}{%- endcapture -%}
+
+              <section class="product-section {{gridClass}}">
+                {%- render 'svgset', type:'empty-product', index: index -%}
+              </section>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+
+        {%- render 'set-item-per-row', value: _items_resp
+                                       ,type: 'slider'
+                                       ,itemClass: 'product-section'
+                                       ,loop: section.settings.slide_loop
+                                       ,nav: section.settings.slide_nav
+                                       ,dot: section.settings.slide_dot
+                                       ,gutter: 0 -%}
+
+      </div>
+
+      {%- render 'section-snippet', type: 'button' -%}
+
+    </div>
+  {%- if _layout == 'boxed' -%}</div>{%- endif -%}
+</div>
+{%- endcapture -%}
+{%- render 'compress', content: content -%}
+
+{% schema %}
+{
+   "blocks": [],
+   "presets": [
+      {
+      "name": "Feature Product Slide",
+         "category": "Collection",
+         "blocks": []
+      }
+   ],
+   "name": "Feature Product Slide",
+   "tag": "section",
+   "settings": [
+      {
+         "type": "text",
+         "id": "title",
+         "label": "Section Label [:id]",
+         "default": "Feature Product Slide"
+      },
+      {
+         "type": "header",
+         "content": "LAYOUT"
+      },
+      {
+         "type": "checkbox",
+         "id": "boxed_layout",
+         "label": "Boxed layout",
+         "default": true
+      },
+      {
+         "type"  :"text",
+         "id"    :"section_padding",
+         "label" :"Section Padding",
+         "info": "Order: Top Right Bottom Left. E.g: 5px 20px 5px 20px"
+      },
+      {
+         "type":"header",
+         "content":"Layout content"
+      },
+      {
+         "type":"collection",
+         "id":"collection",
+         "label":"Collection"
+      },
+      {
+         "type":"text",
+         "id":"total",
+         "label":"Total items",
+         "default": "5",
+         "info": "E.g: 10"
+      },
+      {
+         "type"  :"text",
+         "id"    :"items_resp",
+         "label":"Max number of content per row",
+         "default": "5,2",
+         "info": "Responsive. E.g: 5,2"
+      },
+      {
+         "type":"header",
+         "content":"Slider settings"
+      },
+      {
+         "type":"checkbox",
+         "id":"slide_loop",
+         "label":"Enable Loop"
+      },
+      {
+         "type":"checkbox",
+         "id":"slide_nav",
+         "label":"Show Arrows",
+         "default": true
+      },
+      {
+         "type":"checkbox",
+         "id":"slide_dot",
+         "label":"Show Dots"
+      },
+      {
+         "type":"header",
+         "content":"section info"
+      },
+      {
+        "type":"text",
+        "id":"heading",
+        "label":"Heading"
+      },
+      {
+       "type":"color",
+       "id":"heading_color",
+       "label":"Heading color"
+     },
+      {
+        "type":"text",
+        "id":"subheading",
+        "label":"Subheading"
+      },
+      {
+       "type":"color",
+       "id":"subheading_color",
+       "label":"Subheading color"
+     },
+      {
+        "type":"text",
+        "id":"heading_align",
+        "label":"Text alignment",
+        "default": "center"
+      },
+      {
+        "type":"text",
+        "id":"button",
+        "label":"Button label"
+      },
+      {
+        "type":"url",
+        "id":"button_link",
+        "label":"Button link"
+      },
+      {
+        "type":"select",
+        "id":"button_style",
+        "label":"Button style",
+        "options":[
+          {
+            "value":"1",
+            "label": "1"
+          },
+          {
+            "value":"2",
+            "label": "2"
+          }
+        ],
+        "default": "1"
+      }
+   ]
+}
+{% endschema %}

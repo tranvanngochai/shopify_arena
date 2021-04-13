@@ -1,0 +1,33 @@
+{%- assign l_url = l.url | default: 'javascript:void(0);' -%}
+{%- if l_url == '#' -%}{%- assign l_url = 'javascript:void(0);' -%}{%- endif -%}
+
+{%- assign submenu = l.links -%}
+
+{%- if submenu.size > 0 -%}
+
+  <li class="{{class}} dropdown dropdown-submenu{% if l.active or l.child_active %} active{% endif %}" data-sub-index="0">
+    <div class="link-parent">
+      <a href="{{ l_url }}" class="dropdown-link">
+        {%- if section.id == 'header' -%}{%- render 'header-snippets', type: 'icon', l: l -%}{%- endif -%}
+        <span>{{ l.title }}</span>
+      </a>
+
+      <span class="expand{% if navigationMobile %} dropdown-click{% endif %}">{%- render 'svg', type: 'icon_minus' -%}</span>
+    </div>
+
+    <div class="link-child-dropdown">
+      <ul class="dropdown-menu">
+        {%- for l in submenu -%}
+          {%- render 'nav-sub-link', l: l, class: class, navigationMobile: navigationMobile -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  </li>
+
+{%- else -%}
+  <li class="{{class}}{% if l.active  %} active{% endif %}" data-sub-index="1">
+    <a href="{{ l_url }}">
+      <span>{{ l.title }}</span>
+    </a>
+  </li>
+{%- endif -%}

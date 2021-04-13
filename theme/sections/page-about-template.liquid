@@ -1,0 +1,468 @@
+{%- capture content -%}
+<div class="main-page">
+  {%- if section.blocks.size > 0 -%}
+
+    {%- for block in section.blocks -%}
+      {%- assign block_stylesheet = nil -%}
+      {%- capture blockID -%}.block-{{block.id}}{%- endcapture -%}
+
+      {%- case block.type -%}
+        {%- comment -%}
+          **********
+          *
+          * IMAGE_WITH_TEXT
+          *
+          *****
+        {%- endcomment-%}
+        {%- when 'image_with_text' -%}
+          {%- liquid
+            assign imagePosition = block.settings.image_position
+          -%}
+
+          <div class="block-item block-image-with-text block-{{block.id}}"{{block.shopify_attributes}}>
+            <div class="block-item-inner">
+              <div class="container">
+                <div class="row">
+
+                  <div class="block__content col-md-6 col-12{% if imagePosition == 'left' %} order-md-1{% endif %}">
+                    {%- for i in (1..2) -%}
+                      {%- liquid
+                        assign blockText = 'text_' | append: i
+                        assign blockTextSize = 'text_size_' | append: i
+                        assign blockText = block.settings[blockText]
+                        assign blockTextSize = block.settings[blockTextSize]
+                      -%}
+                      {%- if blockText == blank -%}{%- continue -%}{%- endif -%}
+
+                      {%- capture Htag -%}h{{i | plus: 1}}{%- endcapture -%}
+                      <{{Htag}} class="block__content-text block__content-text-{{i}} h{{blockTextSize}}">{{blockText}}</{{Htag}}>
+
+                      {%- capture block_css -%}
+                        {%- render 'snippet-about-page', block: block, i: i, blockID: blockID -%}
+                      {%- endcapture -%}
+                      {%- assign block_stylesheet = block_stylesheet | append: block_css -%}
+                    {%- endfor -%}
+
+
+                    {%- liquid
+                      assign blockButtonLabel = block.settings.btn_txt
+                      assign blockButtonLink  = block.settings.btn_url | default: 'javascript:void(0);'
+                    -%}
+                    {%- unless blockButtonLabel == blank -%}
+                      <div class="block__content-button">
+                        <a href="{{blockButtonLink}}" class="btn btn-{{block.settings.btn_style}}">{{blockButtonLabel}}</a>
+                      </div>
+                    {%- endunless -%}
+
+                    {%- unless block_stylesheet == blank -%}{%- style -%}{{block_stylesheet}}{%- endstyle -%}{%- endunless -%}
+                  </div>
+
+                  <div class="block__image col-md-6 col-12{% if imagePosition == 'left' %} order-md-0{% endif %}">
+                    {%- if block.settings.image == blank -%}
+                      {%- render 'svgset' -%}
+                    {%- else -%}
+                      {%- render 'image-style', image: block.settings.image -%}
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        {%- comment -%}
+          **********
+          *
+          * LARGE_IMAGE_WITH_TEXT
+          *
+          *****
+        {%- endcomment-%}
+        {%- when 'large_image_with_text' -%}
+
+          {%- capture block_class -%}
+            {%- render 'bgset' ,class: 'block-bg-image' ,image: block.settings.block_bg_image -%}
+          {%- endcapture -%}
+
+          <div class="block-item block-large-image block-{{block.id}}{{block_class}}"{{block.shopify_attributes}}>
+            <div class="block-item-inner">
+              <div class="block__content-text-group">
+                {%- for i in (1..2) -%}
+                  {%- liquid
+                      assign blockText      = 'text_' | append: i
+                      assign blockTextColor = 'text_cl_' | append: i
+                      assign blockTextSize  = 'text_size_' | append: i
+                      assign blockText      = block.settings[blockText]
+                      assign blockTextColor = block.settings[blockTextColor] | remove: 'rgba(0,0,0,0)'
+                      assign blockTextSize  = block.settings[blockTextSize]
+                  -%}
+                  {%- if blockText == blank -%}{%- continue -%}{%- endif -%}
+                  {%- capture Htag -%}h{{i | plus: 1}}{%- endcapture -%}
+                  <{{Htag}} class="block__content-text block__content-text-{{i}} h{{blockTextSize}}">{{blockText}}</{{Htag}}>
+
+                  {%- capture block_css -%}
+                    {%- render 'snippet-about-page', block: block, i: i, blockID: blockID -%}
+                  {%- endcapture -%}
+                  {%- assign block_stylesheet = block_stylesheet | append: block_css -%}
+
+                {%- endfor -%}
+              </div>
+
+              {%- liquid
+                assign blockButtonLabel = block.settings.btn_txt
+                assign blockButtonLink  = block.settings.btn_url | default: 'javascript:void(0);'
+              -%}
+              {%- unless blockButtonLabel == blank -%}
+                <div class="block__content-button">
+                  <a href="{{blockButtonLink}}" class="btn btn-{{block.settings.btn_style}}">{{blockButtonLabel}}</a>
+                </div>
+              {%- endunless -%}
+            </div>
+
+            {%- capture block_css -%}
+              {%- render 'css-resp', classID: blockID, css_value: block.settings.height, css_property: 'height' -%}
+              {%- if block.settings.block_bg_image != blank -%}
+                {%- assign block_bg_size     = block.settings.block_bg_size -%}
+                {%- assign block_bg_repeat   = block.settings.block_bg_repeat -%}
+
+                {{blockID}}{
+                  background-size: {{ block_bg_size }};
+                  background-repeat: {{ block_bg_repeat }};
+                }
+                {%- render 'css-resp', classID: blockID, '.bg-image', css_value: block.settings.block_bg_pos, css_property: 'background-position' -%}
+              {%- endif -%}
+            {%- endcapture -%}
+            {%- assign block_stylesheet = block_stylesheet | append: block_css -%}
+
+            {%- unless block_stylesheet == blank -%}{%- style -%}{{block_stylesheet}}{%- endstyle -%}{%- endunless -%}
+          </div>
+
+
+        {%- comment -%}
+          **********
+          *
+          * SPACING
+          *
+          *****
+        {%- endcomment-%}
+        {%- when 'spacing' -%}
+          <div class="block-item block-spacing block-{{block.id}}"{{block.shopify_attributes}}>
+            {% style %}
+              {%- render 'css-resp', classID: blockID, css_value: block.settings.height, css_property: 'height' -%}
+            {% endstyle %}
+          </div>
+
+
+      {%- endcase -%}
+    {%- endfor -%}
+  {%- endif -%}
+
+</div>
+{%- endcapture -%}
+{%- render 'compress', content: content -%}
+
+{% schema %}
+{
+  "name": "About page",
+  "tag": "section",
+  "settings": [
+  ],
+  "blocks": [
+    {
+       "type": "image_with_text",
+       "name": "Image with text",
+       "settings": [
+          {
+             "type": "image_picker",
+             "id": "image",
+             "label": "Image"
+          },
+          {
+             "type": "select",
+             "id": "image_position",
+             "label": "Image position",
+             "options": [
+                {
+                   "value": "left",
+                   "label": "Left"
+                },
+                {
+                   "value": "right",
+                   "label": "Right"
+                }
+             ],
+             "default": "left"
+          },
+          {
+             "type": "header",
+             "content": "Content"
+          },
+          {
+             "type": "textarea",
+             "id": "text_1",
+             "label": "Text 1",
+             "default": "Talk about your brand"
+          },
+          {
+            "type":"range",
+            "id":"text_size_1",
+            "label":"Text 1 size",
+            "min":1,
+            "max":6,
+            "step":1,
+            "default":3
+          },
+          {
+             "type": "richtext",
+             "id": "text_2",
+             "label": "Text 2",
+             "default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+          },
+          {
+            "type":"range",
+            "id":"text_size_2",
+            "label":"Text 2 size",
+            "min":1,
+            "max":6,
+            "step":1,
+            "default":4
+          },
+          {
+             "type": "text",
+             "id": "btn_txt",
+             "label": "Button label"
+          },
+          {
+             "type": "url",
+             "id": "btn_url",
+             "label": "Button URL"
+          },
+          {
+             "type": "range",
+             "id": "btn_style",
+             "label": "Button style",
+             "min": 1,
+             "max": 3,
+             "step": 1,
+             "default": 1
+          },
+          {
+             "type":"header",
+             "content":"Text style"
+          },
+          {
+            "type":"color",
+            "id":"text_cl_1",
+            "label":"Text 1 color"
+          },
+          {
+             "type": "text",
+             "id": "text_fs_1",
+             "label": "Text 1 font size",
+             "info": "E.g: 24px"
+          },
+          {
+            "type":"text",
+            "id":"text_lh_1",
+            "label":"Text 1 line height",
+            "info": "E.g: 16px"
+          },
+          {
+            "type":"color",
+            "id":"text_cl_2",
+            "label":"Text 2 color"
+          },
+          {
+            "type":"text",
+            "id":"text_fs_2",
+            "label":"Text 2 font size",
+            "info": "E.g: 18px"
+          },
+          {
+            "type":"text",
+            "id":"text_lh_2",
+            "label":"Text 2 line height",
+            "info": "E.g: 16px"
+          }
+       ]
+    },
+    {
+      "type": "large_image_with_text",
+      "name": "Large image with text",
+      "settings": [
+          {
+              "type": "image_picker",
+              "id": "block_bg_image",
+              "label": "Background image"
+          },
+          {
+              "type": "select",
+              "id": "block_bg_size",
+              "label": "Background image fit",
+              "default": "cover",
+              "options": [
+                  {
+                      "value": "auto",
+                      "label": "Auto"
+                  },
+                  {
+                      "value": "cover",
+                      "label": "Cover"
+                  },
+                  {
+                      "value": "contain",
+                      "label": "Contain"
+                  }
+              ]
+          },
+          {
+              "type": "select",
+              "id": "block_bg_repeat",
+              "label": "Background image repeat",
+              "default": "no-repeat",
+              "options": [
+                  {
+                      "value": "no-repeat",
+                      "label": "No Repeat"
+                  },
+                  {
+                      "value": "repeat",
+                      "label": "Repeat"
+                  },
+                  {
+                      "value": "repeat-x",
+                      "label": "Repeat X"
+                  },
+                  {
+                      "value": "repeat-y",
+                      "label": "Repeat Y"
+                  }
+              ]
+          },
+          {
+              "type": "text",
+              "id": "block_bg_pos",
+              "label": "Background image position",
+              "default": "center center",
+              "info": "E.g: center center, left center"
+          },
+          {
+             "type": "header",
+             "content": "Content"
+          },
+          {
+             "type": "textarea",
+             "id": "text_1",
+             "label": "Text 1",
+             "default": "Talk about your brand"
+          },
+          {
+            "type":"range",
+            "id":"text_size_1",
+            "label":"Text 1 size",
+            "min":1,
+            "max":6,
+            "step":1,
+            "default":3
+          },
+          {
+             "type": "richtext",
+             "id": "text_2",
+             "label": "Text 2",
+             "default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+          },
+          {
+            "type":"range",
+            "id":"text_size_2",
+            "label":"Text 2 size",
+            "min":1,
+            "max":6,
+            "step":1,
+            "default":4
+          },
+          {
+             "type": "text",
+             "id": "btn_txt",
+             "label": "Button label",
+             "default": "Shop Now"
+          },
+          {
+             "type": "url",
+             "id": "btn_url",
+             "label": "Button URL"
+          },
+          {
+             "type": "range",
+             "id": "btn_style",
+             "label": "Button style",
+             "min": 1,
+             "max": 3,
+             "step": 1,
+             "default": 1
+          },
+          {
+             "type":"header",
+             "content":"Text style"
+          },
+          {
+            "type":"color",
+            "id":"text_cl_1",
+            "label":"Text 1 color"
+          },
+          {
+             "type": "text",
+             "id": "text_fs_1",
+             "label": "Text 1 font size",
+             "info": "E.g: 24px"
+          },
+          {
+            "type":"text",
+            "id":"text_lh_1",
+            "label":"Text 1 line height",
+            "info": "E.g: 16px"
+          },
+          {
+            "type":"color",
+            "id":"text_cl_2",
+            "label":"Text 2 color"
+          },
+          {
+            "type":"text",
+            "id":"text_fs_2",
+            "label":"Text 2 font size",
+            "info": "E.g: 18px"
+          },
+          {
+            "type":"text",
+            "id":"text_lh_2",
+            "label":"Text 2 line height",
+            "info": "E.g: 16px"
+          },
+          {
+             "type":"header",
+             "content": "Block settings"
+          },
+          {
+              "type": "text",
+              "id": "height",
+              "label": "Height",
+              "default": "400px, 300px",
+              "info": "E.g: 400px, 300px"
+          }
+      ]
+    },
+    {
+       "type": "spacing",
+       "name": "Spacing",
+       "settings": [
+          {
+             "type": "text",
+             "id": "height",
+             "label": "Height",
+             "placeholder": "E.g: 30px, 15px, 10px",
+             "default": "30px, 15px"
+          }
+       ]
+    }
+  ]
+}
+{% endschema %}

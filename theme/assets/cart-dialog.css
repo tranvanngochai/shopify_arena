@@ -1,0 +1,119 @@
+@-webkit-keyframes fa-spin {
+  0% {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(359deg); } }
+
+@keyframes fa-spin {
+  0% {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(359deg); } }
+
+@-webkit-keyframes mmfadeIn {
+  0% {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+@keyframes mmfadeIn {
+  0% {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+@-webkit-keyframes animation-top-bottom {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px); }
+  to {
+    opacity: 1;
+    transform: translate(0); } }
+
+@keyframes animation-top-bottom {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px); }
+  to {
+    opacity: 1;
+    transform: translate(0); } }
+
+@-webkit-keyframes animation-bottom-top {
+  0% {
+    opacity: 0;
+    transform: translateY(60px); }
+  to {
+    opacity: 1;
+    transform: translateY(0); } }
+
+@keyframes animation-bottom-top {
+  0% {
+    opacity: 0;
+    transform: translateY(60px); }
+  to {
+    opacity: 1;
+    transform: translateY(0); } }
+
+@-webkit-keyframes animation-right-left {
+  0% {
+    opacity: 0;
+    transform: translateX(465px); }
+  to {
+    opacity: 1;
+    transform: translateX(0); } }
+
+@keyframes animation-right-left {
+  0% {
+    opacity: 0;
+    transform: translateX(465px); }
+  to {
+    opacity: 1;
+    transform: translateX(0); } }
+
+@-webkit-keyframes animation-loading1 {
+  0% {
+    transform: scale(0); }
+  to {
+    transform: scale(1); } }
+
+@keyframes animation-loading1 {
+  0% {
+    transform: scale(0); }
+  to {
+    transform: scale(1); } }
+
+@-webkit-keyframes animation-loading2 {
+  0% {
+    transform: translate(0); }
+  to {
+    transform: translate(14px); } }
+
+@keyframes animation-loading2 {
+  0% {
+    transform: translate(0); }
+  to {
+    transform: translate(14px); } }
+
+@-webkit-keyframes animation-show-loading2 {
+  0% {
+    transform: translate(0); }
+  to {
+    transform: translate(8px); } }
+
+@keyframes animation-show-loading2 {
+  0% {
+    transform: translate(0); }
+  to {
+    transform: translate(8px); } }
+
+@-webkit-keyframes animation-loading3 {
+  0% {
+    transform: scale(1); }
+  to {
+    transform: scale(0); } }
+
+@keyframes animation-loading3 {
+  0% {
+    transform: scale(1); }
+  to {
+    transform: scale(0); } }

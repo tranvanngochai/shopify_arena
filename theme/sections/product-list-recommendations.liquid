@@ -1,0 +1,20 @@
+{%- capture content -%}
+
+{%- if recommendations.performed -%}
+  {%- if recommendations.products_count > 0 -%}
+    {%- assign listHandle = product.metafields.c_f.recommend  -%}
+    {{ recommendations.products | map: 'handle' | join: '|' | prepend: listHandle }}
+  {%- endif -%}
+{%- endif -%}
+
+{%- endcapture -%}
+{%- render 'compress', content: content -%}
+
+{% schema %}
+{
+   "name": "Recommendations",
+   "tag": "section",
+   "settings": [
+   ]
+}
+{% endschema %}

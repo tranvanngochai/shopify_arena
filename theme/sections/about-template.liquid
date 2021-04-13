@@ -1,0 +1,378 @@
+{%- capture content -%}
+{%- if section.settings.boxed_layout -%}{%- assign _layout = 'boxed' -%}{%- else -%}{%- assign _layout = 'full' -%}{%- endif -%}
+{%- liquid
+  assign sectionType    = 'about-page'
+  assign sectionID      = '.section' | append: section.id
+  assign _items_resp    = section.settings.items_resp | default: '5,2'
+-%}
+
+{%- capture section_class -%}
+  {{- -}}home-{{- sectionType -}}
+  {{- -}}|layout-{{- _layout -}}
+  |{{- sectionID | remove_first: '.' -}}
+{%- endcapture -%}{%- assign section_class = section_class | strip_newlines | split: '|' | join: ' ' -%}
+
+<div class="{{section_class}}" data-section-type="{{sectionType}}" data-section-id="{{section.id}}">
+	{%- if _layout == 'boxed' -%}<div class="container">{%- endif -%}
+		<div class="section-container">
+
+			{%- comment -%}
+			-------------------------------
+			Large image with text
+			-------------------------------
+			{%- endcomment-%}
+			{%- assign groupLargeImageWithText = section.blocks | where: 'type', 'image_with_text' -%}
+			{%- if groupLargeImageWithText.size > 0 -%}
+				<div class="group-large-image">
+					{%- for block in groupLargeImageWithText -%}
+						{%- liquid
+							assign image 		= block.settings.image
+							assign _position 	= block.settings.image_position
+							assign blockID 		= '.block' | append: block.id
+						-%}
+						<div class="row block{{block.id}}"{{block.shopify_attributes}}>
+							<div class="col-md-6 col-12 block-type-image order-md-{% if _position == 'right' %}1{% else %}0{% endif %}">
+								{%- unless image == blank -%}{%- render 'image-style', image: image -%}
+								{%- elsif block.settings.svg != blank -%}{{block.settings.svg}}
+								{%- else -%}{%- render 'svgset' -%}
+								{%- endunless -%}
+							</div>
+							<div class="col-md-6 col-12 block-type-content order-md-{% if _position == 'right' %}0{% else %}1{% endif %}">
+								{%- for i in (1..3) -%}
+									{%- liquid
+										assign textContent 	= 'text_' | append: i
+										assign textColor 	= 'text_cl_' | append: i
+										assign textFontSize = 'text_fs_' | append: i
+										assign textContent 	= block.settings[textContent]
+										assign textColor 	= block.settings[textColor] | remove: 'rgba(0,0,0,0)'
+										assign textFontSize = block.settings[textFontSize]
+									-%}
+									{%- if textContent == blank -%}{%- continue -%}{%- endif -%}
+									<div class="text-content text-{{i}}"{% unless textColor == blank %} style="color: {{textColor}};"{% endunless %}>{{textContent}}</div>
+
+									{%- assign textID = ' .text-' | append: i -%}
+									{%- capture block_css -%}
+										{%- render 'css-resp', classID: blockID, nextClassID: textID, css_value: textFontSize, css_property: 'font-size' -%}
+									{%- endcapture -%}{%- assign section_css = section_css | append: block_css -%}
+								{%- endfor -%}
+							</div>
+						</div>
+					{%- endfor -%}
+				</div>
+			{%- endif -%}
+
+			{%- comment -%}
+			-------------------------------
+			Group Icon Infor
+			-------------------------------
+			{%- endcomment-%}
+			{%- assign groupIconWithText = section.blocks | where: 'type', 'icon_with_text' -%}
+			{%- if groupIconWithText.size > 0 -%}
+				{%- capture iconGridClass -%}{%- render 'set-item-per-row', value: _items_resp -%}{%- endcapture -%}
+
+				<div class="group-icon-gallery">
+					<div class="group-icon-gallery-title">
+						<h3>{{section.settings.group_icon_heading}}</h3>
+					</div>
+
+					<div class="row">
+						{%- for block in groupIconWithText -%}
+							{%- liquid
+								assign image = block.settings.image
+							-%}
+							<div class="block-icon {{iconGridClass}}"{{block.shopify_attributes}}>
+								<div class="block-type-image">
+									{%- render 'image-style', image: image -%}
+								</div>
+								<div class="block-type-content">
+									{%- for i in (1..2) -%}
+										{%- liquid
+											assign textContent = 'text_' | append: i
+											assign textContent = block.settings[textContent]
+										-%}
+										{%- if textContent == blank -%}{%- continue -%}{%- endif -%}
+										<div class="text-content text-{{i}}">{{textContent}}</div>
+									{%- endfor -%}
+								</div>
+							</div>
+						{%- endfor -%}
+					</div>
+				</div>
+			{%- endif -%}
+
+		</div>
+	{%- if _layout == 'boxed' -%}</div>{%- endif -%}
+
+  {%- comment -%}
+  -------------------------------
+  ADDITIONAL INFORMATION
+  -------------------------------
+  {%- endcomment-%}
+  {%- assign moreInfor = section.blocks | where: 'type', 'addition_infor' -%}
+  {%- if moreInfor.size > 0 -%}
+    {%- assign block = moreInfor.first -%}
+    <div class="more-infor-container">
+      {%- if _layout == 'boxed' -%}<div class="container">{%- endif -%}
+        <div class="more-infor">
+          {%- capture blockID -%}{{sectionID}} .more-infor-container{%- endcapture -%}
+          {%- for i in (1..2) -%}
+            {%- liquid
+              assign textContent = 'text_' | append: i
+              assign textFontSize = 'text_fs_' | append: i
+              assign textContent = block.settings[textContent]
+              assign textFontSize = block.settings[textFontSize]
+            -%}
+            {%- if textContent == blank -%}{%- continue -%}{%- endif -%}
+            <div class="text-content text-{{i}}">{{textContent}}</div>
+
+            {%- assign textID = ' .text-' | append: i -%}
+            {%- capture block_css -%}
+              {%- render 'css-resp', classID: blockID, nextClassID: textID, css_value: textFontSize, css_property: 'font-size' -%}
+            {%- endcapture -%}{%- assign section_css = section_css | append: block_css -%}
+          {%- endfor -%}
+
+          {%- if block.settings.show_social -%}
+            <div class="social-media">
+              {%- render 'social-media-icons', fill: block.settings.text_color -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- if _layout == 'boxed' -%}</div>{%- endif -%}
+
+      {%- assign blockBgColor   = block.settings.bg_color -%}
+      {%- assign blockTextColor   = block.settings.text_color -%}
+      {%- capture block_css -%}
+        {{sectionID}} .more-infor-container{background: {{blockBgColor}};color: {{blockTextColor}};}
+        {{sectionID}} .more-infor-container a{color: inherit;}
+      {%- endcapture -%}{%- assign section_css = section_css | append: block_css -%}
+    </div>
+  {%- endif -%}
+</div>
+
+{%- capture sectionCss -%}
+  {{- section_css -}}
+  {%- render 'css-resp', classID: sectionID, nextClassID: ' .group-icon-gallery .block-type-image', css_value: section.settings.icon_max_width, css_property: 'max-width' -%}
+{%- endcapture -%}
+{%- unless sectionCss == blank -%}{%- style -%}{{sectionCss}}{%- endstyle -%}{%- endunless -%}
+{%- endcapture -%}
+{%- render 'compress', content: content -%}
+
+{% schema %}
+{
+  "blocks": [
+    {
+      "type": "image_with_text",
+      "name": "Image with text",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Large image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Large image",
+          "info": "Blank to use SVG"
+        },
+        {
+          "type": "text",
+          "id": "svg",
+          "label": "SVG"
+        },
+        {
+          "type": "select",
+          "id": "image_position",
+          "label": "Image position",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "header",
+          "content": "Text content"
+        },
+        {
+          "type": "richtext",
+          "id": "text_1",
+          "label": "Text content 1"
+        },
+        {
+          "type": "richtext",
+          "id": "text_2",
+          "label": "Text content 2"
+        },
+        {
+          "type": "richtext",
+          "id": "text_3",
+          "label": "Text content 3"
+        },
+        {
+          "type": "header",
+          "content": "Text style"
+        },
+        {
+          "type": "color",
+          "id": "text_cl_1",
+          "label": "Text color 1",
+          "default": "#FF9439"
+        },
+        {
+          "type": "text",
+          "id": "text_fs_1",
+          "label": "Text size 1",
+          "info": "E.g: 14px"
+        },
+        {
+          "type": "color",
+          "id": "text_cl_2",
+          "label": "Text color 2",
+          "default": "#000000"
+        },
+        {
+          "type": "text",
+          "id": "text_fs_2",
+          "label": "Text size 2",
+          "info": "E.g: 14px"
+        },
+        {
+          "type": "color",
+          "id": "text_cl_3",
+          "label": "Text color 3",
+          "default": "#000000"
+        },
+        {
+          "type": "text",
+          "id": "text_fs_3",
+          "label": "Text size 3",
+          "info": "E.g: 14px"
+        }
+      ]
+    },
+    {
+      "type": "icon_with_text",
+      "name": "Icon with text",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Heading"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "text",
+          "id": "text_1",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "text_2",
+          "label": "Content"
+        }
+      ]
+    },
+    {
+      "type": "addition_infor",
+      "name": "Additional information",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text_1",
+          "label": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "text_fs_1",
+          "label": "Text size 1",
+          "info": "E.g: 14px"
+        },
+        {
+          "type": "richtext",
+          "id": "text_2",
+          "label": "Content"
+        },
+        {
+          "type": "text",
+          "id": "text_fs_2",
+          "label": "Text size 2",
+          "info": "E.g: 14px"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social",
+          "label": "Show social icons",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Block style"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background color",
+          "default": "#FCF6F1"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#FF9439"
+        }
+      ]
+    }
+  ],
+  "name": "About page",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "LAYOUT"
+    },
+    {
+      "type": "checkbox",
+      "id": "boxed_layout",
+      "label": "Boxed layout",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Group Icon Content"
+    },
+    {
+      "type": "text",
+      "id": "group_icon_heading",
+      "label": "Heading",
+      "default": "Why LetsTango.com?"
+    },
+    {
+      "type": "text",
+      "id": "items_resp",
+      "label": "Max number of content per row",
+      "default": "3,1",
+      "info": "Responsive. E.g: 3,1"
+    },
+    {
+      "type": "text",
+      "id": "icon_max_width",
+      "label": "Icon max width",
+      "default": "64px"
+    }
+  ]
+}
+{% endschema %}

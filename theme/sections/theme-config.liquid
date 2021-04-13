@@ -1,0 +1,412 @@
+{%- capture content -%}
+{%- render 'root', type: 'schema' -%}
+{%- render 'snippet-theme', type: 'themeCSS' -%}
+{%- render 'header-snippets', type: 'stylesheet' -%}
+{%- comment -%}
+-------------------------------
+CURRENCIES
+-------------------------------
+{%- assign flagCurrency = settings.flag_currency -%}
+{%- unless flagCurrency == 'none' -%}
+	<style>
+		.currency-flag {
+			display: inline-block;
+			width: 24px;
+			height: 16px;
+			background-size: cover;
+			background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAgCAIAAADbtmxLAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA4FpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQwIDc5LjE2MDQ1MSwgMjAxNy8wNS8wNi0wMTowODoyMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoxYTY4YzRkYy0xNzg2LTQ2Y2UtYmIzYS1hMGNhZDcxNzBjNzMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OTA3QzBCRkU1ODQwMTFFOEI5NzdERDE3RUQ5MUVEQUMiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OTA3QzBCRkQ1ODQwMTFFOEI5NzdERDE3RUQ5MUVEQUMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6N2U4OWM3NTYtOGI0Mi00YmMwLTlmMjItZjQyOWNhZjAwNGQ0IiBzdFJlZjpkb2N1bWVudElEPSJhZG9iZTpkb2NpZDpwaG90b3Nob3A6MmM4MzhmMGYtYjNiMy1jZjRkLTg2ZDEtOGM2YWJhYTRlMzRiIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+oR1RLAAAAdVJREFUeNrsl+mKwjAURm2t1lEUl/d/Q8VdW5fWM35QisKYxKsIY36UUO5NT77cJY3Ksmx80ogbHza+QI9GEux5Op12u12WZcfjsSiKKIr6/f5gMGDybiBQFosFNPWXcDSbzSdpQoD2+/1sNpMkP9eRpiko5XXULfM8xwyDFwKt1+v5fM6Ez4xGoyRJ6grd0GB5OBww4yhfAsQZiWY4HBIrfxsjW7fbBQgX9GNunGXEDSflSKOBGcZMcMTdGGi5XBIibNSRpmLCBUeSwBKI/W23W6KEgPBNAlxw5LgdRYodo4cneyUafIGqALopE08BUf2UWWGlRY5axAaIWsyz3W6HAclRi9gAUd8kfhiQHLWIZXN9z83JCSiOY/ct3o/z+VwtYgPUarV4UnbDgOSoRWyAOp2O2moYkBy1iA1QVUgkvu95VWXMDIiurg6g5uo1cFHPqV8NDLKMNqkOsFqt3GkwxgVHdVlLIPY3mUyY0CY3m40jjXoqjo7y+NUhZKdTkr0PCxJ9dDqdigZt3C9Dvxc933LHVZAErhcVXWcVv2Q4OcUxsSwvx+Nxr9fzWj96vv6ixH1goQrauJ+UwW9QJQ8HJIWQDfGoN+459RKFvr/S/xzoIsAAC8ECkbRnk8sAAAAASUVORK5CYII=');
+		}
+		.currency-flag.currency-{{flagCurrency}} {
+			width: 24px;
+			height: {%- if flagCurrency contains '1' -%}16px{%- else -%}24px{%- endif -%};
+			background-position: center center;
+			{%- if flagCurrency contains '3' -%}
+				border-radius: 50%;
+			{%- endif -%}
+		}
+	</style>
+
+    {%- case settings.currency_type -%}
+        {%- when '1' -%}{%- assign currenciesArray = shop.enabled_currencies | map: 'iso_code' -%}
+        {%- when '2' -%}{%- assign currenciesArray = settings.supported_currencies | split: ' ' -%}
+    {%- endcase -%}
+
+	{%- for currency in currenciesArray -%}
+		{%- assign currencyCode = currency | downcase -%}
+		{%- render 'currency-icon', type: currencyCode -%}
+	{%- endfor -%}
+{%- endunless -%}
+{%- endcomment-%}
+
+{%- comment -%}
+-------------------------------
+SWATCH COLOR
+-------------------------------
+{%- endcomment-%}
+{%- liquid
+    assign subColorList = '' | split: ''
+    case request.page_type
+        when 'collection'
+            assign subColorList = collection.products | where: 'has_only_default_variant', false | map: 'variants' | map: 'options'
+        when 'product'
+            assign subColorList = product | map: 'variants' | map: 'options'
+    endcase
+    assign colorList = collections.all.products | where: 'has_only_default_variant', false | map: 'variants' | map: 'options' | concat: subColorList | uniq
+-%}
+{%- for color in colorList -%}
+    {%- capture colorCode -%}{%- render 'color', color: color -%}{%- endcapture -%}
+    {%- if colorCode == blank -%}{%- continue -%}{%- endif -%}
+    {%- assign colorName = color | downcase -%}
+
+    {%- capture colorClass -%}.c-{{colorName}}
+        {%- if template contains 'collection' -%},.fc-{{colorName}} a{%- endif -%}
+    {%- endcapture -%}
+    {{colorClass}}{color: {{colorCode}}; background: {{colorCode}};}
+{%- endfor -%}
+
+
+{%- comment -%}
+-------------------------------
+BLOCK CUSTOM CSS
+-------------------------------
+{%- endcomment-%}
+{%- if section.blocks.size > 0 -%}
+	{%- for block in section.blocks -%}
+		{%- assign _content	= block.settings.content -%}
+
+		{%- case block.type -%}
+	  	{%- when 'homepage_default_style' -%}{%- if request.page_type == 'index' -%}{%- render 'root', block: block, type: 'default' -%}{%- endif -%}
+      {%- when 'page_default_style'     -%}{%- if request.page_type != 'index' -%}{%- render 'root', block: block, type: 'default' -%}{%- endif -%}
+
+      {%- when 'themefont' -%}
+        {%- unless block.settings.title == blank -%}
+          {%- assign fontIndex = fontIndex | default: 0 | plus: 1 -%}
+          {%- render 'theme-font', block: block, index: fontIndex -%}
+
+          {%- capture googleFont -%}|{{ block.settings.title | strip | remove: 'Google_' | replace: ' ', '+' }}{%- endcapture -%}
+          {%- assign gg_font = gg_font | append: googleFont -%}
+        {%- endunless -%}
+
+      {%- when 'custom_color' -%}
+				{%- assign colorList = block.settings.color_code | downcase | strip_newlines | split: ';' -%}
+
+				{%- for color in colorList -%}
+					{%- assign c 	     = color | strip -%}
+					{%- assign colorName = c | split: ':' | first | strip | handleize -%}
+					{%- assign colorCode = c | split: ':' | last | strip -%}
+
+					{%- if colorName.size == 0 or colorCode.size == 0 -%}{%- continue -%}{%- endif -%}
+          {%- capture colorClass -%}.c-{{colorName}}
+              {%- if template contains 'collection' -%},.fc-{{colorName}} a{%- endif -%}
+          {%- endcapture -%}
+          {{colorClass}}{color: {{colorCode}}; background: {{colorCode}};}
+				{%- endfor -%}
+
+      {%- when 'stylesheet' -%}
+          {%- assign _class   = block.settings.title -%}
+          {%- assign _image   = block.settings.image -%}
+
+          {%- capture firstValues -%}
+              {{- _content | strip_newlines -}}
+              {%- unless _image == blank -%}background-image: url({{_image | img_url: 'master' }});{%- endunless -%}
+          {%- endcapture -%}
+          {%- render 'css-resp', classID: _class, css_values: firstValues -%}
+
+      {%- when 'stylesheet_large' -%}{{ _content | strip_newlines  }}
+
+		{%- endcase -%}
+	{%- endfor -%}
+{%- endif -%}
+{%- endcapture -%}
+{%- capture content -%}{%- render 'compress', content: content -%}{%- endcapture -%}
+{%- style -%}{{ content | remove: '<style>' | remove: '<style data-shopify>' | remove: '</style>' | strip }}{%- endstyle -%}
+
+{%- comment -%}
+-------------------------------
+CUSTOM FONT
+-------------------------------
+{%- endcomment-%}
+{%- assign blockFont = section.blocks | where: 'type', 'themefont' -%}
+{%- if blockFont.size > 0 and gg_font != blank -%}
+  {%- assign google_font_url = 'https://fonts.googleapis.com/css?family=' -%}
+  {%- capture gg_link -%}
+    {%- if google_font_url contains '/css2' -%}{{- gg_font | strip_newlines | remove_first: '|' | split: '|' | uniq | join: '&family=' -}}
+    {%- else -%}{{- gg_font | strip_newlines | remove_first: '|' | split: '|' | uniq | join: '|' -}}{%- endif -%}
+  {%- endcapture -%}
+  <link href="{{google_font_url}}{{gg_link}}&display=swap" rel="stylesheet" type="text/css"/>
+{%- endif -%}
+
+
+{% schema %}
+{
+  "name": "Theme Config",
+  "class": "hide",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "homepage_default_style",
+      "name": "Homepage color",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "color",
+          "id": "body_bg_color",
+          "label": "Body Background color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "body_text_color",
+          "label": "Text color",
+          "default": "#333333"
+        },
+        {
+          "type": "color",
+          "id": "body_link_color",
+          "label": "Link color",
+          "default": "#333333"
+        },
+        {
+          "type": "color",
+          "id": "body_link_color_hover",
+          "label": "Hover: Link color",
+          "default": "#FF9439"
+        },
+        {
+          "type": "header",
+          "content": "Shop color"
+        },
+        {
+          "type": "color",
+          "id": "price_color",
+          "label": "Price color",
+          "default": "#FF9439"
+        },
+        {
+          "type": "color",
+          "id": "price_sale_color",
+          "label": "Sale Price color",
+          "default": "#FF9439"
+        },
+        {
+          "type": "color",
+          "id": "price_compare_color",
+          "label": "Price Compare color",
+          "default": "#333333"
+        },
+        {
+          "type": "color",
+          "id": "rating_star_color",
+          "label": "Review Star color",
+          "default": "#FF9439"
+        },
+        {
+          "type": "color",
+          "id": "rating_star_empty_color",
+          "label": "Review Star empty color",
+          "default": "#777777"
+        }
+      ]
+    },
+    {
+      "type": "page_default_style",
+      "name": "Page color",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "color",
+          "id": "body_bg_color",
+          "label": "Body Background color",
+          "default": "#ffffff"
+        },
+        {
+          "type":"color",
+          "id":"border_color",
+          "label":"Border color",
+          "default": "#ECECEC"
+        },
+        {
+          "type": "color",
+          "id": "body_text_color",
+          "label": "Text color",
+          "default": "#333333"
+        },
+        {
+          "type": "color",
+          "id": "body_link_color",
+          "label": "Link color",
+          "default": "#333333"
+        },
+        {
+          "type": "color",
+          "id": "body_link_color_hover",
+          "label": "Hover: Link color",
+          "default": "#FF9439"
+        },
+        {
+          "type": "header",
+          "content": "Shop color"
+        },
+        {
+          "type": "color",
+          "id": "price_color",
+          "label": "Price color",
+          "default": "#FF9439"
+        },
+        {
+          "type": "color",
+          "id": "price_sale_color",
+          "label": "Sale Price color",
+          "default": "#FF9439"
+        },
+        {
+          "type": "color",
+          "id": "price_compare_color",
+          "label": "Price Compare color",
+          "default": "#333333"
+        },
+        {
+          "type": "color",
+          "id": "rating_star_color",
+          "label": "Review Star color",
+          "default": "#FF9439"
+        },
+        {
+          "type": "color",
+          "id": "rating_star_empty_color",
+          "label": "Review Star empty color",
+          "default": "#777777"
+        }
+      ]
+    },
+    {
+      "type": "header_style",
+      "limit": 1,
+      "name": "Header styles",
+      "settings": [
+        {
+          "type": "color",
+          "id": "header_bg_color",
+          "label": "Background color",
+          "default": "#1C1C1C"
+        },
+        {
+          "type": "text",
+          "id": "text_size",
+          "label": "Text font size",
+          "default": "12px",
+          "info": "E.g: 14px"
+        },
+        {
+          "type": "range",
+          "id": "nav_weight",
+          "label": "Link font weight",
+          "min":100,
+          "max":900,
+          "step":100,
+          "default":400
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "color",
+          "id": "text_hover_color",
+          "label": "Hover: Text color",
+          "default": "#FF9439"
+        }
+      ]
+    },
+    {
+      "type": "custom_color",
+      "name": "Color Code",
+      "settings": [
+        {
+          "type": "html",
+          "id": "color_code",
+          "label": "Color Hex Code",
+          "info": "E.g: Red: #FF0000, Black: #000000, ..."
+        }
+      ]
+    },
+    {
+      "type": "stylesheet_large",
+      "name": "Stylesheet",
+      "settings": [
+        {
+          "type": "html",
+          "id": "content",
+          "label": "CSS",
+          "info": ".selector{\nfont-size: 15px;\ncolor: #000000; ...\n}\n.selector{\nfont-size: 15px;\ncolor: #000000; ...\n}"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Block label"
+        }
+      ]
+    },
+    {
+      "type": "stylesheet",
+      "name": "Stylesheet + Background",
+      "settings": [
+        {   
+          "type": "text",
+          "id": "title",
+          "label": "Class Name",
+          "info": ".selector"
+        },
+        {
+          "type": "html",
+          "id": "content",
+          "label": "CSS",
+          "info": "font-size: 15px;\ncolor: #000000;\n..."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type":"themefont",
+      "name":"Custom theme font",
+      "settings":[
+        {
+           "type":"paragraph",
+           "content": "[How to get Google font?](https:\/\/support.arenacommerce.com\/support\/solutions\/articles\/6000243918#Typography)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Google font name"
+        },
+        {
+          "type":"select",
+          "id":"use_as",
+          "label":"Use as",
+          "options":[
+            {
+              "value":"heading",
+              "label": "Heading font"
+            },
+            {
+              "value":"body",
+              "label": "Body font"
+            },
+            {
+              "value":"none",
+              "label": "None"
+            }
+          ],
+          "default": "none"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

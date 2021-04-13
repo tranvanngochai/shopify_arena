@@ -1,0 +1,54 @@
+{%- case type -%}
+	{%- when 'empty-product' -%}
+		<div class="empty-product">
+			<div class="product-header">{%- render 'svgset', type: 'product', index: index -%}</div>
+			<div class="product-info"><h5 class="text-center">Product title</h5></div>
+		</div>
+	{%- when 'default-image' -%}
+		{%- liquid
+			assign image_url = 'default-image.jpg' | asset_url
+			assign _lazyload 	= true
+			assign paddingByRatio 	= settings.product_image_ratio | remove: 'auto'
+			unless disablePadding == true
+				assign imagePadding = imagePadding | default: paddingByRatio
+			endunless
+		-%}
+
+		{%- capture image_width -%}[{{ image_width | remove_first: ',' | remove: 'x' }}]{%- endcapture -%}
+
+		{%- capture imageRatio_height -%}{{customClass}}" style="display: block;position: relative;
+			{%- unless imagePadding == blank -%}padding-top: {{- imagePadding -}};{%- endunless -%}
+			{%- if setWidth -%}width: {% unless manualWidth == blank %} {{ manualWidth }} {% else %}{{image.width}}px{% endunless %};{%- endif -%}
+		{%- endcapture -%}
+
+		{%- capture imageRatio_css 	  -%}" style="{{ image_css }}{%- endcapture -%}
+
+		<span class="image__style blank-image{{imageRatio_height}}">
+			{%- if _lazyload -%}
+				<img class="overlay-ui w-100 h-100 lazyload {{ image_class }}{{imageRatio_css}}"
+					data-src="{{ image_url }}"
+					data-sizes="auto"
+					data-optimumx="1.5"
+					data-expand="30"
+					data-parent-fit="cover"
+					alt="{{ image.alt }}"/>
+				<noscript><img class="overlay-ui w-100 h-100 {{ image_class }}{{imageRatio_css}}" src="{{ image | img_url: image_size }}"/></noscript>
+			{%- else -%}
+				<img class="overlay-ui w-100 h-100 {{ image_class }}" src="{{ image | img_url: image_size }}" alt="{{ image.alt }}"/>
+			{%- endif -%}
+		</span>
+
+	{%- else -%}
+
+		{%- liquid
+		 	assign svg_group = svg_group | default: 'svgGroup01'
+		-%}
+		{%- case type -%}
+
+		  	{%- when 'product' 		-%}{%- capture current -%}-{% unless index == blank %}{{index}}{% else %}{%- cycle svg_group: 1, 2, 3, 4, 5, 6 -%}{% endunless %}{%- endcapture -%}
+			{%- when 'collection' 	-%}{%- capture current -%}-{% unless index == blank %}{{index}}{% else %}{%- cycle svg_group: 1, 2, 3, 4, 5, 6 -%}{% endunless %}{%- endcapture -%}
+		  	{%- when 'lifestyle' 	-%}{%- capture current -%}-{% unless index == blank %}{{index}}{% else %}{%- cycle svg_group: 1, 2 -%}{% endunless %}{%- endcapture -%}
+		  	{%- else 				-%}{%- capture current -%}{%- endcapture -%}{%- assign type = 'image' -%}
+		{%- endcase -%}
+		<div class="empty-{{type}}" data-svg="{{ type | append: current }}">{{ type | append: current | placeholder_svg_tag: 'placeholder-svg' }}</div>
+{%- endcase -%}

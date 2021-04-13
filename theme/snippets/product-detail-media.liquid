@@ -1,0 +1,91 @@
+{%- liquid
+	assign productSelect 		= product.selected_or_first_available_variant
+	assign product_metafield 	= product.metafields.c_f
+	assign firstImage 			= product.images | first
+	assign ratioImage			= 1 | divided_by: firstImage.aspect_ratio | times: 100 | append: '%'
+-%}
+
+{%- unless product.has_only_default_variant -%}
+	{%- assign disableDefaultVariant = settings.disable_auto_product_selected -%}
+{%- endunless -%}
+
+<div class="product-media">
+	<div class="product-main-media">
+		<div class="product-gallery--main slide_ui-element">
+			{%- if product.media.size > 0 -%}
+
+				{%- for media in product.media -%}
+					{%- if section.id == 'static-quiview' and media.media_type != 'image' -%}
+						{%- continue -%}
+					{%- endif -%}
+
+					{%- capture mediaClass -%}
+						{%- if disableDefaultVariant and forloop.first -%}|active
+						{% elsif productSelect.image != blank and media.src == productSelect.image.src %}|active
+						{% elsif forloop.first and productSelect.image == blank%}|active
+						{% endif %}
+					{%- endcapture -%}
+					{%- if mediaClass contains 'active' -%}{%- assign saveActivePosition = forloop.index -%}{%- endif -%}
+					{% unless mediaClass contains 'active'  %}
+						{%- assign lazyExpand = true -%}
+					{% endunless %}
+
+					<div class="feature-product-media{{mediaClass | strip | replace: '|', ' '}}" data-media-id="{{ media.id }}" data-index="{%- increment mediaCount -%}">
+						{%- unless media.media_type == 'image' -%}<div class="product-media-wrapper" style="position: relative; padding-top: 100%;">{%- endunless -%}
+
+							{%- if media.media_type == 'image' -%}
+								<figure>{%- render 'image-style', image: media, enableZoom: false, lazyExpand: lazyExpand -%}</figure>
+							{%- else -%}
+								{%- case media.media_type  -%}
+									{%- when 'external_video' 	-%}{%- capture videoContent -%}{{ media | external_video_tag: class: "overlay-ui w-100 h-100 lazyload" }}{%- endcapture -%}{{videoContent | replace: 'src=', 'data-src='}}
+									{%- when 'video' 			-%}{{ media | video_tag: image_size: "1024x", control: true, class: "overlay-ui w-100 h-100" }}
+									{%- when 'model' 			-%}{{ media | model_viewer_tag: image_size: "1024x", class: "overlay-ui w-100 h-100" }}
+								{%- endcase -%}
+							{%- endif -%}
+
+						{%- unless media.media_type == 'image' -%}</div>{%- endunless -%}
+					</div>
+				{%- endfor -%}
+			{%- endif -%}
+
+			{%- if product.media.size == 0 or product.images.size == 0 -%}
+				<div class="feature-product-media active" data-media-id="{{ section.id }}" data-index="{%- increment mediaCount -%}">
+					{%- render 'svgset', type: 'default-image', image_css: 'object-fit: cover;' -%}
+				</div>
+			{%- endif -%}
+		</div>
+	</div>
+
+	{%- if product.media.size > 0 -%}
+		<div class="product-thumbnail d-none d-md-block">
+
+			<div class="product-gallery--thumbnail slide_ui-element">
+				{%- for media in product.media -%}
+					{%- if section.id == 'static-quiview' and media.media_type != 'image' -%}
+						{%- continue -%}
+					{%- endif -%}
+
+					{%- capture mediaClass -%}
+						{%- if disableDefaultVariant and forloop.first -%}|active
+						{% elsif productSelect.image != blank and media.src == productSelect.image.src %}|active
+						{% elsif forloop.first and productSelect.image == blank%}|active
+						{% endif %}
+					{%- endcapture -%}
+
+					{%- if mediaClass contains 'active' -%}{%- assign saveActivePosition = forloop.index -%}{%- endif -%}
+					{% unless mediaClass contains 'active'  %}{%- assign lazyExpand = true -%}{% endunless %}
+
+					<div class="media-thumbnail{{mediaClass | strip | replace: '|', ' '}}" data-media-id="{{ media.id }}" data-index="{%- increment mediaThumbnailCount -%}">
+						{%- unless media.media_type == 'image' -%}<div class="product-media-wrapper" style="position: relative; padding-top: 100%;">{%- endunless -%}
+							<figure>{%- render 'image-style', image: media.preview_image, lazyExpand: lazyExpand -%}</figure>
+						{%- unless media.media_type == 'image' -%}</div>{%- endunless -%}
+					</div>
+				{%- endfor -%}
+			</div>
+		</div>
+	{%- endif -%}
+
+		<style>
+			.product-gallery--main:not(.tns-slider) > div:not(.active){display: none;}
+		</style>
+</div>

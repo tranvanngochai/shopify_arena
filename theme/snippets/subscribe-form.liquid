@@ -1,0 +1,151 @@
+{%- liquid
+  assign frmHolder = 'contact.form.placeholder' | t
+  assign btnStyle  = btnStyle | default: 1
+  assign _btnLabel = 'contact.form.subscribe' | t
+  assign btnLabel  = btnLabel | default: _btnLabel
+-%}
+
+{%- case type -%}
+  {%- when 'shopify' -%}
+
+    {%- capture frmClass -%}form-subscribe{% unless inline == false %} form-inline{% endunless %} {{formClass}}{%- endcapture -%}
+    {%- assign formId = 'Contact_' | append: section.id -%}
+
+    {% form 'customer', id: formId, novalidate: 'novalidate', class: frmClass, data-form-type: type %}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <input type="email" name="contact[email]" id="{{ formId }}-email" class="form-control{% if form.errors %} input--error{% endif %}" placeholder="{{frmHolder}}" aria-label="{{frmHolder}}" aria-required="true" autocorrect="off" autocapitalize="off">
+
+      <div class="form-subscribe-button">
+        <button type="submit" class="btn btn-{{ btnStyle }}" name="subscribe">{{ btnLabel }}</button>
+        {%- if section.id == 'static-popup' -%}<button type="button" class="btn btn-{{ btnStyle }}" data-dialog-close>{{- 'contact.form.cancel' | t -}}</button>{%- endif -%}
+      </div>
+
+
+      {%- if form.posted_successfully? -%}
+        <div class="form-subscribe-notify">
+          <p class="form-message form-message--success" tabindex="-1" data-form-status>{{- 'contact.form.subscribe_success' | t -}}</p>
+        </div>
+      {%- endif -%}
+
+      {%- if form.errors contains 'email' -%}
+        <div class="form-subscribe-notify">
+          <span id="{{ formId }}-email-error" class="input-error-message">
+            <span class="visually-hidden">{{ 'contact.form.error' | t }} </span>
+            <span>{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}.</span>
+          </span>
+        </div>
+      {%- endif -%}
+    {% endform %}
+
+  {%- when 'mailchimp' -%}
+
+    {%- unless url == blank -%}
+      {%- unless url contains '-json' -%}
+        {%- assign url = url | replace: '?', '-json?' -%}
+      {%- endunless -%}
+      {%- unless url contains '&c=mailchimpCallback' -%}
+        {%- assign url = url | append: '&c=mailchimpCallback' -%}
+      {%- endunless -%}
+    {%- endunless -%}
+
+    <form action="{{ url }}" method="post" class="{% unless inline == false %}form-inline {% endunless %}form-subscribe {{formClass}}" name="mc-embedded-subscribe-form" target="_blank" rel="noopener" data-form-type="{{ type }}">
+      <input type="email" class="form-control" placeholder="{{ frmHolder }}" name="EMAIL" required/>
+
+
+
+      <div class="form-subscribe-button">
+        <button type="submit" class="btn btn-{{ btnStyle }}" name="subscribe">{{ btnLabel }}</button>
+        {%- if section.id == 'static-popup' -%}<button type="button" class="btn btn-{{ btnStyle }}" data-dialog-close>{{- 'contact.form.cancel' | t -}}</button>{%- endif -%}
+      </div>
+
+      <div class="success_message hide">
+        <p class="thank_you">{{- 'contact.form.subscribe_success' | t -}}</p>
+      </div>
+    </form>
+
+  {%- when 'klaviyo' -%}
+    {%- assign klaviyo_url = url -%}
+    {%- assign klaviyo_id  = url | split: 'g=' | last -%}
+    {%- assign isPopup = true -%}
+
+    <form action="{{klaviyo_url}}" class="{% unless inline == false %}form-inline {% endunless %}form-subscribe {{formClass}}" target="_blank" novalidate="novalidate" data-form-type="{{ type }}"{% if isPopup %} data-ajax-submit="//manage.kmail-lists.com/ajax/subscriptions/subscribe" method="GET"{% else %} method="post"{% endif %}>
+      <input type="hidden" name="g" value="{{klaviyo_id}}">
+      <input type="email" class="form-control" value="" name="email" class="contact_email" placeholder="{{ frmHolder }}" required>
+
+      <div class="form-subscribe-button">
+        <button type="submit" class="btn btn-{{ btnStyle }}" name="subscribe">{{ btnLabel }}</button>
+        {%- if section.id == 'static-popup' -%}<button type="button" class="btn btn-{{ btnStyle }}" data-dialog-close>{{- 'contact.form.cancel' | t -}}</button>{%- endif -%}
+      </div>
+
+      <div class="success_message hide">
+        <p class="thank_you">{{- 'contact.form.klaviyo_confirm' | t -}}</p>
+      </div>
+    </form>
+    {%- if isPopup -%}
+      <script type="text/javascript" src="//www.klaviyo.com/media/js/public/klaviyo_subscribe.js"></script>
+    {%- endif -%}
+
+  {%- else -%}
+
+    <div class="contact-form">
+      {%- form 'contact' -%}
+        {%- if form.posted_successfully? -%}
+          <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            {{'contact.form.post_success' | t }}
+          </div>
+        {%- endif -%}
+
+        {%- if form.errors -%}
+          <div class="alert alert-error">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            {{ form.errors | default_errors }}
+          </div>
+          {%- capture form_error -%}{{form.errors | downcase }}{%- endcapture -%}
+        {%- endif -%}
+
+        <div class="row">
+          <div class="col-md-6 col-12">
+            <div class="form-control">
+              {%- if label -%}<label for="">{{ 'contact.form.name' | t }}</label>{%- endif -%}
+              <input type="text" name="contact[Name]" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.first_name }}{% endif %}" placeholder="{{ 'contact.form.name' | t }}" required/>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-12">
+            <div class="form-control{% if form_error contains 'email' %} error{% endif %}">
+              {%- if label -%}<label for="">{{ 'contact.form.email' | t }}</label>{%- endif -%}
+              <input  type="email" name="contact[email]" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'contact.form.email' | t }}" required/>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="col-12">
+            <div class="form-control{% if form_error contains 'phone' %} error{% endif %}">
+              {%- if label -%}<label for="">{{ 'contact.form.phone' | t }}</label>{%- endif -%}
+              <input name="contact[Phone]" placeholder="{{ 'contact.form.phone' | t }}" required>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="form-control{% if form_error contains 'message' %} error{% endif %}">
+              {%- if label -%}<label for="">{{ 'contact.form.message' | t }}</label>{%- endif -%}
+              <textarea name="contact[Message]" placeholder="{{ 'contact.form.message' | t }}" required>{{ form.body }}</textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="form-control-button">
+              {%- assign buttonLabel = 'contact.form.submit' | t -%}
+              <button type="submit" class="btn btn-1 btn-contact-us">{{ buttonLabel }}</button>
+            </div>
+          </div>
+        </div>
+
+      {%- endform -%}
+    </div>
+{%- endcase -%}

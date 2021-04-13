@@ -1,0 +1,11 @@
+<dialog id="popupSubscribe" class="modal-ui" aria-hidden="true">
+  <div tabindex="-1" data-dialog-close></div>
+  <div role="dialog" aria-modal="true">
+      <button class="btn btn-dialog--close" type="button" data-dialog-close>&times;</button>
+      <div class="subscribe-form-container">
+         <h3>{{- 'contact.popup_subscribe.title' | t -}}</h3>
+         {%- render 'subscribe-form', type: 'shopify' -%}
+      </div>
+  </div>
+</dialog>
+{% schema %}{"name": "Popup section","tag": "section","settings": [],"blocks": []}{% endschema %}

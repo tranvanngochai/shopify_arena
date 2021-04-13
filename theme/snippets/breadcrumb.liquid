@@ -1,0 +1,54 @@
+{%- liquid
+  assign _layout = _layout | default: 'boxed'
+-%}
+
+<div id="breadcrumb" class="{{ section_class }}">
+  {%- if _layout == 'boxed' -%}<div class="container">{%- endif -%}
+
+    <ul class="breadcrumb-list" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li class="" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="{{ shop.url }}">
+          <span itemprop="name">{{- 'general.text.home' | t -}}</span>
+          <meta itemprop="position" content="{% increment brcCounter %}"/>
+        </a>
+      </li>
+      <li class="svg__ui">/</li>
+
+      {%- case request.page_type -%}
+        {%- when 'article' -%}
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{{ blog.url }}" itemprop="item">
+              <span itemprop="name">{{- article.title | truncatewords: 5 -}}</span>
+              <meta itemprop="position" content="{% increment brcCounter %}"/>
+            </a>
+          </li>
+
+        {%- when 'product' -%} 
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{{ product.url | within: collection }}" itemprop="item">
+              <span itemprop="name">{{- product.title | truncatewords: 5 -}}</span>
+              <meta itemprop="position" content="{% increment brcCounter %}"/>
+            </a>
+          </li>
+
+        {%- when 'customers/addresses' -%}
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{{ routes.account_url }}" itemprop="item">
+              <span itemprop="name">{{ page_title }}</span>
+              <meta itemprop="position" content="{% increment brcCounter %}"/>
+            </a>
+          </li>
+        {%- else -%}
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{{ routes.account_url }}" itemprop="item">
+              <span itemprop="name">{{ page_title }}</span>
+              <meta itemprop="position" content="{% increment brcCounter %}"/>
+            </a>
+          </li>
+
+      {%- endcase -%}
+
+
+    </ul>
+  {%- if _layout == 'boxed' -%}</div>{%- endif -%}
+</div>

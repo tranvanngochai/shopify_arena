@@ -1,0 +1,197 @@
+{%- liquid
+  assign description        = product.description
+  assign reviewApp          = settings.review_app
+  assign enable_multi_tab   = section.settings.enable_multi_tab
+  assign static_page        = section.blocks | where: 'type', 'page'
+  assign activeFirstTab     = true
+-%}
+
+{%- comment -%}
+  **********
+  *
+  * Put iframe to lazysizes
+  *
+  *****
+{%- endcomment-%}
+{% if description contains '</iframe>' %}
+  {% assign d = description | split: '</iframe>' %}
+  {% capture newDescribe %}
+    {% for p in d %}
+      {% if p contains '<iframe' %}
+        {%- assign c = p | append: '</iframe>' | split: '<iframe' -%}
+
+        {%- if c.last contains 'class=' -%}
+          {%- assign c_last = c.last | replace: 'src=', 'data-src=' | replace: 'class="', 'class="lazyload ' -%}
+        {%- else -%}
+          {%- assign c_last = c.last | replace: 'src=', 'class="lazyload" data-src=' -%}
+        {%- endif -%}
+
+        {{c.first}}{{c_last | prepend: '<iframe'}}
+      {% else %}
+        {{p}}
+      {% endif %}
+    {% endfor %}
+  {% endcapture %}
+  {%- assign description = newDescribe -%}
+{% endif %}
+
+
+
+{%- comment -%}
+  **
+  * Product description
+  *
+{%- endcomment-%}
+{%- unless description == blank -%}
+  {%- if enable_multi_tab -%}
+    {%- assign description_parts = description | strip_newlines | strip | split: "<h5" -%}
+  {%- endif -%}
+
+  {%- if enable_multi_tab != true or description_parts.first.size > 0 -%}
+
+    {%- comment -%}
+    -------------------------------
+    Heading tab
+    -------------------------------
+    {%- endcomment-%}
+    {%- capture headingTab -%}
+      <p class="product__toggle-nav active">
+        <a href="javascript:void(0);" data-id="tab{{product.id}}" aria-controls="tab{{product.id}}" class="product__toggle-link">{{ 'products.product.description' | t }}</a>
+      </p>
+    {%- endcapture -%}
+    {%- assign headingTabList = headingTabList | append: headingTab -%}
+
+
+    {%- comment -%}
+    -------------------------------
+    Body tab
+    -------------------------------
+    {%- endcomment-%}
+    {%- capture bodyTab -%}
+      <div class="product__toggle-mobile">{{headingTab}}<span class="expand">{%- render 'svg', type: 'icon_minus' -%}</span></div>
+      <div class="product__toggle-item active" id="tab{{product.id}}">
+        <div class="product__toggle-content">{{ description | split: '<h5>' | first }}</div>
+      </div>
+      {%- assign activeFirstTab = false -%}
+    {%- endcapture -%}
+    {%- assign bodyTabList = bodyTabList | append: bodyTab -%}
+  {%- endif -%}
+
+  {%- if enable_multi_tab -%}
+    {%- for part in description_parts -%}
+      {%- if part contains "</h5>" -%}
+        {%- liquid
+          assign fp = part | append: " " | split: "</h5>" | last
+          assign p  = part | append: " " | split: "</h5>" | last | strip_html | replace: "&nbsp;", "" | replace: " ", "" | strip_newlines
+        -%}
+
+        {%- if p.size > 0 or fp contains "<img " or fp contains "<iframe " -%}
+
+          {%- liquid
+            assign remove  = part | split: ">" | first | append: ">"
+            assign t_title = part | split: "</h5>" | first | strip_html | remove: remove
+          -%}
+          {%- comment -%}
+          -------------------------------
+          Heading tab
+          -------------------------------
+          {%- endcomment-%}
+          {%- capture headingTab -%}
+            <p class="product__toggle-nav{% if activeFirstTab %} active{% endif %}">
+              <a href="javascript:void(0);" data-id="tab{{product.id}}{{forloop.index0}}" aria-controls="tab{{product.id}}{{forloop.index0}}" class="product__toggle-link">{{ t_title }}</a>
+            </p>
+          {%- endcapture -%}
+          {%- assign headingTabList = headingTabList | append: headingTab -%}
+
+          {%- comment -%}
+          -------------------------------
+          Body tab
+          -------------------------------
+          {%- endcomment-%}
+          {%- capture bodyTab -%}
+
+            <div class="product__toggle-mobile">{{headingTab}}<span class="expand">{%- render 'svg', type: 'icon_minus' -%}</span></div>
+            <div class="product__toggle-item{% if activeFirstTab %} active{% endif %}" id="tab{{product.id}}{{forloop.index0}}">
+              {%- capture description__content -%}{{ part | split: "</h5>" | last }}{%- endcapture -%}
+              {%- assign description__content = description__content | split: 'src=' | join: 'class="lazyload" data-src=' -%}
+              <div class="product__toggle-content">{{ description__content }}</div>
+              {%- assign activeFirstTab = false -%}
+            </div>
+          {%- endcapture -%}
+          {%- assign bodyTabList = bodyTabList | append: bodyTab -%}
+
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endunless -%}
+
+
+{%- comment -%}
+  **
+  * Static Page Tab
+  *
+{%- endcomment-%}
+{%- if static_page.size > 0 -%}
+  {%- for block in static_page -%}
+    {%- if block.settings.page == blank -%}{%- continue -%}{%- endif -%}
+
+    {%- comment -%}
+    -------------------------------
+    Heading tab
+    -------------------------------
+    {%- endcomment-%}
+    {%- capture headingTab -%}
+      <p class="product__toggle-nav{% if activeFirstTab %} active{% endif %}">
+        <a href="javascript:void(0);" data-id="tab{{block.id}}" aria-controls="tab{{block.id}}" class="product__toggle-link">{{ block.settings.page_title | default: pages[block.settings.page].title | default: 'Page' }}</a>
+      </p>
+    {%- endcapture -%}
+    {%- assign headingTabList = headingTabList | append: headingTab -%}
+
+
+    {%- comment -%}
+    -------------------------------
+    Body tab
+    -------------------------------
+    {%- endcomment-%}
+    {%- capture bodyTab -%}
+      <div class="product__toggle-mobile">{{headingTab}}<span class="expand">{%- render 'svg', type: 'icon_minus' -%}</span></div>
+      <div class="product__toggle-item{% if activeFirstTab %} active{% endif %}" id="tab{{block.id}}">
+        <div class="product__toggle-content">{{ pages[block.settings.page].content }}</div>
+      </div>
+      {%- assign activeFirstTab = false -%}
+    {%- endcapture -%}
+    {%- assign bodyTabList = bodyTabList | append: bodyTab -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- comment -%}
+  **
+  * Review Tab
+  *
+{%- endcomment-%}
+{%- unless reviewApp == 'none' -%}
+  {%- capture headingTab -%}
+    <p class="product__toggle-nav{% if activeFirstTab %} active{% endif %}">
+      <a href="javascript:void(0);" data-id="tabR{{product.id}}" aria-controls="tab{{product.id}}" class="product__toggle-link">{{ 'products.product.review' | t }}</a>
+    </p>
+  {%- endcapture -%}
+  {%- assign headingTabList = headingTabList | append: headingTab -%}
+
+  {%- capture bodyTab -%}
+  <div class="product__toggle-mobile">{{headingTab}}<span class="expand">{%- render 'svg', type: 'icon_minus' -%}</span></div>
+    <div class="product__toggle-item{% if activeFirstTab %} active{% endif %}" id="tabR{{product.id}}">
+      <div class="product__toggle-content">{%- render 'review', product: product, type: '' -%}</div>
+    </div>
+  {%- endcapture -%}
+  {%- assign bodyTabList = bodyTabList | append: bodyTab -%}
+{%- endunless -%}
+
+{%- unless headingTabList == blank and bodyTabList == blank -%}
+  <div class="product-description{% if enable_multi_tab %} product-description-tab-pane{% endif %}">
+    <div class="product__toggle product__toggle--accordion">
+      <div class="product__toggle-head">{{headingTabList}}</div>
+      <div class="product__toggle-body">{{bodyTabList}}</div>
+    </div>
+  </div>
+{%- endunless -%}

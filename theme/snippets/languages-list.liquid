@@ -1,0 +1,11 @@
+{%- capture returnPath -%}{%- unless routes.root_url == '/' -%}{{ request.path | downcase | remove: routes.root_url }}{%- else -%}{{request.path}}{%- endunless -%}{%- endcapture -%}
+
+<ul class="language-list" data-return="{{returnPath}}">
+	{%- for locale in shop.published_locales -%}
+	<li class="language-item">
+		<a href="javascript:void(0);" class="btn btn-language{% if locale.name == request.locale.name %} active disabled{% endif %}" data-lang="{% unless locale.primary %}/{{locale.iso_code}}{% endunless %}">
+			{{ locale.name }}
+		</a>
+	</li>
+	{%- endfor -%}
+</ul>

@@ -1,0 +1,12 @@
+{%- capture attributes -%}{%- if type == 'preload' -%}rel="preload"  as="style"{%- else -%} rel="stylesheet" type="text/css" media="all"{%- endif -%}{%- endcapture -%}
+
+<link href="{{ 'themes.min.css' | asset_url }}" {{attributes}}>
+{%- case request.page_type -%}
+    {%- when 'index'        -%}<link href="{{ 'homepage.min.css'   | asset_url }}" {{attributes}}>
+    {%- when 'collection'   -%}<link href="{{ 'collection.min.css' | asset_url }}" {{attributes}}>
+    {%- when 'product'      -%}<link href="{{ 'product.min.css'    | asset_url }}" {{attributes}}>
+    {%- when 'cart'         -%}<link href="{{ 'cart.min.css'       | asset_url }}" {{attributes}}>
+    {%- when 'blog'         -%}<link href="{{ 'blog.min.css'       | asset_url }}" {{attributes}}>
+    {%- when 'article'      -%}<link href="{{ 'blog.min.css'       | asset_url }}" {{attributes}}>
+    {%- else                -%}<link href="{{ 'pages.min.css'      | asset_url }}" {{attributes}}>
+{%- endcase -%}

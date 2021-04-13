@@ -1,0 +1,24 @@
+<div id="quickview_container" class="section-{{ section.id }}">
+  <dialog id="popupQuickview" class="modal-ui" aria-hidden="true">
+    <div tabindex="-1" data-dialog-close></div>
+    <div role="dialog" aria-modal="true">
+      <button class="btn btn-dialog--close" type="button" data-dialog-close>&times;</button>
+
+      <div class="product-quickview-container">
+        <div class="row">
+          <div class="product-gallery col-lg-6 col-12">
+            {%- render 'product-detail-media', product: product -%}
+          </div>
+
+          <div class="product-info col-lg-6 col-12">
+            {%- render 'product-detail-snippet', type: 'title' -%}
+            {%- render 'product-detail-snippet', type: 'review' -%}
+            {%- render 'product-detail-snippet', type: 'price' -%}
+            {%- render 'product-detail-snippet', type: 'short_description' -%}            
+            {%- render 'product-detail-snippet', type: 'form' -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+</div>

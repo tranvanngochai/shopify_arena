@@ -1,0 +1,74 @@
+{%- liquid
+	assign productSelect 	= product.selected_or_first_available_variant
+-%}
+{%- case type -%}
+	{%- when 'price' -%}
+		{%- liquid
+			assign compare_price 	= productSelect.compare_at_price
+			assign price         	= productSelect.price
+		-%}
+
+		<p class="product-price{% unless class == blank %} {{class}}{% endunless %}" data-item-price>
+			{%- if settings.show_range_price and product.has_only_default_variant == false and product.price_min < product.price_max -%}
+				<span class="price">{%- render 'money-format', price: product.price_min -%}</span>
+				<span class="price-label">{{- 'products.product.to' | t -}}</span>
+				<span class="price">{%- render 'money-format', price: product.price_max -%}</span>
+
+			{%- else -%}
+				{%- if productSelect.available -%}
+					{%- if compare_price > price -%}
+						<span class="price-compare">{%- render 'money-format', price: compare_price -%}</span>
+						<span class="price-sale">{%- render 'money-format', price: price -%}</span>
+					{%- else -%}
+						<span class="price">{%- render 'money-format', price: price -%}</span>
+					{%- endif -%}
+				{%- else -%}
+					<span class="price soldout">{{- 'products.product.sold_out' | t -}}</span>
+				{%- endif -%}
+			{%- endif -%}
+		</p>
+
+	{%- when 'cart_button' -%}
+		{%- if productSelect.available -%}
+			<div class="product-cart-form">
+				<form method="post" action="{{routes.cart_add_url}}" accept-charset="UTF-8" class="product-form" enctype="multipart/form-data">
+					<input type="hidden" name="form_type" value="product"/>
+					<input type="hidden" name="utf8" value="✓"/>
+					<input type="hidden" name="id" value="{{productSelect.id}}"/>
+					<button type="submit" name="add" class="btn add-to-cart{% if show_label %} btn-1{% endif %}" title="{{- 'products.product.add_to_cart' | t -}}">
+						{%- if show_label -%}
+							<span class="text">{{- 'products.product.add_to_cart' | t -}}</span>
+						{%- endif -%}
+						<span class="svg__ui">{%- render 'svg', type: 'cart', fill: '#333333' -%}</span>
+					</button>
+				</form>
+			</div>
+		{%- endif -%}
+
+  	{%- when 'wlcp' -%}
+	  	<div class="product-card--wishlist">
+	  		{%- render 'button', type: 'wishlist_add', product: product, fill: '#333333' -%}
+	  	</div>
+	  	<div class="product-card--compare">
+	  		{%- render 'button', type: 'compare_add', product: product, fill: '#333333' -%}
+	  	</div>
+
+	{%- when 'sale_label' -%}
+
+		{%- liquid
+			assign compare_price 	= productSelect.compare_at_price
+			assign price         	= productSelect.price
+		-%}
+
+		{%- if compare_price > price -%}
+			<div class="product-label product-label--sale overlay-ui">
+				<span>{{ 'products.label.sale' | t }} {{ compare_price | minus: price | times: 100.0 | divided_by: compare_price | round }}%</span>
+			</div>
+		{%- endif -%}
+
+	{%- when 'short_description' -%}
+		{%- assign description = product.metafields.c_f.description_excerpt | default: product.description -%}
+		{%- unless description == blank -%}
+			<div class="product-short-description">{{description | truncatewords: 50 }}</div>
+		{%- endunless -%}
+{%- endcase -%}

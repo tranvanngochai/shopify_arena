@@ -1,0 +1,26 @@
+{%- layout none -%}
+
+{%- comment -%}
+  **
+  * ERROR NOTIFY
+  *
+{%- endcomment-%}
+
+<dialog id="dialogNotify" class="modal-ui" aria-hidden="true" data-dialog-type="">
+  <style>
+    #dialogNotify[data-dialog-type="required-options"] .btn-go-cart{display: none;}
+  </style>
+  <div tabindex="-1" data-dialog-close></div>
+  <div role="dialog" aria-modal="true" aria-labelledby="dialogNotify-title">
+    <header><button aria-label="Close modal" data-dialog-close>{%- render 'svg', type: 'close' -%}</button></header>
+    <div id="dialogNotify-content">
+    	<div class="dialog-body" data-notify-content></div>
+    	<div class="dialog-row">
+    		<div class="dialog-button">
+    			<a href="{{routes.cart_url}}" class="btn btn-1 btn-go-cart">{{- 'cart.dialog.continue_to_cart' | t -}}</a>
+    			<a href="javascript:void(0);" class="btn btn-2 btn-close" data-dialog-close>{{- 'cart.dialog.close' | t -}}</a>
+    		</div>
+    	</div>
+    </div>
+  </div>
+</dialog>

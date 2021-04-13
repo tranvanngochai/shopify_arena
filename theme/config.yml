@@ -1,0 +1,7 @@
+development:
+  password: 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
+  theme_id: "121445941447"
+  timeout: 600s
+  store: tranvanngochai.myshopify.com
+  ignore_files:
+    - config/settings_data.json

@@ -1,0 +1,66 @@
+ {%- assign reviewApp = settings.review_app -%}
+
+{%- case reviewApp -%}
+	{%- when 'shopify' -%}{%- comment -%}* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * {%- endcomment-%}
+		{%- if type == 'badge' -%}
+			<span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+		{%- else -%}
+		  	<div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+		{%- endif -%}
+
+	{%- when 'loox' -%}{%- comment -%}* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * {%- endcomment-%}
+		{% comment %}
+			Include files:
+			+ sections/loox-all-reviews.liquid
+			+ sections/loox-carousel-reviews.liquid
+			+ templates/page.loox-all-reviews.liquid
+		{% endcomment %}
+
+		{%- if type == 'badge' -%}
+			<a href="#looxReviews">
+				<div class="loox-rating" data-id="{{ product.id }}" data-rating="{{ product.metafields.loox.avg_rating | default: -1 }}" data-raters="{{ product.metafields.loox.num_reviews }}">
+					{%- if showBadgeText -%}{{- 'products.product.add_your_review' | t -}}{%- endif -%}
+				</div>
+			</a>
+
+		{%- else -%}
+			{% if product.metafields.loox.num_reviews %}
+				<script id="looxSchemaJson" type="application/ld+json">
+					{
+						"@context": "http://schema.org",
+						"@type": "Product",
+						"@id": {{ canonical_url | json }},
+						"aggregateRating": {
+						"@type": "AggregateRating",
+						"ratingValue": "{{ product.metafields.loox.avg_rating }}",
+						"reviewCount": "{{ product.metafields.loox.num_reviews }}"
+					},
+					"name": {{ product.title | json }}
+				}
+				</script>
+			{% endif %}
+			<div id="looxReviews" data-product-id="{{product.id}}" class="loox-reviews-default">{{ product.metafields.loox.reviews }}</div>
+		{%- endif -%}
+
+	{%- when 'growave' -%}{%- comment -%}* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * {%- endcomment-%}
+		{%- if type == 'badge' -%}
+			{%- capture the_snippet_review_avg -%}
+				{%- if page == 'product' -%}
+					{% render 'ssw-widget-avg-rate-listing', product: product %}
+				{%- else -%}
+					{% render 'ssw-widget-avg-rate-profile', product: product %}
+				{%- endif -%}
+			{%- endcapture -%}
+
+
+			{%- unless the_snippet_review_avg contains 'Liquid error' %}
+				{{- the_snippet_review_avg -}}
+			{%- endunless -%}
+		{%- else -%}
+			{% capture the_snippet_reviews %}{% render 'socialshopwave-widget-recommends' with 1 and product %}{% endcapture %}
+			{% unless the_snippet_reviews contains 'Liquid error' %}
+			    {{ the_snippet_reviews }}
+			{% endunless %}
+		{%- endif -%}
+
+{%- endcase -%}

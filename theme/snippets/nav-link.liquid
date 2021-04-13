@@ -1,0 +1,22 @@
+{%- assign l_url = l.url | default: 'javascript:void(0);' -%}
+
+{%- if l_url == '#' -%}{%- assign l_url = 'javascript:void(0);' -%}{%- endif -%}
+
+{%- assign submenu = l.links -%}
+
+{%- case type -%}
+  {%- when 'empty' -%}<li class="{{class}} navbar-{{type}}"><a href="javascript:void(0);"><span>Lorem ipsum</span></a></li>
+
+  {%- else -%}
+    {%- if submenu.size > 0 -%}
+      {%- render 'nav-sub-link', l: l, class: class, navigationMobile: navigationMobile -%}
+
+    {%- else -%}
+      <li class="{{class}}{% if l.active  %} active{% endif %}" data-link-index="1">
+        <a href="{{ l_url }}">
+          {%- if section.id == 'header' -%}{%- render 'header-snippets', type: 'icon', l: l -%}{%- endif -%}
+          <span>{{ l.title }}</span>
+        </a>
+      </li>
+    {%- endif -%}
+{%- endcase -%}

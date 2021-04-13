@@ -1,0 +1,110 @@
+{%- case type -%}
+  {%- when 'width' -%}
+    {%- if width == blank -%}col
+    {%- elsif width contains '/12' -%}
+      {%- assign width = width | remove: '/12' | strip -%}
+      {%- render 'set-width', type: 'width', number: width -%}
+    {%- endif -%}
+
+  {%- when 'block' -%}
+    {%- capture width -%}{%- render 'footer-item', type: 'width', width: block.settings.width -%}{%- endcapture -%}
+    {%- capture blockID -%}.block-{{block.id}}{%- endcapture -%}
+
+    <div class="footer-block--item footer-block-{{index}} footer-block--{{block.type}} {{width}} block-{{block.id}}"{{block.shopify_attributes}}>
+      <div class="footer-block-inner">
+        {%- case block.type -%}
+
+          {%- comment -%}
+            **********
+            *
+            * MENU
+            *
+            *****
+          {%- endcomment-%}
+          {%- when 'menu' -%}
+            {%- assign menu = block.settings.menu -%}
+            {%- unless block.settings.title == blank -%}              
+              <h4 class="footer-menu--title">{{block.settings.title}}</h4>
+            {%- endunless -%}
+
+            <ul class="menu-wrapper">
+              {%- if menu != blank -%}
+                {%- for l in linklists[menu].links -%}
+                  <li class="menu-item"><a href="{{l.url}}">{{l.title}}</a></li>
+                {%- endfor -%}
+              {%- else -%}
+                <li class="menu-item"><a href="javascript:void(0);">Lorem ipsum </a></li>
+                <li class="menu-item"><a href="javascript:void(0);">At lectus urna</a></li>
+                <li class="menu-item"><a href="javascript:void(0);">Ac feugiat</a></li>
+                <li class="menu-item"><a href="javascript:void(0);">Vel eros donec ac odio</a></li>
+                <li class="menu-item"><a href="javascript:void(0);">Tristique nulla</a></li>
+              {%- endif -%}
+            </ul>
+
+
+          {%- comment -%}
+            **********
+            *
+            * LOGO
+            *
+            *****
+          {%- endcomment-%}
+          {%- when 'logo' -%}
+
+            <div class="footer-logo">
+              {%- render 'logo', object: block -%}
+            </div>
+            {%- unless block.settings.richtext == blank -%}
+              <div class="footer-logo-information">{{block.settings.richtext}}</div>
+            {%- endunless -%}
+            {%- capture style -%}
+                {%- render 'css-resp', classID: blockID, nextClassID: ' .footer-logo', css_value: block.settings.padding -%}
+            {%- endcapture -%}
+            {%- unless style == blank -%}{%- style  -%}{{style}}{%- endstyle -%}{%- endunless -%}
+
+
+
+          {%- comment -%}
+            **********
+            *
+            * NEWSLETTER
+            *
+            *****
+          {%- endcomment-%}
+          {%- when 'newsletter' -%}
+            {%- liquid
+              assign form_title  = block.settings.form_title
+              assign form_type   = block.settings.form_type
+              assign form_url    = block.settings.form_url
+              assign btn_txt     = block.settings.btn_txt
+              assign btn_style   = block.settings.btn_style
+              assign show_social_links  = block.settings.show_social_links
+              assign social_title       = block.settings.social_title
+            -%}
+            {%- if show_social_links -%}
+              <div class="footer-social-links">
+                {%- unless social_title == blank -%}
+                  <p class="footer-social-links--title">{{social_title}}</p>                  
+                {%- endunless -%}
+
+                <div class="footer-social-icons">
+                  {%- render 'social-media-icons' -%}                  
+                </div>  
+              </div>  
+            {%- endif -%}
+
+            <div class="footer-form">
+              <div class="footer-form-inner">
+                {%- unless form_title == blank -%}
+                  <p class="footer-form--title">{{form_title}}</p>
+                {%- endunless -%}
+                {%- render 'subscribe-form', type: form_type, formClass: '', url: form_url, btnStyle: btn_style, btnLabel: btn_txt, inline: false -%}
+              </div>
+            </div>
+        {%- endcase -%}
+      </div>
+    </div>
+
+  {%- else -%}
+
+{%- endcase -%}

@@ -1,0 +1,68 @@
+{%- liquid
+  assign total = section.settings.total | times: 1 | default: 11
+-%}
+{%- capture content -%}
+<div class="main-page">
+  <div class="page-heading">
+    <h1 class="page-title h2">{{blog.title}}</h1>
+    <h2 class="{% unless section.settings.show_excerpt %}hide{% endunless %}">{{ blog.excerpt }}</h2>
+  </div>
+
+  {%- paginate blog.articles by total -%}
+    <div class="container">
+      <div class="first-row">
+        <div class="row">
+          <div class="col-md-6 col-12">
+            <article>{%- render 'article-item', article: blog.articles.first -%}</article>
+          </div>
+
+          {%- if blog.articles.size > 1 and total > 1 -%}
+            <div class="col-md-6 col-12">
+              <div class="row">
+                {%- for article in blog.articles offset: 1 limit: 4 -%}
+                  <article class="col-md-6 col-12">{%- render 'article-item', article: article -%}</article>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- if blog.articles.size > 5 and total > 5 -%}
+        <div class="second-row">
+          <div class="row">
+            {%- for article in blog.articles offset: 5 -%}
+              <article class="col-md-4 col-12">{%- render 'article-item', article: article -%}</article>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+      {%- include 'pagination' -%}
+    </div>
+  {%- endpaginate -%}
+</div>
+{%- endcapture -%}
+{%- render 'compress', content: content -%}
+
+{% schema %}
+{
+  "name": "Blog page",
+  "tag": "section",
+  "blocks": [
+  ],
+  "settings": [
+    {
+      "type":"text",
+      "id":"total",
+      "label":"Total items",
+      "default": "11",
+      "info": "E.g: 11"
+    },
+    {
+      "type":"checkbox",
+      "id":"show_excerpt",
+      "label":"Show excerpt"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,44 @@
+{
+  "themes": [
+    "1_functions",
+    "6_header",
+    "2_reset",
+    "3_grid",
+    "4_typographys",
+    "7_tiny-slider", 
+    "9_product-items",
+    "14_pagination",
+    "15_footer"
+  ],
+  "homepage": [
+    "1_functions",
+    "8_homepage"
+  ],
+  "product": [
+    "1_functions",
+    "10_product-page"
+  ],
+  "collection": [
+    "1_functions", 
+    "11_category-pages"               
+  ],
+  "blog": [
+    "1_functions", 
+    "17_blog_page"
+  ],
+  "pages": [
+    "1_functions", 
+    "12_other-pages"
+  ],
+  "cart": [
+    "1_functions",
+    "13_cart" 
+  ],
+  "popup-style": [
+    "1_functions",
+    "16_popup"
+  ],
+  "password": [
+    "18_password" 
+  ]
+}

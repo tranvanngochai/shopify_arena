@@ -1,0 +1,15 @@
+{%- capture content -%}
+	<section class="product-section">
+		{%- render 'product-item', product: product -%}
+	</section>
+{%- endcapture -%}
+{%- render 'compress', content: content -%}
+
+{% schema %}
+{
+  "name": "Product Section",
+  "tag": "section",
+  "settings": [
+  ]
+}
+{% endschema %}

@@ -1,0 +1,114 @@
+/* Footer */
+footer {
+    margin-top: auto;          //fix short content templateCaptcha
+}
+.section-footer {
+    padding: 30px 0 16px; 
+    background: var(--footer-bg-color);
+}
+.footer-logo {
+    margin: 0 0 18px; 
+}
+.footer-block--item {
+    padding-bottom: 15px; 
+}
+.footer-menu--title, .footer-form--title, 
+.footer-social-links--title {
+    font-size: 16px;
+    line-height: 22.4px;
+    font-weight: 400;
+    color: #ffffff; 
+    margin: 9px 0 18px;  
+    @include font-heading;
+}
+.footer-logo-information {
+    color: var(--footer-text-color);
+    p {
+        margin: 0 0 15px;
+        line-height: 21px;  
+        color: var(--footer-text-color);
+        &:last-child {
+            margin-bottom: 0;   
+        }
+    }
+}
+.footer-block--menu {
+    ul li {
+        @include list-style-reset;
+        padding-bottom: 8px;
+        a {
+            color: var(--footer-text-color);
+            font-weight: 400;
+            font-size: var(--body-font-size);
+            line-height: 19.6px; 
+        }
+        &:hover {
+            @media (hover: hover) {
+                a {
+                    color: var(--footer-link-hover-color); 
+                }
+            }
+        }
+    }
+}
+.footer-block--newsletter {
+    .footer-social-links {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15); 
+        padding-bottom: 20px; 
+        margin-bottom: 20px;
+        ul {
+            display: flex;
+            align-items: center;
+            li {
+                @include padding-end(15px);
+                @media (min-width: 992px) {
+                    @include padding-end(30px);
+                }
+                &:last-child {
+                    @include padding-end(0);
+                } 
+                svg {
+                    fill: var(--footer-text-color); 
+                    path {
+                        fill: inherit;
+                    }
+                } 
+            }
+        }
+    }
+    .footer-form input {
+        width: 100%;
+        border: 2px solid rgba(255, 255, 255, 0.25);
+        background: transparent;
+        margin-bottom: 12px; 
+        color: #828282;
+        @include placeholder {
+            color: #828282; 
+        }
+    }  
+    .form-subscribe-notify {
+        margin-top: 10px;
+        .input-error-message {
+            display: flex;
+            align-items: center;
+            .visually-hidden {
+                @include padding-end(5px);
+            }  
+        }
+        p {
+            margin: 0;
+        }
+    }
+}
+.footer-copyright {
+    border-top: 1px solid rgba(129, 129, 129, 0.2);
+    padding-top: 15px;
+    margin-top: 25px; 
+    p {
+        margin: 0;
+        color: var(--footer-text-color);
+        line-height: 19.6px;
+        font-size: var(--body-font-size);   
+    }
+}
+/* End footer */

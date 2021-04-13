@@ -1,0 +1,47 @@
+{%- liquid
+	assign _title 				= block.settings.title
+	assign _colorGroup 			= 'color,Color' | split: ','
+  	assign _prefix_filter   	= 'fcid_' | append: _filter_style | append: block.id
+  	assign _filter_tags        	= block.settings.filter_tags | strip_newlines | replace: ' ,', ',' | replace: ', ', ',' | split: ','
+
+  	if _filter_tags contains '+ALL'
+		assign _filter_tags = collection.all_tags
+	endif
+-%}
+
+{%- case type -%}
+  	{%- when 'render' -%}
+
+		{%- for t in _filter_tags -%}
+			{%- capture tag -%}{{ t | strip }}{%- endcapture -%}
+
+			{%- unless collection.all_tags contains tag -%}{%- continue -%}{%- endunless -%}
+
+			<li class="filter-el{% if current_tags contains tag %} active{% endif %}{% if _colorGroup contains _title %} filter-color c-{{tag | handle }}{% endif %}" aria-label="{% if current_tags contains tag %}FilterActive{% else %}{{tag | escape}}{% endif %}">
+				{%- unless current_tags contains tag -%}
+					{{- tag | link_to_add_tag: tag -}}
+				{%- else -%}
+					{{- tag | link_to_remove_tag: tag -}}
+				{%- endunless -%}
+			</li>
+		{%- endfor -%}
+
+  	{%- else -%}
+
+  		{%- capture filterGroup -%}{%- render 'filter-group', type: 'render', block: block -%}{%- endcapture -%}
+
+		{%- unless filterGroup == blank -%}
+			{%- liquid
+				if filterGroup contains 'FilterActive'
+					assign filterActive = true
+				endif
+			-%}
+
+			<div class="filter-group" data-prefix="{{ _prefix_filter }}" data-dynamic-content="{{_prefix_filter}}">
+				<h4 class="filter-title">{{_title}}</h4>				
+				<div class="filter-listing">
+					<ul class="tags-list">{{ filterGroup }}</ul>
+				</div>
+			</div>
+		{%- endunless -%}
+{%- endcase -%}

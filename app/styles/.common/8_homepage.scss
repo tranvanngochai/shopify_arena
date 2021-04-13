@@ -1,0 +1,183 @@
+/* Homepage */
+.templateIndex .section-button {
+    margin-top: 40px;
+    text-align: center;
+    .btn {
+        min-width: 90%;
+        @include padding-start(15px);
+        @include padding-end(15px);
+        @media (min-width: 768px) {
+            min-width: 480px;
+        }
+    }
+}  
+
+/* Section slideshow */
+.slideshow-container {
+    position: relative;
+}
+/* End section slideshow */
+
+/* Section gallery slide */
+.home-gallery-slide {
+    .block-item-inner {
+        position: relative;
+        a {
+            display: block;
+        }
+    }
+    .block-content {
+        @include ab(50%, 20px, n, n);
+        transform: translate(0, -50%);
+    }
+    .text-1 {
+        color: #777777;
+        font-size: 14px;
+        line-height: 19px;
+    }
+    .text-2 {
+        color: #333333;
+        font-size: 22px;
+        line-height: 30px;
+    }
+}
+/* End section gallery slide */
+
+/* Section Feature Product Slide */
+.home-products-grid {
+    .tns-last .product-card {
+        @include border-inline-end(0, solid, transparent);
+    } 
+    .tns-inner,  
+    .section_content-body >.row { 
+        position: relative;
+        margin: 0;
+        &:after {
+            content: "";
+            @include ab(0, 0, 0, 0);
+            border: 1px solid #333333; 
+            z-index: -1; 
+        }
+        .product-section {
+            padding: 0; 
+        }
+    } 
+    .product-card {
+        border-bottom: 1px solid #333333; 
+	    @include border-inline-end(1px, solid, #333333);
+    }
+}
+/* End Section Feature Product Slide */
+
+/* Section Categories */
+.home-categories {
+    .section-heading .ff-4 {
+        font-weight: 500;
+    }  
+    .section-inner {
+        padding: 50px 0 43px;  
+    } 
+    .block-content {
+        margin: 12px 0 0;
+        font-size: calc(var(--body-font-size) + 6px);
+        >a {
+            font-size: inherit;
+            &:hover {
+                @media (hover: hover) {
+                    color: var(--body-link-hover) !important;
+                }  
+            }
+        }
+    }
+}
+/* End Section Categories */
+
+/* Section custom content */
+.home-custom-content {
+    .section-inner >div {
+        justify-content: center; 
+    }
+    .text-1 {
+        font-size: calc(var(--body-font-size) + 2px);
+        line-height: 21.82px;
+        font-weight: 400;
+        color: var(--main-color);
+        margin: 0 0 5px;
+    }
+    .text-2 {
+        font-weight: 600;
+        font-size: 30px;
+        line-height: 42px;
+        color: var(--body-color);
+        margin: 0 0 20px;
+        @include font-heading;
+    }
+    .text-3 {
+        font-size: calc(var(--body-font-size) + 1px);
+        line-height: 24.64px;
+        font-weight: 400;
+        color: #ececec; 
+        margin: 0 0 15px;
+    }
+    .button-group {
+        display: flex;
+        align-items: center;
+        justify-content: center; 
+        flex-wrap: wrap;
+        margin: 0 calc(-1 * (15px / 2)); 
+        .block-button {
+            padding: 15px calc(15px / 2) 0;
+        }
+    }
+} 
+/* End section custom content */
+
+/* Section Feature Blog Slide */
+.home-featured-blog {
+    .article-item {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    .article-body {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .article-header {
+        margin: 0 0 17px;
+    }
+    .release-info {
+        font-size: var(--body-font-size); 
+        font-weight: 400;
+        line-height: 19.1px;
+        color: #A4A4A4;
+        margin: 0 0 3px;
+    }
+    .article-title {
+        font-weight: 600;
+        line-height: 24.55px;
+        color: var(--body-link);
+        margin: 0 0 10px;
+        @include font-body; 
+    }
+    .article-excerpt {
+        color: #ECECEC;
+        line-height: 20px;
+        font-size: var(--body-font-size);
+        font-weight: 400; 
+        margin: 0 0 23px;
+    }
+    .article-button {
+        margin-top: auto;
+        max-width: 200px;
+        width: 100%;
+        a {
+            padding: 7px 15px;
+            width: 100%; 
+            font-size: calc(var(--body-font-size) - 2px); 
+        }   
+    } 
+}
+/* End Section Feature Blog Slide */
+/* End homepage */

@@ -1,0 +1,285 @@
+{%- capture content -%}
+{%- if section.settings.boxed_layout -%}{%- assign _layout = 'boxed' -%}{%- else -%}{%- assign _layout = 'full' -%}{%- endif -%}
+
+{%- liquid
+  render 'section-snippet', type: 'section_id'
+  assign sectionType    = 'custom-content'
+  assign sectionID      = '.section' | append: section.id
+-%}
+{%- capture section_class -%}
+  {{- -}}home-{{sectionType}}
+  {{- -}}|layout-{{- _layout -}}
+  |{{- sectionID | remove_first: '.' -}}
+{%- endcapture -%}{%- assign section_class = section_class | split: '|' | join: ' ' -%}
+
+<div class="{{section_class}}" data-section-type="{{sectionType}}" data-section-id="{{section.id}}">
+  {%- render 'section-snippet', type: 'style', object: section -%}
+
+  {%- if _layout == 'boxed' -%}<div class="container">{%- endif -%}
+    <div class="section-inner">
+
+      {%- comment -%}
+      -------------------------------
+      BODY
+      -------------------------------
+      {%- endcomment-%}
+      <div class="row">
+
+        {%- if section.blocks.size > 0 -%}
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign width = block.settings.width | remove: '/12'
+            -%}
+
+            {%- capture blockID -%}.block{{block.id}}{%- endcapture -%}
+            {%- capture blockWidth -%}{%- render 'set-width', type: 'width', number: width -%}{%- endcapture -%}
+
+            <div class="block-item {{blockWidth}}"{{block.shopify_attributes}}>
+              <div class="block-item-inner block{{block.id}} block-{{block.type}}">
+                {%- case block.type -%}
+                  {%- comment -%}
+                  -------------------------------
+                  PARAGRAPH
+                  -------------------------------
+                  {%- endcomment-%}
+                  {%- when 'paragraph' -%}
+                    {%- for i in (1..3) -%}
+                      {%- liquid
+                        assign text       = 'text_' | append: i
+                        assign text       = block.settings[text]
+                      -%}
+                      {%- if text == blank -%}{%- continue -%}{%- endif -%}
+                      <div class="block-text text-{{i}}">{{text}}</div>
+                    {%- endfor -%}
+
+                    {%- capture buttonContent -%}
+                      {%- for i in (1..2) -%}
+                        {%- liquid
+                          assign button       = 'btn_' | append: i
+                          assign buttonUrl    = 'url_' | append: i
+                          assign buttonStyle  = 'btn_style_' | append: i
+                          assign button       = block.settings[button]
+                          assign buttonUrl    = block.settings[buttonUrl] | default: 'javascript:void(0);'
+                          assign buttonStyle  = block.settings[buttonStyle]
+                        -%}
+                        {%- if button == blank -%}{%- continue -%}{%- endif -%}
+
+                        <div class="block-button button-{{i}}">
+                          <a href="{{buttonUrl}}" class="btn btn-{{buttonStyle}}">{{button}}</a>
+                        </div>
+                      {%- endfor -%}
+                    {%- endcapture -%}
+
+                    {%- unless buttonContent == blank -%}
+                      <div class="button-group">{{buttonContent}}</div>
+                    {%- endunless -%}
+
+                    {%- capture block_css -%}
+                      {%- render 'css-resp', classID: blockID, css_value: block.settings.align, css_property: 'text-align' -%}
+                    {%- endcapture -%}
+                    {%- assign sectionCSS = sectionCSS | append: block_css -%}
+
+                  {%- comment -%}
+                  -------------------------------
+                  IMAGE
+                  -------------------------------
+                  {%- endcomment-%}
+                  {%- when 'image' -%}{%- render 'image-style', image: block.settings.image -%}
+                {%- endcase -%}
+              </div>
+            </div>
+          {%- endfor -%}
+
+        {%- else -%}
+
+
+          <div class="col-md-6 col-12" style="align-self: center;">
+            <div class="custom-block-text">
+              <h2>Talk about your brand</h2>
+              <p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="custom-block-image">
+              {%- render 'svgset' -%}
+            </div>
+          </div>
+
+        {%- endif -%}
+      </div>
+    </div>
+  {%- if _layout == 'boxed' -%}</div>{%- endif -%}
+</div>
+
+
+
+{%- comment -%}
+-------------------------------
+SECTION CSS
+-------------------------------
+{%- endcomment-%}
+{%- capture section_css -%}
+  {{sectionCSS}}
+{%- endcapture -%}
+{%- unless section_css == blank -%}{% style %}{{section_css}}{% endstyle %}{%- endunless -%}
+{%- endcapture -%}{%- render 'compress', content: content -%}
+
+{% schema %}
+{
+   "blocks": [
+      {
+         "type": "image",
+         "name": "Image",
+         "settings": [
+            {
+               "type": "image_picker",
+               "id": "image",
+               "label": "Image"
+            },
+            {
+               "type": "header",
+               "content": "Block settings"
+            },
+            {
+              "type":"text",
+              "id":"width",
+              "label":"Block width",
+              "default": "6/12, 12/12",
+              "info": "e.g: 6/12, 12/12"
+            }
+         ]
+      },
+      {
+         "type": "paragraph",
+         "name": "Paragraph",
+         "settings": [
+            {
+              "type":"text",
+              "id":"text_1",
+              "label":"Text 1"
+            },
+            {
+              "type":"textarea",
+              "id":"text_2",
+              "label":"Text 2"
+            },
+            {
+              "type":"textarea",
+              "id":"text_3",
+              "label":"Text 3"
+            },
+            {
+               "type":"header",
+               "content":"Button"
+            },
+            {
+              "type":"text",
+              "id":"btn_1",
+              "label":"Button 1"
+            },
+            {
+              "type":"url",
+              "id":"url_1",
+              "label":"Button 1 link"
+            },
+            {
+              "type":"select",
+              "id":"btn_style_1",
+              "label":"Button 1 style",
+              "options":[
+                {
+                  "value":"1",
+                  "label": "1"
+                },
+                {
+                  "value":"2",
+                  "label": "2"
+                }
+              ],
+              "default": "1"
+            },
+            {
+              "type":"text",
+              "id":"btn_2",
+              "label":"Button 2"
+            },
+            {
+              "type":"url",
+              "id":"url_2",
+              "label":"Button 2 link"
+            },
+            {
+              "type":"select",
+              "id":"btn_style_2",
+              "label":"Button 2 style",
+              "options":[
+                {
+                  "value":"1",
+                  "label": "1"
+                },
+                {
+                  "value":"2",
+                  "label": "2"
+                }
+              ],
+              "default": "1"
+            },
+            {
+               "type":"header",
+               "content":"Paragraph style"
+            },
+            {
+              "type":"text",
+              "id":"align",
+              "label":"Text alignment",
+              "info": "E.g: center, left"
+            },
+            {
+               "type": "header",
+               "content": "Block settings"
+            },
+            {
+              "type":"text",
+              "id":"width",
+              "label":"Block width",
+              "default": "6/12, 12/12",
+              "info": "e.g: 6/12, 12/12"
+            }
+         ]
+      }
+   ],
+   "presets": [
+      {
+         "name": "Custom content",
+         "category": "Advanced layout",
+         "blocks": []
+      }
+   ],
+   "name": "Custom content",
+   "tag": "section",
+   "settings": [
+      {
+         "type": "text",
+         "id": "title",
+         "label": "Section Label [:id]",
+         "default": "Custom content"
+      },
+      {
+         "type": "header",
+         "content": "LAYOUT"
+      },
+      {
+         "type": "checkbox",
+         "id": "boxed_layout",
+         "label": "Boxed layout",
+         "default": true
+      },
+      {
+         "type"  :"text",
+         "id"    :"section_margin",
+         "label" :"Section margin",
+         "info": "Order: Top Right Bottom Left. E.g: 5px 20px 5px 20px"
+      }
+   ]
+}
+{% endschema %}

@@ -1,0 +1,200 @@
+{%- capture content -%}
+{%- if section.settings.boxed_layout -%}{%- assign _layout = 'boxed' -%}{%- else -%}{%- assign _layout = 'full' -%}{%- endif -%}
+
+{%- liquid
+  render 'section-snippet', type: 'section_id'
+  assign sectionType    = 'slideshow'
+  assign sectionID      = '.section' | append: section.id
+-%}
+{%- assign defaultImage = 'default-image.jpg' | asset_img_url: 'master' -%}
+
+{%- capture section_class -%}
+  {{- -}}home-{{sectionType}}
+  {{- -}}|layout-{{- _layout -}}
+  |{{- sectionID | remove_first: '.' -}}
+{%- endcapture -%}{%- assign section_class = section_class | split: '|' | join: ' ' -%}
+
+<div class="{{section_class}}" data-section-type="{{sectionType}}" data-section-id="{{section.id}}">
+  {%- render 'section-snippet', type: 'style', object: section -%}
+
+  {%- if _layout == 'boxed' -%}<div class="container">{%- endif -%}
+
+    <div class="slideshow-container" data-slide-wrapper>
+      <div class="row slide_ui-element">
+
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign deskImage    = block.settings.image | default: defaultImage
+            assign mobiImage    = block.settings.mobi_image
+            assign url          = block.settings.url
+            assign blockbgColor = block.settings.bg_color | remove: 'rgba(0,0,0,0)'
+          -%}
+
+          <div class="block-item block{{block.id}}"{{block.shopify_attributes}} data-index="{{forloop.index0}}">
+            {%- unless url == blank -%}<a href="{{url}}">{%- endunless -%}
+              {%- capture deskSlideClass -%}slide-item{% if mobiImage != blank %} d-none d-md-block{% endif %}{%- endcapture -%}
+              <div class="block-item-inner{%- render 'bgset', class: deskSlideClass, image: deskImage -%}"></div>
+
+              {%- unless mobiImage == blank -%}
+                <div class="block-item-inner{%- render 'bgset', class: 'slide-item d-md-none', image: mobiImage -%}"></div>
+              {%- endunless -%}
+            {%- unless url == blank -%}</a>{%- endunless -%}
+
+
+            {%- unless blockbgColor == blank -%}
+              {%- capture blockID -%}.block{{block.id}}{%- endcapture -%}
+              {%- capture blockCSS -%}
+                {%- render 'css-resp', classID: blockID, nextClassID: ' .slide-item', css_value: block.settings.adjust_position, css_property: 'background-position' -%}
+                {{blockID}} .slide-item{ background-color: {{blockbgColor}};}
+              {%- endcapture -%}
+              {%- assign sectionCSS = sectionCSS | append: blockCSS -%}
+            {%- endunless -%}
+          </div>
+        {%- endfor -%}
+
+      {%- else -%}
+
+        {%- for i in (1..2) -%}
+          <div class="block-item"><div class="block-item-inner{%- render 'bgset', class: 'slide-item', image: image -%}"></div></div>
+        {%- endfor -%}
+
+      {%- endif -%}
+      </div>
+
+      {%- assign autoplay = section.settings.autoplay | strip | default: 0 | times: 1000 -%}
+      {%- render 'set-item-per-row' ,value: '1'
+                                    ,type: 'slider'
+                                    ,loop: section.settings.loop
+                                    ,nav: section.settings.navigation
+                                    ,autoplay: autoplay
+                                    ,gutter: 15
+                                    ,fill: '#FFFFFF' -%}
+    </div>
+
+  {%- if _layout == 'boxed' -%}</div>{%- endif -%}
+</div>
+
+
+
+{%- comment -%}
+-------------------------------
+SECTION CSS
+-------------------------------
+{%- endcomment-%}
+{%- capture section_css -%}
+  {%- render 'snippet-theme', type: 'sectionCSS', ID: sectionID -%}
+  {%- render 'css-resp', classID: sectionID, nextClassID: ' .slide-item', css_value: section.settings.height, css_property: 'height' -%}
+  {{sectionCSS | remove: '<style>' | remove: '</style>' }}
+  {{sectionID}} .slide-item{
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+{%- endcapture -%}
+{%- unless section_css == blank -%}{% style %}{{section_css}}{% endstyle %}{%- endunless -%}
+{%- endcapture -%}{%- render 'compress', content: content -%}
+
+{% schema %}
+{
+   "name": "Slideshow",
+   "tag": "section",
+   "blocks": [
+      {
+         "type": "slide",
+         "name": "Slide item",
+         "settings": [
+            {
+               "type": "image_picker",
+               "id": "image",
+               "label": "Desktop: Image"
+            },
+            {
+               "type": "image_picker",
+               "id": "mobi_image",
+               "label": "Mobile: Image"
+            },
+            {
+              "type":"text",
+              "id":"adjust_position",
+              "label":"Adjust position",
+              "info": "E.g: top center, bottom center"
+            },
+            {
+              "type":"url",
+              "id":"url",
+              "label":"Slide link"
+            },
+            {
+               "type": "header",
+               "content": "Block settings"
+            },
+            {
+               "type": "color",
+               "id": "bg_color",
+               "label": "Background color",
+               "default": "#FFFFFF"
+             }
+         ]
+      }
+   ],
+   "settings": [
+      {
+         "type": "text",
+         "id": "title",
+         "label": "Section Label [:id]",
+         "default": "Slideshow"
+      },
+      {
+         "type": "header",
+         "content": "LAYOUT"
+      },
+      {
+         "type": "checkbox",
+         "id": "boxed_layout",
+         "label": "Boxed layout",
+         "default": true
+      },
+      {
+         "type"  :"text",
+         "id"    :"section_margin",
+         "label" :"Section margin",
+         "info": "Order: Top Right Bottom Left. E.g: 5px 20px 5px 20px"
+      },
+      {
+        "type":"text",
+        "id":"height",
+        "label":"Slide height",
+        "default": "700px",
+        "info": "e.g: 700px, 300px"
+      },
+      {
+         "type": "checkbox",
+         "id": "loop",
+         "label": "Loop"
+      },
+      {
+         "type": "text",
+         "id": "autoplay",
+         "label": "Auto switch slide (in s)",
+         "info": "E.g: 5"
+      },
+      {
+         "type": "checkbox",
+         "id": "navigation",
+         "label": "Show navigation",
+         "default": true
+      }
+   ],
+   "presets": [
+      {
+         "name": "Slideshow",
+         "category": "Banner",
+         "blocks": [
+           {"type": "slide"},
+           {"type": "slide"}
+         ]
+      }
+   ]
+}
+{% endschema %}

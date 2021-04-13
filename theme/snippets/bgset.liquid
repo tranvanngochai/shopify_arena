@@ -1,0 +1,22 @@
+{%- if image != blank -%}
+    {%- assign defaultImage = 'default-image.png' | asset_img_url: 'master' -%}
+
+    {%- if image == defaultImage -%}{%- assign imageWidth = 360 -%}
+    {%- else -%}{%- assign imageWidth = image.width -%}
+    {%- endif -%}
+
+    {%- assign width = width | default: '360,1080,1296,1728' | split: ',' -%}
+    {%- capture dataBgSet -%}
+        {%- for w in width -%}
+            {%- assign number = w | strip | times: 1 -%}
+            {%- if number <= imageWidth -%}
+                {%- assign img_size = number | append: 'x' -%}
+                {%- unless forloop.first -%},{%- endunless -%}
+                {{- image | img_url: img_size }} {{w}}w
+            {%- else -%}
+                {%- break -%}
+            {%- endif -%}
+        {%- endfor -%}
+    {%- endcapture -%}
+    {{- }}{% unless class == blank %} {{class}}{% endunless %} lazyload" data-sizes="auto" data-bgset="{{- dataBgSet | strip_newlines -}}
+{%- endif -%}

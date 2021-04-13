@@ -1,0 +1,193 @@
+@mixin ab($t, $l, $b, $r) {
+    position: absolute;    
+    @if $l != n { left: $l; }
+    @if $t != n { top: $t; }
+    @if $r != n { right: $r; }
+    @if $b != n { bottom: $b; }
+}
+@mixin fixed($t, $l, $b, $r) {
+    position: fixed;
+    @if $l != n { left: $l; }
+    @if $t != n { top: $t; }
+    @if $r != n { right: $r; }
+    @if $b != n { bottom: $b; }    
+}
+@mixin placeholder {
+    &::-webkit-input-placeholder {@content}
+    &:-moz-placeholder           {@content}
+    &::-moz-placeholder          {@content}
+    &:-ms-input-placeholder      {@content}
+}
+@mixin border-inline-start($width, $style, $color) {
+    border-inline-start-width: $width;
+    border-inline-start-style: $style;
+    border-inline-start-color: $color;
+}  
+@mixin border-inline-end($width, $style, $color) {
+    border-inline-end-width: $width;
+    border-inline-end-style: $style;
+    border-inline-end-color: $color;
+}
+@mixin padding-start($value) {
+    -webkit-padding-start: $value; 
+        -moz-padding-start: $value;
+            padding-inline-start: $value;
+}
+@mixin padding-end($value) {
+    -webkit-padding-end: $value; 
+        -moz-padding-end: $value;
+            padding-inline-end: $value;
+}
+@mixin margin-start($value) {
+    -webkit-margin-start: $value;
+        -moz-margin-start: $value;
+            margin-inline-start: $value;
+}
+@mixin margin-end($value) {
+    -webkit-margin-end: $value;
+        -moz-margin-end: $value;
+            margin-inline-end: $value;
+}
+@mixin list-style-reset {
+    list-style: none;
+}
+@mixin font-body {
+    font-family: var(--ff-body);
+}
+@mixin font-heading {
+    font-family: var(--ff-heading);
+}
+@mixin point-event {
+    pointer-events: none;     
+}
+@mixin point-cursor {
+    cursor: pointer;
+}
+@mixin visibility-hidden {
+    visibility: hidden;   
+    opacity: 0;
+}
+@mixin visibility-visible {
+    visibility: visible;
+    opacity: 1;
+}  
+@mixin transition {
+    transition: all 0.35s ease-in-out 0s;
+}  
+@mixin custom-scrollbar {
+    &::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 4px #d0d0d0;
+        -webkit-box-shadow: inset 0 0 #d0d0d0;
+        background-color: #d0d0d0;
+        border-radius: 5px;
+    }
+    &::-webkit-scrollbar {
+        width: 4px;
+        background-color: #d0d0d0;
+        border-radius: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: #000000; 
+        border-radius: 5px;
+    }
+}
+@mixin black-bg {
+    @include fixed(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0.5);  
+    width: 100vw;
+    height: 100vh;   
+    z-index: -1;
+    @include visibility-hidden;       
+    transition: opacity 0.4s cubic-bezier(0,0,.2,1), visibility 0.4s cubic-bezier(0,0,.2,1); 
+}
+@mixin black-bg-open {
+    z-index: layer(popup-bg-black);    
+    @include visibility-visible; 
+}
+@mixin icon-check-white {
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='10' viewBox='0 0 12 10'%3E%3Cpath fill='white' d='M12 1.74109L4.2672 10L0 5.42655L1.63303 3.68849L4.27004 6.51477L10.3698 0L12 1.74109Z'%3E%3C/path%3E%3C/svg%3E");                        
+}
+@mixin icon-check-black {
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='10' viewBox='0 0 12 10'%3E%3Cpath fill='grey' d='M12 1.74109L4.2672 10L0 5.42655L1.63303 3.68849L4.27004 6.51477L10.3698 0L12 1.74109Z'%3E%3C/path%3E%3C/svg%3E"); 
+}
+@keyframes fa-spin { 
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(359deg);
+		transform: rotate(359deg);
+	}
+}
+@keyframes mmfadeIn {
+    from { 
+        opacity: 0; 
+    }
+    to {
+        opacity: 1;
+    }
+}   
+@keyframes animation-top-bottom {  
+    0% {
+        opacity: 0;
+        transform: translate(0, -30px); 
+    } 
+    100% { 
+        opacity: 1;
+        transform: translate(0, 0);  
+    }
+}      
+@keyframes animation-loading1 {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+@keyframes animation-loading2 {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(14px, 0); 
+    }
+} 
+@keyframes animation-show-loading2 {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(8px, 0); 
+    }
+} 
+@keyframes animation-loading3 {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0);
+    }
+}
+
+// manage z-index
+@function layer($name) {
+    @if map-has-key($layer, $name) {
+        @return map-get($layer, $name);  
+    }
+    @warn "The key #{$name} is not in the map ’$layer’";
+    @return null;
+};
+$layer: (  
+    header-fixed: 9,
+    dropdown-menu: 100,
+    popup-bg-black: 99, 
+    popup-content: 100,  
+    tooltip: 2,
+    backtotop: 409,
+    control-button: 1, 
+    search-result: 9,
+    sort-by: 1,
+    sidebar: 100,
+);

@@ -1,0 +1,228 @@
+{%- assign sectionID = '.section' | append: section.id -%}
+{%- case type -%}
+  {%- when 'section_id' -%}
+    {%- if section.settings.title contains '[:' -%}
+      {%- assign __section_id = section.settings.title | split: '[:' | last -%}
+      {%- capture __section_id -%}{{ __section_id | split: ']' | first | strip }}{%- endcapture -%}
+      <div id="{{__section_id}}"></div>
+    {%- endif -%}
+
+  {%- when 'style' -%}
+    {%- comment -%}
+    -------------------------------
+    SECTION STYLE
+    -------------------------------
+    {%- endcomment-%}
+    {%- assign sectionStyle = section.blocks | where: 'type', 'style' -%}
+
+    {%- if object == section  -%}{%- assign block = section -%}
+    {%- else                  -%}{%- assign block = sectionStyle.first -%}
+    {%- endif -%}
+    {%- if sectionStyle.size > 0 or object == section -%}
+      {%- liquid
+
+        assign section_text_color       = block.settings.section_text_color | remove: 'rgba(0,0,0,0)'
+        assign section_bg_color         = block.settings.section_bg_color | remove: 'rgba(0,0,0,0)'
+        assign section_inner_bg_color   = block.settings.section_inner_bg_color | remove: 'rgba(0,0,0,0)'
+        assign section_bg_image         = block.settings.section_bg_image
+        assign section_bg_image_mob     = block.settings.section_bg_image_mob
+        assign section_bg_size          = block.settings.section_bg_size
+        assign section_bg_repeat        = block.settings.section_bg_repeat
+        assign section_bg_position      = block.settings.section_bg_position
+      -%}
+      {%- capture blockCSS -%}
+        {%- comment -%}
+        -------------------------------
+        General
+        -------------------------------
+        {%- endcomment-%}
+        {%- capture sectionGeneralStyle -%}{{- section_text_color -}}{{- section_bg_color -}}{%- endcapture -%}
+        {%- unless sectionGeneralStyle == blank -%}
+          {{- sectionID }}{
+            {%- unless section_text_color == blank -%}color: {{section_text_color}};{%- endunless -%}
+            {%- unless section_bg_color == blank -%}background-color: {{section_bg_color}};{%- endunless -%}
+          }
+        {%- endunless -%}
+        {%- unless section_text_color == blank -%}{{- sectionID }} a{color: inherit;}{%- endunless -%}
+        {%- render 'css-resp', classID: sectionID, nextClassID: '', css_value: block.settings.section_margin, css_property: 'margin' -%}
+        {%- render 'css-resp', classID: sectionID, nextClassID: '', css_value: block.settings.section_padding, css_property: 'padding' -%}
+        {%- render 'css-resp', classID: sectionID, nextClassID: ' .section-inner', css_value: block.settings.section_inner_padding, css_property: 'padding' -%}
+
+        {%- comment -%}
+        -------------------------------
+        Section inner
+        -------------------------------
+        {%- endcomment-%}
+        {%- unless section_inner_bg_color == blank -%}
+          {{- sectionID }} .section-inner{background-color: {{section_inner_bg_color}};}
+        {%- endunless -%}
+
+        {%- comment -%}
+        -------------------------------
+        Section Background image
+        -------------------------------
+        {%- endcomment-%}
+        {%- unless section_bg_image == blank -%}
+          {%- liquid
+            assign section_bg_size       = block.settings.section_bg_size
+            assign section_bg_repeat     = block.settings.section_bg_repeat
+            assign section_bg_position   = block.settings.section_bg_position
+          -%}
+          {{ sectionID }}{position: relative;}
+          {{ sectionID }} .section-bg{
+            background-size: {{ section_bg_size }};
+            background-repeat: {{ section_bg_repeat }};
+          }
+          {%- render 'css-resp', classID: sectionID, nextClassID: ' .section-bg', css_value: section_bg_position, css_property: 'background-position' -%}
+        {%- endunless -%}
+      {%- endcapture -%}
+
+      {%- liquid
+        unless blockCSS == blank
+          style
+            echo blockCSS
+          endstyle
+        endunless
+      -%}
+
+      {%- unless section_bg_image == blank -%}
+        <div class="section-bg overlay-ui w-100 h-100{% unless section_bg_image_mob == blank %} d-none d-md-block{% endunless %}{%- render 'bgset', class: '', image: section_bg_image -%}"></div>
+      {%- endunless -%}
+      {%- unless section_bg_image_mob == blank -%}
+        <div class="section-bg overlay-ui w-100 h-100 d-md-none{%- render 'bgset', class: '', image: section_bg_image_mob -%}"></div>
+      {%- endunless -%}
+
+    {%- endif -%}
+
+
+      {%- comment -%}
+      ,
+          {
+             "type": "style",
+             "name": "Section style",
+             "limit": 1,
+             "settings": [
+                {
+                   "type":"color",
+                   "id":"section_text_color",
+                   "label":"Text color"
+                },
+                {
+                   "type":"color",
+                   "id":"section_bg_color",
+                   "label":"Background color"
+                },
+                {
+                   "type":"color",
+                   "id":"section_inner_bg_color",
+                   "label":"Section inner Background color"
+                },
+                {
+                  "type":"image_picker",
+                  "id":"section_bg_image",
+                  "label":"Desktop: Background image"
+                },
+                {
+                  "type":"image_picker",
+                  "id":"section_bg_image_mob",
+                  "label":"Mobile: Background image"
+                },
+                {
+                  "type":"select",
+                  "id"   :"section_bg_size",
+                  "label":"Background image fit",
+                  "default": "cover",
+                  "options":[
+                    {"value":"auto","label":"Auto"},
+                    {"value":"cover","label":"Cover"},
+                    {"value":"contain","label":"Contain"}
+                  ]
+                },
+                {
+                  "type": "select",
+                  "id": "section_bg_repeat",
+                  "label": "Background Image Repeat:",
+                  "default": "no-repeat",
+                  "options": [
+                    {"value":"no-repeat","label":"No Repeat"},
+                    {"value":"repeat","label":"Repeat"},
+                    {"value":"repeat-x","label":"Repeat X"},
+                    {"value":"repeat-y","label":"Repeat Y"}
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "section_bg_position",
+                  "label": "Background Image Position:",
+                  "info": "e.g: center center"
+                },
+                {
+                   "type"  :"text",
+                   "id"    :"section_margin",
+                   "label" :"Section margin",
+                   "placeholder": "E.g: 5px 20px 5px 20px",
+                   "info": "Order: Top Right Bottom Left"
+                },
+                {
+                   "type"  :"text",
+                   "id"    :"section_padding",
+                   "label" :"Section Padding",
+                   "placeholder": "E.g: 5px 20px 5px 20px",
+                   "info": "Order: Top Right Bottom Left"
+                }
+             ]
+          }
+      {%- endcomment-%}
+
+  {%- when 'heading' -%}
+
+    {%- comment -%}
+    -------------------------------
+    HEADING
+    -------------------------------
+    {%- endcomment-%}
+    {%- liquid
+      assign heading          = section.settings.heading
+      assign subheading       = section.settings.subheading
+      assign heading_fs       = section.settings.heading_fs
+      assign subheading_fs    = section.settings.subheading_fs
+      assign heading_color    = section.settings.heading_color | remove: 'rgba(0,0,0,0)'
+      assign subheading_color = section.settings.subheading_color | remove: 'rgba(0,0,0,0)'
+      assign contentCheck     = heading | append: subheading
+
+    -%}
+
+    {%- unless contentCheck == blank -%}
+      <div class="section-heading-container">
+        {%- unless heading    == blank -%}<h2 class="h3 section-heading"{% unless heading_color == blank %}style="color: {{heading_color}};" {% endunless %}>{{heading}}</h2>{%- endunless -%}
+        {%- unless subheading == blank -%}<p class="section-subheading"{% unless subheading_color == blank %}style="color: {{subheading_color}};" {% endunless %}>{{subheading}}</p>{%- endunless -%}
+      </div>
+
+        {%- style -%}
+          {%- render 'css-resp', classID: sectionID, nextClassID: ' .section-heading-container', css_value: section.settings.heading_align, css_property: 'text-align' -%}
+
+          {%- render 'css-resp', classID: sectionID, nextClassID: ' .section-heading-container .section-heading', css_value: heading_fs, css_property: 'font-size' -%}
+          {%- render 'css-resp', classID: sectionID, nextClassID: ' .section-heading-container .section-heading', css_value: heading_fs, css_property: 'line-height' -%}
+
+          {%- render 'css-resp', classID: sectionID, nextClassID: ' .section-heading-container .section-subheading', css_value: subheading_fs, css_property: 'font-size' -%}
+          {%- render 'css-resp', classID: sectionID, nextClassID: ' .section-heading-container .section-subheading', css_value: subheading_fs, css_property: 'line-height' -%}
+        {%- endstyle -%}
+    {%- endunless -%}
+
+  {%- when 'button' -%}
+    {%- comment -%}
+    -------------------------------
+    FOOTER BUTTON
+    -------------------------------
+    {%- endcomment-%}
+    {%- liquid
+      assign button         = section.settings.button
+      assign button_link    = section.settings.button_link | default: 'javascript:void(0);'
+      assign button_style   = section.settings.button_style
+    -%}
+    {%- unless button == blank -%}
+      <div class="section-button text-center">
+        <a href="{{button_link}}" class="btn btn-{{button_style}}">{{button}}</a>
+      </div>
+    {%- endunless -%}
+{%- endcase -%}

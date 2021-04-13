@@ -1,0 +1,92 @@
+{%- liquid
+	assign swatch_button 	= settings.swatch_button | downcase
+	assign swatch_color 	= settings.swatch_color  | downcase
+	assign swatch_image 	= settings.swatch_image  | downcase
+-%}
+
+
+{%- unless product.has_only_default_variant -%}
+	{%- assign disableDefaultVariant = settings.disable_auto_product_selected -%}
+{%- endunless -%}
+
+{%- if section_id == product.id -%}
+	{%- assign isQuickview = true -%}
+{%- endif -%}
+
+<div class="swatch-variants-wrapper" data-swatch-wrapper data-linked-option-group>
+	{%- for option in product.options_with_values -%}
+		{%- capture optionIndex -%}option{{ option.position }}{%- endcapture -%}
+		{%- capture optionName -%}{{option.name | downcase }}{%- endcapture -%}
+
+		{%- assign swtType = '' -%}
+		{%- assign swtCss = '' -%}
+		{%- if swatch_button contains optionName -%}
+			{%- assign swtType = 'button' -%}
+		{%- endif -%}
+		{%- if swatch_color contains optionName -%}
+			{%- assign swtType = 'color' -%}
+		{%- endif -%}
+		{%- if swatch_image contains optionName -%}
+			{%- assign swtType = 'image' -%}
+		{%- endif -%}
+
+		{%- if swtType == '' -%}{%- continue -%}{%- endif -%}
+
+		<div class="swatch-option" data-target="#{% if isQuickview %}qs_{% endif %}Option{{ option.position }}" data-linked-option="{{forloop.index0}}">
+			<div class="swatch-header">
+				<p>{{ option.name }}</p>
+			</div>
+
+			<div class="swatch-container d-flex">
+				{%- for value in option.values -%}
+					{%- capture swtID -%}{% if isQuickview %}qs_{% endif %}swt{{option.position}}_{{value|handle}}{%- endcapture -%}
+
+					{%- capture swtImage -%}
+						{%- if swtType == 'image' -%}
+							{%- assign variantSelect = product.variants | where: optionIndex, value | first -%}
+							<style>
+								.swatch-variants-wrapper label[for="{{ swtID }}"]{
+									background-image: url({{ variantSelect.featured_media |img_url: '100x'}})!important;;
+								}
+							</style>
+						{%- endif -%}
+					{%- endcapture -%}
+					{%- assign swtCss = swtCss | append: swtImage -%}
+
+					<div class="swatch-item" data-linked-option-item>
+						<input type="radio" class="swt-type-{{swtType}}" name="swatch{{ option.name | handle | uppercase }}" id="{{ swtID }}" value="{{value | escape}}"{% if option.selected_value == value and disableDefaultVariant != true %} checked{% endif %}>
+
+						{%- if swtType != 'button' -%}
+							<label for="{{ swtID }}" class="swt-{{swtType}} c-{{value | handle}}"></label>
+							<span class="tooltip">{{value}}</span>
+
+						{%- else -%}
+							<label for="{{ swtID }}" class="swt-{{swtType}}">{{value}}</label>
+						{%- endif -%}
+					</div>
+				{%- endfor -%}
+			</div>
+		</div>
+
+		{%- capture swt_css -%}
+			<style>.section-{{section_id}} .select-option-{{forloop.index0}}{display: none;}</style>
+			{{swtCss}}
+		{%- endcapture -%}
+		{%- assign swatch_style = swatch_style | append: swt_css -%}
+	{%- endfor -%}
+</div>
+
+<style>
+	{{ swatch_style | remove: "<style>" | remove: "</style>" }}
+	[data-linked-option-item="disabled"] label{opacity: .7; cursor: not-allowed!important;text-decoration: line-through;}
+	[data-linked-option-item="disabled"]:after {
+		content: '';
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: calc(100% - 10px);
+		transform: translate(-50%, -50%);
+		border-top: 1px solid #222222;
+		border-bottom: 1px solid #FFFFFF;
+	}
+</style>

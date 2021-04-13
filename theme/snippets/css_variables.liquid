@@ -1,0 +1,125 @@
+<style> 
+  {%- liquid
+    assign font_body_base_size = settings.body_font_size | times: 0.625
+  -%}
+
+  :root {    
+    --body-base-size: {{ font_body_base_size | times: 6.25 }}%;    
+    --heading-size-h1: {{ settings.heading_size_1 | divided_by: font_body_base_size }}rem;
+    --heading-size-h2: {{ settings.heading_size_2 | divided_by: font_body_base_size }}rem;
+    --heading-size-h3: {{ settings.heading_size_3 | divided_by: font_body_base_size }}rem;
+    --heading-size-h4: {{ settings.heading_size_4 | divided_by: font_body_base_size }}rem;
+    --heading-size-h5: {{ settings.heading_size_5 | divided_by: font_body_base_size }}rem;
+    --heading-size-h6: {{ settings.heading_size_6 | divided_by: font_body_base_size }}rem;
+    --heading-1-weight: {{ settings.heading_weight_1 }};
+    --heading-2-weight: {{ settings.heading_weight_2 }};
+    --heading-3-weight: {{ settings.heading_weight_3 }};
+    --heading-4-weight: {{ settings.heading_weight_4 }};
+    --heading-5-weight: {{ settings.heading_weight_5 }};
+    --heading-6-weight: {{ settings.heading_weight_6 }};
+    
+    --body-font-size: {{ settings.body_font_size | divided_by: font_body_base_size }}rem;
+    --body-font-weight: {{ settings.body_font_weight }};
+    --main-color: {{ settings.main_color }};
+    --body-border-color: {{ settings.main_border_color }};
+    --special-border: {{ settings.special_border_color }}; 
+    --body-color: {{ settings.body_text_color }};
+    --body-link: {{ settings.body_link_color }};
+    --main-color-rgba: {{ settings.main_color | color_to_rgb | remove: 'rgb(' | remove: ')' }};
+    --body-bg-color: {{ settings.body_bg_color }};
+    --border-radius-default: {{ settings.border_radius }}; 
+
+    --main-text-color: #ffffff; 
+
+    --price-color: {{ settings.price_color }};
+    --price-compare-color: {{ settings.price_compare_color }};
+    --price-sale-color: {{ settings.price_sale_color }};
+    --rating-star-color: {{ settings.rating_star_color }};
+    --rating-star-empty-color: {{ settings.rating_star_empty_color }};
+
+    --breadcrumb-color: {{ settings.breadcrumb_color }};
+
+    --sale-lb-cl: {{ settings.sale_label_color }};
+    --sale-lb-bgcl: {{ settings.sale_label_bg_color }};
+    --hot-lb-cl: {{ settings.hot_label_color }};
+    --hot-lb-bgcl: {{ settings.hot_label_bg_color }};
+    --new-lb-cl: {{ settings.new_label_color }};
+    --new-lb-bgcl: {{ settings.new_label_bg_color }}; 
+
+    --section-heading-align: {{ settings.sectionHeading_align }};
+    --section-heading-cl: {{ settings.sectionHeading_1_cl }};        
+    --section-heading-fw: {{ settings.sectionHeading_1_fw }};        
+    --section-subheading-cl: {{ settings.sectionHeading_2_cl }};        
+    --section-subheading-fw: {{ settings.sectionHeading_2_fw }};   
+
+    --btn1-fw: {{ settings.btn1_fw }};
+    --btn1-cl: {{ settings.btn1_cl }};
+    --btn1-bg-cl: {{ settings.btn1_bg_cl }};
+    --btn1-hover-cl: {{ settings.btn1_hover_cl }};
+    --btn1-hover-bg-cl: {{ settings.btn1_hover_bg_cl }};
+    --btn1-border-width: {{ settings.btn1_border_width }}px;
+    --btn1-border-cl: {{ settings.btn1_border_cl }};
+    --btn1-hover-border-cl: {{ settings.btn1_hover_border_cl }};
+
+    --btn2-fw: {{ settings.btn2_fw }};
+    --btn2-cl: {{ settings.btn2_cl }};
+    --btn2-bg-cl: {{ settings.btn2_bg_cl }};
+    --btn2-hover-cl: {{ settings.btn2_hover_cl }};
+    --btn2-hover-bg-cl: {{ settings.btn2_hover_bg_cl }};
+    --btn2-border-width: {{ settings.btn2_border_width }}px;
+    --btn2-border-cl: {{ settings.btn2_border_cl }};
+    --btn2-hover-border-cl: {{ settings.btn2_hover_border_cl }};
+
+    --btn3-fw: {{ settings.btn3_fw }};
+    --btn3-cl: {{ settings.btn3_cl }};
+    --btn3-bg-cl: {{ settings.btn3_bg_cl }};
+    --btn3-hover-cl: {{ settings.btn3_hover_cl }};
+    --btn3-hover-bg-cl: {{ settings.btn3_hover_bg_cl }};
+    --btn3-border-width: {{ settings.btn3_border_width }}px;
+    --btn3-border-cl: {{ settings.btn3_border_cl }};
+    --btn3-hover-border-cl: {{ settings.btn3_hover_border_cl }};   
+
+    --topbar-bg-color: #F0F2F5;
+    --topbar-color: #5B6C8F;
+    --topbar-border: 16, 49, 120;
+
+    --header-bg-desk: #ffffff;
+    --header-text-color-desk: #5b6c8f;
+    --header-icons-color-desk: #ff9923;
+    --header-bg-cart-number-desk: #103178;
+    --header-text-cart-number-desk: #ffffff;  
+    --header-border-color-desk: #103178;    
+    --header-border-color-desk-opacity: 10;      
+
+    --header-bg-mobile: #ffffff;
+    --header-text-color-mobile: #5b6c8f;
+    --header-icons-color-mobile: #ff9923;
+    --header-bg-cart-number-mobile: #103178;
+    --header-text-cart-number-mobile: #ffffff;    
+    --header-border-color-mobile: #103178;  
+    --header-border-color-mobile-opacity: 10; 
+
+    --footer-heading-cl: #103178;
+    --footer-heading-fw: 600;
+    --footer-heading-fs: 18px;
+    --footer-text-cl: #5B6C8F;
+    --footer-link-cl: #103178;
+    --footer-link-hover-cl: #FF9923;        
+    --footer-copyright-border-top: #F0F2F5;
+    --footer-copyright-cl: #103178; 
+
+    --bg-white: #ffffff;
+    --gutter-xlg: 40px;
+    --gutter-lg: 30px;
+    --gutter-md: 25px;
+    --gutter-sm: 20px;
+    --gutter-xs: 15px;
+    --gutter-xxs: 10px; 
+    --gutter-ct: 13px;
+
+    --product-item-name: {{settings.product_card_title_fs}};
+    --product-item-price: {{settings.product_card_price_sale_fs}};    
+    --product-price-compare: {{settings.product_card_price_fs}};
+  }  
+  
+</style> 

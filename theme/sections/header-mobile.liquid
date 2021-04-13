@@ -1,0 +1,82 @@
+{%- capture content -%}
+{%- if section.settings.boxed_layout -%}{%- assign _layout = 'boxed' -%}{%- else -%}{%- assign _layout = 'full' -%}{%- endif -%}
+
+{%- liquid
+  assign sectionType = 'header-mobile'
+-%}
+
+{%- capture section_class -%}
+  header-mobile
+  |header-sticky
+  |section-{{- section.id -}}
+  |layout-{{- _layout -}}
+  |d-lg-none
+{%- endcapture -%}{%- assign section_class = section_class | strip | split: '|' | join: ' ' -%}
+
+<div class="{{section_class}}" data-section-type="{{sectionType}}" data-section-id="{{section.id}}">
+  <div class="header-content{% if _layout == 'boxed' %} container{% endif %}">
+    <div class="header-row row">
+      <div class="header-col-1 col-3">
+        <div class="header-col header-col-left">
+          <div class="header-icons">
+            {%- render 'button', type: 'hamburger' -%}
+          </div>
+        </div>
+      </div>
+      <div class="header-col-2 col-6">
+        <div class="header-col header-col-center">
+          {%- include 'logo' -%}
+        </div>
+      </div>
+      <div class="header-col-3 col-3">
+        <div class="header-col header-col-right">
+          <div class="header-icons">
+            {%- include 'button', type: 'cart' -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%- endcapture -%}
+{%- render 'compress', content: content -%}
+
+{% schema %}
+{
+    "name": "Header Mobile",
+    "tag": "section",
+    "class": "header-block d-lg-none",
+    "settings": [
+        {
+            "type": "checkbox",
+            "id": "boxed_layout",
+            "label": "Boxed layout",
+            "default": true
+        },
+        {
+            "type": "header",
+            "content": "Logo"
+        },
+        {
+            "type": "text",
+            "id": "logo_svg",
+            "label": "Logo svg",
+            "info": "Blank to use Logo image"
+        },
+        {
+            "type": "image_picker",
+            "id": "logo",
+            "label": "Logo image"
+        },
+        {
+            "type": "text",
+            "id": "logo_max_width",
+            "label": "Logo max width",
+            "default": "110",
+            "info": "Only for Logo image. E.g: 110"
+        }
+    ],
+    "blocks": [
+    ]
+}
+{% endschema %}

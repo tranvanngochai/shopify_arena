@@ -1,0 +1,91 @@
+{%- liquid
+	assign metafield 				= product.metafields.c_f
+	assign productSelect 			= product.selected_or_first_available_variant
+	assign compare_price 			= productSelect.compare_at_price
+	assign price         			= productSelect.price
+	assign collectionSelect 		= nil
+	assign imageRatio 				= settings.product_image_ratio | remove: 'auto'
+	assign imageCrop 				= settings.product_image_crop
+	assign imageRatioCustom 		= settings.image_ratio_custom
+	assign media 					= product.media.first
+-%}
+
+{%- if media.media_type == 'image' -%}
+	{%- assign image = media -%}
+{%- else -%}
+	{%- assign image = media.preview_image -%}
+{%- endif -%}
+
+{%- assign featuredRatio = 1 | divided_by: image.aspect_ratio | times: 100 | append: '%' -%}
+
+{%- if image == blank -%}
+	{%- assign image = 'default-image.png' | asset_img_url: 'master' -%}
+{%- endif -%}
+
+{%- unless imageRatioCustom == blank -%}
+	{%- assign imageRatio = 1 | divided_by: imageRatioCustom.aspect_ratio | times: 100 | append: '%' -%}
+{%- endunless -%}
+
+{%- if collection.handle != 'all' and collection.handle != 'frontpage' and collection.handle != 'all-products' -%}
+	{%- assign collectionSelect = collection -%}
+{%- endif -%}
+
+{%- if viewMode == 'list' -%}
+	{%- assign productTypeList = true -%}
+{%- endif -%}
+
+<div class="product-card{% unless productSelect.available %} product-card--soldout{% endunless %}{% if imageCrop %} image-cropped{% endif %}">
+	<div class="product-card-inner{% if productTypeList %} product-card-list{% endif %}">
+		<div class="product-card__header">
+			<a href="{{product.url | within: collectionSelect }}">
+				{%- capture frontImageClassName -%}{% if product.images.size > 1 %} product-media--front{% endif %}{%- endcapture -%}
+				{% render 'image-style', image: image, imagePadding: imageRatio, wrapperClass: frontImageClassName %}
+
+				{%- if product.images.size > 1 -%}
+					{%- assign imageRatio = imageRatio | default: featuredRatio -%}
+					{% render 'image-style', image: product.images[1], imagePadding: imageRatio, wrapperClass: ' product-media--back', cropped: true %}
+				{%- endif -%}
+			</a>
+
+			{%- render 'product-item-snippets', type: 'sale_label', product: product -%}
+
+			{%- unless productTypeList -%}
+				<div class="hover-group">
+					{%- render 'product-item-snippets', type: 'cart_button', product: product -%}
+					{%- if settings.show_quickview -%}
+						<div class="product-card--quickview">
+							<button class="btn btn-quick-view" data-handle="{{ product.handle }}" title="{{- 'products.product.quick_view' | t -}}">
+								<span class="svg__ui">{%- render 'svg', type: 'quickview', fill: '#333333' -%}</span>
+							</button>
+						</div>
+					{%- endif -%}
+					{%- render 'product-item-snippets', type: 'wlcp', product: product -%}
+				</div>
+			{%- endunless -%}
+		</div>
+		<div class="product-card__body">
+			<div class="product-card__body-inner">
+				<h3 class="product-card__title">
+					<a href="{{product.url | within: collectionSelect }}">{{product.title}}</a>
+				</h3>
+
+				{%- render 'review', product: product, type: 'badge' -%}
+				{%- render 'product-item-snippets', type: 'price', product: product, class: 'product-card__price' -%}
+
+				{%- if productTypeList -%}
+					{%- render 'product-item-snippets', type: 'short_description', product: product -%}
+					<div class="product-bottom">
+						{%- render 'product-item-snippets', type: 'cart_button', product: product, show_label: true -%}
+						{%- if settings.show_quickview -%}
+							<button class="btn btn-quick-view" data-handle="{{ product.handle }}" title="{{- 'products.product.quick_view' | t -}}">
+								<span class="svg__ui">{%- render 'svg', type: 'quickview', fill: '#333333' -%}</span>
+							</button>
+						{%- endif -%}
+						{%- render 'product-item-snippets', type: 'wlcp', product: product -%}
+					</div>
+				{%- endif -%}
+
+			</div>
+		</div>
+	</div>
+</div>

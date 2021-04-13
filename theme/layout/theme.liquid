@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    {%- capture content_for_head -%}
+    <meta charset="utf-8">
+    {%- if settings.favicon != nil -%}
+    <link rel="shortcut icon" type="image/x-icon" href="{{ settings.favicon | img_url: '32x32' }}">
+    <link rel="apple-touch-icon" sizes="32x32" href="{{ settings.favicon | img_url: '32x32' }}">
+    {%- else -%}
+    <link rel="shortcut icon" type="image/x-icon" href="{{ 'favicon.png' | asset_img_url: '32x32' }}">
+    <link rel="apple-touch-icon" sizes="32x32" href="{{ 'favicon.png' | asset_img_url: '32x32' }}">
+    {%- endif -%}
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="360">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0,viewport-fit=cover">
+     <!--  PRELOAD DNS -->
+    <link rel="preconnect dns-prefetch" href="https://cdn.shopify.com" crossorigin>
+    <link rel="preconnect dns-prefetch" href="//fonts.googleapis.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://monorail-edge.shopifysvc.com" crossorigin>
+    <meta name="theme-color" content="{{ settings.main_color }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    {%- render 'fb-open-graph' -%}
+
+    <title>{{ page_title }}{%- if current_tags -%}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+    {%- if page_description -%}
+    <meta name="description" content="{{ page_description | escape }}{% if current_tags %} {{ 'general.meta.tagged_html' | t: tags: meta_tags | escape }}.{% endif %}{% if current_page != 1 %} {{ 'general.meta.page' | t: page_number: current_page }}.{% endif %}" />
+    {%- endif -%}
+
+    {%- render 'stylesheet-file', type: 'preload' -%}
+
+    {%- endcapture -%}{%- render 'compress', content: content_for_head -%}
+
+    {%- capture wl_cp_Include -%}
+          {% include 'arn_wl_cp_settings' %}
+          {% include 'arn_wl_cp_styles' %}
+          {% if shop.metafields.arena.wl_cp_settings.general_settings.app_script == false %}
+              <script defer crossorigin="anonymous" src="{{ 'arn-wishlist-compare.js'  | asset_url }}"></script>
+          {% endif %}
+    {%- endcapture -%}{%- unless wl_cp_Include contains 'Liquid error' -%}{{ wl_cp_Include }}{%- endunless -%}
+
+    {%- if request.page_type == 'product' -%}
+        <script>window.requestAnimationFrame=window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame||window.msRequestAnimationFrame;var addEventListener=EventTarget.prototype.addEventListener;function step(){EventTarget.prototype.addEventListener!=addEventListener&&(window.EventTarget.prototype.addEventListener=addEventListener),requestAnimationFrame(step)}requestAnimationFrame(step);</script>
+    {%- endif -%}
+    {%- render 'js-loader' -%}
+    {%- render 'snippet-theme', type: 'script' -%}
+    <script src="{{ 'lazysizes.min.js' | asset_url  }}" async="async"></script>
+
+    {{content_for_header}}
+
+    {%- if settings.review_app == 'loox' -%}{{ shop.metafields.loox["global_html_head"] }}{%- endif -%}
+</head>
+
+<body class="template{{ request.page_type | camelize }}" tabIndex="0" onclick datatest="null">
+    {%- render 'cookie-policy', type: 'stylesheet' -%}
+    {%- render 'stylesheet-file', type: '' -%}
+
+    {%- capture growaveSettings -%}{{- settings.wishlist_app -}}{{- settings.review_app -}}{%- endcapture -%}
+    {%- if growaveSettings contains 'growave' -%}
+        {% capture the_snippet_content %}{% render 'socialshopwave-helper' %}{% endcapture %}
+        {% unless the_snippet_content contains 'Liquid error' %}{{ the_snippet_content }}{% endunless %}
+    {%- endif -%}
+
+    {%- capture wl_cp_Include -%}
+        {%- capture content -%}{% include 'arn_icons_define' %}{%- endcapture -%}
+        {%- render 'compress', content: content -%}
+    {%- endcapture -%}{%- unless wl_cp_Include contains 'Liquid error' -%}{{ wl_cp_Include }}{%- endunless -%}
+
+    {%- section 'theme-config' -%}
+    <div class="boxed-wrapper">
+        <header>{%- section 'header' -%}{%- section 'header-mobile' -%}</header>
+        <main id="main-content" role="main">{{ content_for_layout }}</main>
+        <footer>{%- section 'footer' -%}</footer>
+    </div>
+
+    {%- render 'cookie-policy', type: '' -%}
+    {%- render 'js-file' -%}
+</body></html>

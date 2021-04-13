@@ -1,0 +1,155 @@
+{%- layout none -%}
+{%- liquid
+	assign metafield 		= product.metafields.c_f
+	assign vID 				= request.path | split: product.handle | last | remove: '/' | times: 1
+	assign findProduct 		= cart.items | where: 'variant_id', vID
+	assign line_item 		= findProduct.first
+	assign cartItem 		= 'cart.general.item' | t
+	assign cartItems 		= 'cart.general.items' | t
+	assign listProducts 	= metafield.cart_replace | default: metafield.cart_suggest | split: '|'
+	assign popup_type 		= 'normal'
+-%}
+{%- if findProduct.size > 0 -%}
+
+{%- if metafield.cart_replace != blank -%}
+	{%- assign popup_type = 'replace' -%}
+{%- elsif metafield.cart_suggest != blank -%}
+	{%- assign popup_type = 'suggest' -%}
+{%- endif -%}
+
+<dialog id="cartNoti" class="modal-ui" aria-hidden="true" data-cart-type="{{ popup_type }}">
+
+	<div tabindex="-1" data-dialog-close></div>
+	<div role="dialog" aria-modal="true" aria-labelledby="cartNoti-title">
+
+		<header>
+			<p id="cartNoti-title">{{- 'cart.general.popup_noti_success' | t -}}</p>
+		</header>
+
+		<div id="cartNoti-content">
+			{%- capture cartNumber_text -%}{{- 'cart.general.in_cart' | t: number: '|' -}}{%- endcapture -%}
+			{%- capture cartNumber_html -%}
+				<span class="number" data-cart-count>{{cart.item_count}}</span>
+				<span class="cart-item-text" data-cart-item-text>{{ cart.item_count | pluralize: cartItem, cartItems }}</span>
+			{%- endcapture -%}
+
+			<div class="dialog-body">
+				<div class="dialog-col dialog-col-left">
+					<div class="cart-item-info">
+
+						<div class="cart-item-header">
+							<figure>
+								<img src="{{ line_item.image | default: line_item.product.featured_image | img_url: '390x' }}" alt="{{line_item.product.title | escape }}" data-item-image>
+							</figure>
+						</div>
+						<div class="cart-item-body">
+							<p class="cart-item-title" data-item-title>{{ line_item.title }}</p>
+							<p class="cart-item-qty">&times;<span data-item-qty>{{ line_item.quantity }}</span></p>
+
+							<div class="cart-item-price-wrapper">
+								<span class="cart-item-price cart-item-price-single" data-item-price>{%- render 'money-format', price: line_item.original_price -%}</span>
+								<span class="cart-item-price cart-item-line-price" data-item-line-price>{%- render 'money-format', price: line_item.final_line_price -%}</span>
+							</div>
+
+
+							{%- if popup_type == 'normal' -%}
+								<p class="cart-item-review" data-item-review>
+									{%- render 'review', product: product, type: 'badge' -%}
+								</p>
+							{%- endif -%}
+						</div>
+					</div>
+				</div>
+				<div class="dialog-col dialog-col-right">
+					<div class="dialog-row">
+
+						<p class="cart-text">{{ cartNumber_text | replace: '|', cartNumber_html }}</p>
+						<p class="cart-total">{{- 'cart.general.total' | t -}}: <span data-cart-total>{%- render 'money-format', price: cart.total_price -%}</span></p>
+
+					</div>
+					<div class="dialog-row">
+						<div class="dialog-button"><a href="javascript:void(0);" class="btn btn-default btn-close" data-dialog-close>{{- 'cart.general.continue_shopping' | t -}}</a></div>
+						<div class="dialog-button"><a href="{{routes.cart_url}}" class="btn btn-default btn-go-cart" data-target="#cartShopping">{{- 'cart.general.view_cart' | t -}}</a></div>
+						<div class="dialog-button"><a href="{{routes.cart_url | replace: 'cart', 'checkout' }}" class="btn btn-1 btn-go-checkout" aria-label="Checkout">{{- 'cart.general.proceed_to_checkout' | t -}}</a></div>
+					</div>
+				</div>
+			</div>
+
+			{%- if listProducts.size > 0 -%}
+
+				{%- if metafield.cart_replace != blank -%}
+					{%- assign is_replace = true -%}
+				{%- endif -%}
+				{%- comment -%}
+					**
+					* PRODUCT METAFIELD
+					*
+				{%- endcomment-%}
+
+				{%- capture productUpsell -%}
+					{%- for p in listProducts -%}
+						{%- assign prod = all_products[p] -%}
+						{%- assign upsellCount = upsellCount | plus: 1 -%}
+						{%- render 'product-cart-item' product: prod, is_replace: is_replace -%}
+					{%- endfor -%}
+				{%- endcapture -%}
+
+				{%- unless metafield.cart_replace == blank -%}
+					{%- comment -%}
+					**
+					* REPLACEMENT
+					*
+					{%- endcomment-%}
+					<div class="dialog-body dialog-replace-item">
+						<div class="dialog-content--header">
+							<p class="dialog-content--title">{{- 'cart.dialog.replace_title' | t: money: 999 | replace: '999', '<span data-replace-money>?</span>' -}}</p>
+							<p class="dialog-content--subtitle">{{- 'cart.dialog.replace_subtitle' | t -}}</p>
+						</div>
+						<div class="dialog-content--body">
+
+							<div class="product-upsell d-grid grid-1-item" data-item-key="{{line_item.key}}" data-cart-replace>{{productUpsell}}</div>
+						</div>
+					</div>
+
+
+				{%- elsif metafield.cart_suggest != blank -%}
+					{%- comment -%}
+					**
+					* SUGGESTION
+					*
+					{%- endcomment-%}
+
+					<div class="dialog-body dialog-suggest-items">
+						<div class="dialog-content--header">
+							<p class="dialog-content--title">{{- 'cart.dialog.suggest_title' | t -}}</p>
+							<p class="dialog-content--subtitle">{{- 'cart.dialog.suggest_subtitle' | t -}}</p>
+						</div>
+						<div class="dialog-content--body">
+
+							<div class="product-upsell d-grid{% if upsellCount == 1 %} grid-1-item{% else %} grid-3-item slide_ui-element{% endif %}" data-cart-suggest>{{productUpsell}}</div>
+
+
+							{%- if _enable_slider != true -%}
+							{%- render 'set-item-per-row' ,type: 'slider'
+															,value: '4, 2.1, 1.1'
+															,itemClass: 'featured_product__item'
+															,nav: false
+															,gutter: 0 -%}
+							{%- endif -%}
+
+						</div>
+					</div>
+				{%- endunless -%}
+
+			{%- endif -%}
+
+			<div class="dialog-row">
+				<div class="dialog-button"><a href="javascript:void(0);" class="btn btn-default btn-close" data-dialog-close>{{- 'cart.dialog.cancel' | t -}}</a></div>
+				<div class="dialog-button"><a href="{{routes.cart_url}}" class="btn btn-go-cart btn-1">{{- 'cart.dialog.continue_to_cart' | t -}}</a></div>
+			</div>
+
+		</div>
+	</div>
+</dialog>
+
+{%- endif -%}

@@ -1,0 +1,6 @@
+{%- assign font = block.settings.title | replace: 'Google_', '' | replace: '+', ' ' | split: ':' | first -%}
+.ff-{{index}}{font-family: {{ font }}, 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;}
+
+{%- if block.settings.use_as != 'none' -%}
+	:root{--ff-{{block.settings.use_as}}: {{ font }}, 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;}
+{%- endif -%}

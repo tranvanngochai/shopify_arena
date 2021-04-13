@@ -1,0 +1,236 @@
+{%- capture content -%}
+{%- case type -%}
+
+	{%- when 'sectionHeading' -%}
+
+		{%- liquid
+		 	assign sectionHeading_align = section.settings.sectionHeading_align | default: 'auto'
+		-%}
+
+		{%- capture sectionHeadingContent -%}
+			{%- for i in (1..2) -%}
+				{%- liquid
+				 	assign sectionHeading_text 				= 'sectionHeading_text_' | append: i
+				 	assign sectionHeading_cl 				= 'sectionHeading_cl_' | append: i
+				 	assign sectionHeading_text 				= section.settings[sectionHeading_text]
+				 	assign sectionHeading_cl 				= section.settings[sectionHeading_cl] | default: 'rgba(0,0,0,0)'
+				-%}
+				{%- capture sectionHeadingID -%}{{- sectionID }} .section_title-text-{{i}}{%- endcapture -%}
+
+
+				{%- unless sectionHeading_text == blank -%}
+
+					{%- capture block_css -%}
+						{%- unless sectionHeading_cl == 'rgba(0,0,0,0)' -%}{{- sectionHeadingID }}{color: {{sectionHeading_cl}};}{%- endunless -%}
+					{%- endcapture -%}
+					{%- assign section_css = section_css | append: block_css -%}
+
+					{%- if i == 1 -%}
+						<h2 class="section_title-text-{{i}}">{{sectionHeading_text}}</h2>
+					{%- else -%}
+						<div class="section_title-text-{{i}}">{{- sectionHeading_text -}}</div>
+					{%- endif -%}
+
+				{%- endunless -%}
+			{%- endfor -%}
+		{%- endcapture -%}
+
+		{%- if sectionHeadingContent != blank -%}
+			<div class="section_title-wrapper{% unless sectionHeading_align == 'auto' %} text-{{sectionHeading_align}}{% endunless %}">
+				{%- unless sectionHeadingContent == blank -%}
+					<div class="section_title-inner">{{sectionHeadingContent}}</div>
+				{%- endunless -%}
+			</div>
+		{%- endif -%}
+
+	{%- when 'sectionCSS' -%}
+		{%- liquid
+			assign object 			= object | default: section
+			assign objectType 		= object | append: ''
+			assign defaultID  		= objectType | append: object.id
+			assign objectID 		= ID | default: defaultID
+			assign backgroundColor 	= objectType | append: '_bg_color'
+			assign backgroundColor 	= object.settings[backgroundColor] | remove: 'rgba(0,0,0,0)'
+			assign padding 			= objectType | append: '_padding'
+			assign padding 			= object.settings[padding]
+		-%}
+
+		{%- capture blockCSS -%}
+			{%- if backgroundColor != blank -%}background-color: {{backgroundColor}};{%- endif -%}
+		{%- endcapture -%}
+
+		{%- render 'css-resp', classID: objectID, css_values: blockCSS -%}
+		{%- render 'css-resp', classID: objectID, css_value: padding -%}
+
+	{%- when 'themeCSS' -%}
+		{%- comment -%}
+		-------------------------------
+		HEADING TAG
+		-------------------------------
+		{%- endcomment-%}
+
+		{%- for i in (1..6) -%}
+			{%- liquid
+				assign h = 'heading_size_' | append: i
+				assign classH = '.h' | append: i | append: ',h' | append: i
+				render 'css-resp', classID: classH, css_value: settings[h], css_property: 'font-size'
+			-%}
+
+			{%- assign hweight = 'heading_weight_' | append: i -%}
+			{%- capture hw -%}--heading-{{i}}-weight: {{ settings[hweight] }};{%- endcapture -%}
+			{%- assign rootHW = rootHW | append: hw -%}
+		{%- endfor -%}
+		:root{ {{rootHW}} }
+
+		{%- comment -%}
+		-------------------------------
+		THEME BUTTON
+		-------------------------------
+		{%- endcomment-%}
+		{%- for i in (1..2) -%}
+			{%- capture itemID -%}.btn-{{i}}{%- if i == 2 and request.page_type == 'product' -%}, .product-info-row .shopify-payment-button__button{%- endif -%}{%- endcapture -%}
+			{%- liquid
+				assign btnFS 		= 'btn' | append: i | append: '_fs'
+				assign btnRadius 	= 'btn' | append: i | append: '_radius'
+				assign btnPadding 	= 'btn' | append: i | append: '_padding'
+
+				assign btn_fw 					= 'btn' | append: i | append: '_fw'
+				assign btn_cl 					= 'btn' | append: i | append: '_cl'
+				assign btn_bg_cl 				= 'btn' | append: i | append: '_bg_cl'
+				assign btn_hover_cl 			= 'btn' | append: i | append: '_hover_cl'
+				assign btn_hover_bg_cl 			= 'btn' | append: i | append: '_hover_bg_cl'
+				assign btn_border_width 		= 'btn' | append: i | append: '_border_width'
+				assign btn_border_cl 			= 'btn' | append: i | append: '_border_cl'
+				assign btn_hover_border_cl 		= 'btn' | append: i | append: '_hover_border_cl'
+
+				assign f_btnFS		= settings[btnFS] 		| split: ',' | first | strip
+				assign f_btnRadius	= settings[btnRadius] 	| split: ',' | first | strip
+				assign f_btnPadding	= settings[btnPadding] 	| split: ',' | first | strip
+				assign btnFS		= settings[btnFS] 		| replace_first: f_btnFS, 'null'
+				assign btnRadius	= settings[btnRadius] 	| replace_first: f_btnRadius, 'null'
+				assign btnPadding	= settings[btnPadding] 	| replace_first: f_btnPadding, 'null'
+			-%}
+			{%- capture firstValue -%}
+				font-size: {{f_btnFS}};
+				border-radius: {{f_btnRadius}};
+				padding: {{f_btnPadding}};
+			{%- endcapture -%}
+
+			{%- render 'css-resp', classID: itemID, css_values: firstValue -%}
+			{%- render 'css-resp', classID: itemID, css_value: btnPadding -%}
+			{%- render 'css-resp', classID: itemID, css_value: btnFS, css_property: 'font-size' -%}
+			{%- render 'css-resp', classID: itemID, css_value: btnRadius, css_property: 'border-radius' -%}
+
+
+			:root{
+				--btn{{i}}-fw: 					{{- settings[btn_fw] -}};
+				--btn{{i}}-cl: 					{{- settings[btn_cl] -}};
+				--btn{{i}}-bg-cl: 				{{- settings[btn_bg_cl] -}};
+				--btn{{i}}-hover-cl: 			{{- settings[btn_hover_cl] -}};
+				--btn{{i}}-hover-bg-cl: 		{{- settings[btn_hover_bg_cl] -}};
+				--btn{{i}}-border-width: 		{{- settings[btn_border_width] -}}px;
+				--btn{{i}}-border-cl: 			{{- settings[btn_border_cl] -}};
+				--btn{{i}}-hover-border-cl: 	{{- settings[btn_hover_border_cl] -}};
+			}
+		{%- endfor -%}
+
+		{%- comment -%}
+		-------------------------------
+		CUSTOM
+		-------------------------------
+		{%- endcomment-%}
+		{%- assign defaultLoading = 'loading.gif' | asset_url -%}
+		<style>
+			select {background-image: url({{ 'bg-select.svg' | asset_url }});}
+			.bg__lazy:not(.lazyloaded){
+				{%- if settings.card_image_preload == blank -%}
+					background-image: url('{{ 'default-image.jpg' | asset_url }}');
+				{%- else -%}
+					background-image: url('{{ settings.card_image_preload | img_url: '280x' }}');
+				{%- endif -%}
+			}
+			img.lazyload:not(.lazyloaded){visibility: hidden;opacity: 0;}
+			{%- if settings.wishlist_app == 'default' -%}
+			.add-to-wishlist.arn_added .wlcp-target-label,
+			.add-to-compare.arn_added .wlcp-target-label{
+				text-indent: -99999px;
+				line-height: 0;
+				display: inherit;
+				overflow: hidden;
+			}
+
+			.add-to-wishlist.arn_added .wlcp-target-label:after{
+				content: "{{ 'products.product.added_to_wishlist' | t }}";
+				display: inherit;
+				text-indent: 0;
+				line-height: initial;
+			}
+			.add-to-compare.arn_added .wlcp-target-label:after{
+				content: "{{ 'products.product.added_to_compare' | t }}";
+				display: inherit;
+				text-indent: 0;
+				line-height: initial;
+			}
+			{%- endif -%}
+		</style>
+
+	{%- when 'script' -%}
+	    <script id="themeJSON">
+	        var theme = {
+	            currency : {
+	            	type: {{ settings.currency_type | json }}
+	            	,shopCurrency: {{ shop.currency | json }}
+	            	,moneyFormatWithCurrency: {{ shop.money_with_currency_format | json }}
+	            	,moneyFormat_strip: {{ shop.money_format | strip_html | json }}
+	            	,moneyFormatWithCurrency_strip: {{ shop.money_with_currency_format | strip_html | json }}
+	            	,moneyFormat: {{ shop[settings.currency_format] | json }}
+	            	,currency_format: {{ settings.currency_format | json }}
+	            }
+	            ,cart: {
+	            	item : {{  'cart.general.item' | t | json }}
+	            	,items : {{  'cart.general.items' | t | json }}
+	            	,empty : {{  'cart.general.empty' | t | json }}
+	            	,available : {{  'products.product.add_to_cart' | t | json }}
+	            	,soldout : {{  'products.product.sold_out' | t | json }}
+	            	,unavailable : {{  'products.product.unavailable' | t | json }}
+	            	,replace : {{  'products.product.replace_item_in_cart' | t | json }}
+	            	,error_add_cart : {{  'products.product.error_add_cart' | t | json }}
+	            	,success_add_cart : {{  'cart.general.popup_noti_success' | t | json }}
+	            	,condition: {{- 'cart.general.condition' | t | json -}}
+	            }
+	            ,product: {
+	            	addToCart: {{ 'products.product.add_to_cart' | t | json }}
+	            	,sold_out: {{ 'products.product.sold_out' | t | json }}
+	            	,unavailable: {{ 'products.product.unavailable' | t | json }}
+	            	,in_stock: {{ 'products.product.in_stock' | t | json }}
+	            	,out_stock: {{ 'products.product.out_stock' | t | json }}
+	            	,require_select: {{ 'products.product.require_select' | t | json }}
+	            	,disabled_first: {{settings.disable_auto_product_selected | default: false }}
+	            	,only_available: {{settings.show_only_available_variants}}
+	            }
+	            ,routes : {
+	            	root_url : {{routes.root_url | json }}
+	            	,collections_url : {{routes.collections_url | json }}
+	            	,all_products_collection_url : {{routes.all_products_collection_url | json }}
+	            	,search_url : {{routes.search_url | json }}
+	            	,cart_url : {{routes.cart_url | json }}
+	            	,cart_add_url : {{routes.cart_add_url | json }}
+	            	,cart_change_url : {{routes.cart_change_url | json }}
+	            	,cart_clear_url : {{routes.cart_clear_url | json }}
+	            	,product_recommendations_url : {{routes.product_recommendations_url | json }}
+	            }
+	            ,resource : {
+	            	default_image: `{{ 'default-image.jpg' | asset_url }}`
+	            	,popup: {
+	            		css: `{{ 'popup-style.min.css'   | asset_url }}`
+	            	}
+	            	,quickview: {
+	            		js: `{{ 'quickview.js' | asset_url }}`
+	            	}
+	            }
+	        };
+	    </script>
+
+{%- endcase -%}
+{%- endcapture -%}
+{%- render 'compress', content: content -%}

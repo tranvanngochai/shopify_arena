@@ -1,0 +1,39 @@
+{%- case type -%}
+  	{%- when 'default' -%}
+  		{%- assign border_color = block.settings.border_color | remove: 'rgba(0,0,0,0)' -%}
+		:root{
+			--body-bg-color: {{ block.settings.body_bg_color }};
+			--body-color: {{ block.settings.body_text_color }};
+			--body-link: {{ block.settings.body_link_color }};
+			--body-link-hover: {{ block.settings.body_link_color_hover }};
+			{% if border_color != blank %}--body-border-color: {{border_color}};{% endif %}
+
+			--price-color:  {{ block.settings.price_color }};
+			--price-sale-color:  {{ block.settings.price_sale_color }};
+			--price-compare-color:  {{ block.settings.price_compare_color }};
+			--rating-star-color:  {{ block.settings.rating_star_color }};
+			--rating-star-empty-color:  {{ block.settings.rating_star_empty_color }};
+		}
+  	{%- when 'schema' -%}
+	  	:root{
+	  		--main-color: {{ settings.main_color }};
+
+			--body-font-size: {{ 	settings.body_font_size }};
+			--body-font-weight: {{  settings.body_font_weight }};
+			--menu-bg-color: {{ 	settings.menu_bg_color }};
+			--menu-br-color: {{ 	settings.menu_br_color }};			
+			--menu-link: {{ 		settings.menu_link }};
+			--menu-link-hover: {{   settings.menu_link_hover }};
+
+			--card-title: {{ settings.product_card_title_fs }};
+			--card-price: {{ settings.product_card_price_sale_fs }};
+			--card-price-compare: {{ settings.product_card_price_fs }};
+
+			--popup-bg-color: {{ settings.popup_bg_color }};
+			--popup-text-color: {{ settings.popup_text_color }};
+
+			--text-color: #103178;
+            --icon-color: #FF9923;
+			--white-color: #fff;
+	  	}
+{%- endcase -%}

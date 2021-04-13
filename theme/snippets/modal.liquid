@@ -1,0 +1,42 @@
+{%- capture content -%}
+{%- comment -%}
+  - - - - - - -
+  -
+  - CURRENCY MODAL
+  -
+  - - - - - - -
+{%- endcomment-%}
+{%- if settings.currency_type != '3' -%}
+  <dialog id="currencyModal" class="modal-ui" aria-hidden="true">
+    <div tabindex="-1" data-dialog-close></div>
+    <div role="dialog" aria-modal="true" class="lazyload" data-include="{{ routes.search_url }}?view=dialog.currency"></div>
+  </dialog>
+{%- endif -%}
+
+{%- form 'currency' ,class: 'shopify-currency-form d-none hide' -%}
+  <input type="hidden" name="currentCurrency" value="{{ cart.currency.iso_code }}">
+  <input type="hidden" name="return_to" value="{{request.path}}">
+  <select name="currency">
+    {%- for currency in shop.enabled_currencies -%}
+      <option data-value="{{currency.iso_code}}" data-symbol="{{ currency.symbol }}"{% if currency == cart.currency %} selected="true"{% endif %}>{{currency.iso_code}}</option>
+    {%- endfor -%}
+  </select>
+{%- endform -%}
+
+{%- comment -%}
+  - - - - - - -
+  -
+  - LANGUAGE MODAL
+  -
+  - - - - - - -
+{%- endcomment-%}
+{%- if settings.enable_multi_languages and shop.published_locales.size > 1 -%}
+
+  {%- capture returnPath -%}{%- unless routes.root_url == '/' -%}{{ request.path | downcase | remove: routes.root_url }}{%- else -%}{{request.path}}{%- endunless -%}{%- endcapture -%}
+  <dialog id="languageModal" class="modal-ui" aria-hidden="true" data-return="{{returnPath}}">
+    <div tabindex="-1" data-dialog-close></div>
+    <div role="dialog" aria-modal="true" class="lazyload" data-include="{{ routes.search_url }}?view=dialog.language"></div>
+  </dialog>
+{%- endif -%}
+{%- endcapture -%}
+{%- render 'compress', content: content -%}

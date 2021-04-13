@@ -1,0 +1,17 @@
+{%- if settings.currency_type == '2' -%}{{- "/services/javascripts/currencies.js" | script_tag -}}<script>Loader.require('currencyJS', 'scripts');</script>{%- endif -%}
+<script>
+    Loader.require('tiny', 'scripts');
+    Loader.require('arn_theme', 'scripts');
+    Loader.require('cart', 'scripts');
+    {%- case request.page_type -%}
+        {%- when 'index'        -%}Loader.require('home', 'scripts');
+        {%- when 'collection'   -%}Loader.require('collection', 'scripts');
+        {%- when 'product'      -%}Loader.require('product', 'scripts');
+        {%- when 'blog'         -%}Loader.require('blog', 'scripts');
+        {%- when 'article'      -%}Loader.require('blog', 'scripts');
+        {%- when 'page'         -%}Loader.require('page', 'scripts');
+        {%- else                -%}
+    {%- endcase -%}
+    window.addEventListener('DOMContentLoaded', function(){Loader.load();})
+</script>
+{%- if settings.review_app == 'loox' -%}{{ shop.metafields.loox["global_html_body"] }}{%- endif -%}

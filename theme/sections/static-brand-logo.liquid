@@ -1,0 +1,121 @@
+{%- capture content -%}
+{%- if section.settings.boxed_layout -%}{%- assign _layout = 'boxed' -%}{%- else -%}{%- assign _layout = 'full' -%}{%- endif -%}
+
+{%- liquid
+  render 'section-snippet', type: 'section_id'
+  assign sectionType    = 'brand-logo'
+  assign sectionID      = '.section' | append: section.id
+  assign _items_resp    = section.settings.items_resp | default: '3,1'
+  assign blocks         = section.blocks
+-%}
+{%- capture section_class -%}
+  {{- -}}home-{{sectionType}}
+  {{- -}}|layout-{{- _layout -}}
+  |{{- sectionID | remove_first: '.' -}}
+{%- endcapture -%}{%- assign section_class = section_class | split: '|' | join: ' ' -%}
+
+{%- capture gridClass -%}{%- render 'set-item-per-row', value: _items_resp -%}{%- endcapture -%}
+<div class="{{section_class}}" data-section-type="{{sectionType}}" data-section-id="{{section.id}}">
+  {%- render 'section-snippet', type: 'style' -%}
+
+  {%- if _layout == 'boxed' -%}<div class="container">{%- endif -%}
+    <div class="section-inner">
+
+      <div class="gallery-container" data-slide-wrapper>
+        <div class="row slide_ui-element">
+
+          {%- for block in blocks -%}
+            {%- liquid
+              assign image        = block.settings.image
+              assign link         = block.settings.link | default: 'javascript:void(0);'
+              assign blockbgColor = block.settings.bg_color | remove: 'rgba(0,0,0,0)'
+            -%}
+            {%- capture blockID -%}.block{{block.id}}{%- endcapture -%}
+
+            {%- unless blockbgColor == blank -%}
+              {%- capture blockCSS -%}{{blockID}} .slide-item{ background-color: {{blockbgColor}};}{%- endcapture -%}
+              {%- assign sectionCSS = sectionCSS | append: blockCSS -%}
+            {%- endunless -%}
+
+            <div class="block-item {{gridClass}}"{{block.shopify_attributes}}>
+              <div class="block-item-inner block{{block.id}}">
+                {%- unless image == blank -%}
+                  <a href="{{link}}">{%- render 'image-style', image: image -%}</a>
+                {%- else -%}
+                  <a href="javascript:void(0);">{%- render 'svgset' -%}</a>
+                {%- endunless -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- render 'set-item-per-row' ,value: _items_resp
+                                      ,type: 'slider'
+                                      ,itemClass: 'block-item'
+                                      ,gutter: '16' -%}
+      </div>
+    </div>
+  {%- if _layout == 'boxed' -%}</div>{%- endif -%}
+</div>
+{%- comment -%}
+-------------------------------
+SECTION CSS
+-------------------------------
+{%- endcomment-%}
+{%- capture section_css -%}{{sectionCSS}}{%- endcapture -%}
+{%- unless section_css == blank -%}{% style %}{{section_css}}{% endstyle %}{%- endunless -%}
+{%- endcapture -%}
+
+{%- if blocks.size > 0 -%}
+  {%- render 'compress', content: content -%}
+{%- endif -%}
+
+{% schema %}
+{
+   "blocks": [
+      {
+         "type": "block",
+         "name": "Block item",
+         "settings": [
+            {
+               "type": "image_picker",
+               "id": "image",
+               "label": "Brand logo"
+            },
+            {
+              "type":"url",
+              "id":"link",
+              "label":"Link to brand"
+            },
+            {
+               "type": "header",
+               "content": "Block settings"
+            },
+            {
+               "type": "color",
+               "id": "bg_color",
+               "label": "Background color"
+            }
+         ]
+      }
+   ],
+   "name": "Brands logo",
+   "tag": "section",
+   "class": "static-logo",
+   "settings": [
+      {
+         "type": "checkbox",
+         "id": "boxed_layout",
+         "label": "Boxed layout",
+         "default": true
+      },
+      {
+         "type"  :"text",
+         "id"    :"items_resp",
+         "label":"Max number of content per row",
+         "default": "3,1",
+         "info": "Responsive. E.g: 3,1"
+      }
+   ]
+}
+{% endschema %}

@@ -1,0 +1,109 @@
+{%- case type -%}
+  	{%- when 'iconList' -%}
+
+  		{%- capture currenciesList -%}{%- render 'currencies-list' -%}{%- endcapture -%}
+  		{%- capture languagesList -%}{%- render 'languages-list' -%}{%- endcapture -%}
+
+	  	<div class="header-icons">
+	  		<ul class="list-inline">
+	  			<li>
+	  				<a href="{{routes.account_url}}" aria-label="{{ type | capitalize }}"{% if customer %} title="{{- 'customer.general.welcome' | t: name: customer.first_name -}}"{% endif %}>
+	  					{%- unless customer -%}
+	  					{{- 'general.header.login' | t -}}
+	  					{%- else -%}
+	  					{{- 'general.header.account' | t -}}
+	  					{%- endunless -%}
+	  				</a>
+	  				<a href="{{section.settings.link_sell | default: routes.all_products_collection_url }}">{{- 'general.header.sell' | t -}}</a>
+	  			</li>
+	  			<li class="list-group">
+	  				<div class="dropdown-container">
+	  					<button class="dropdown-click btn-languages">
+	  						{{request.locale.name}}
+		  					{%- unless languagesList == blank -%}
+	  							{%- render 'svg', type: 'icon_minus' -%}
+		  					{%- endunless -%}
+	  					</button>
+	  					{%- unless languagesList == blank -%}{{languagesList}}{%- endunless -%}
+	  				</div>
+
+	  				<div class="dropdown-container">
+		  				<button class="dropdown-click btn-currencies">
+		  					<span data-currency-code>{{cart.currency.iso_code}}</span>
+		  					{%- unless currenciesList == blank -%}
+		  						{%- render 'svg', type: 'icon_minus' -%}
+		  					{%- endunless -%}
+		  				</button>
+		  				{%- unless currenciesList == blank -%}{{currenciesList}}{%- endunless -%}
+	  				</div>
+	  			</li>
+	  			<li>
+	  				{%- render 'button', type: 'wishlist', navigationMobile: navigationMobile -%}
+	  				{%- render 'button', type: 'compare', navigationMobile: navigationMobile -%}
+	  				{%- render 'button', type: 'cart', navigationMobile: navigationMobile -%}
+	  			</li>
+	  		</ul>
+	  	</div>
+
+	{%- when 'mainMenu' -%}
+	 	{%- assign _nav_link = section.settings.nav_link -%}
+
+	 	{%- unless _nav_link == blank -%}
+	  		{%- render 'button', type: 'hamburger' -%}
+
+		 	<nav class="horizontal-menu main-menu-wrapper main-nav" aria-label="Main" role="navigation">
+		 		<ul class="main-menu main-nav__list">
+		 			{%- for l in linklists[_nav_link].links -%}
+		 				{%- render 'nav-link', l: l, class: 'nav-item' -%}
+		 			{%- endfor -%}
+		 		</ul>
+		 	</nav>
+	 	{%- endunless -%}
+
+	{%- when 'stylesheet' -%}
+
+	    {%- for block in section.blocks -%}
+	      	{%- case block.type -%}
+
+		        {%- when 'header_style' -%}
+			        {%- liquid
+			        	assign header_bg_color 			= block.settings.header_bg_color | remove: 'rgba(0,0,0,0)'
+			        	assign text_size 				= block.settings.text_size
+			        	assign text_color 				= block.settings.text_color | remove: 'rgba(0,0,0,0)'
+			        	assign text_hover_color 		= block.settings.text_hover_color | remove: 'rgba(0,0,0,0)'
+			        	assign mobile_text_size			= block.settings.mobile_text_size
+			        	assign nav_size 				= block.settings.nav_size
+			        	assign nav_weight 				= block.settings.nav_weight
+			        	assign mobile_nav_size			= block.settings.mobile_nav_size
+			        -%}
+
+			        {%- capture root -%}
+			        	{%- unless text_size  			== blank -%}--header-text-size: {{text_size}};{%- endunless -%}
+			        	{%- unless mobile_text_size  	== blank -%}--mobile-header-text-size: {{mobile_text_size}};{%- endunless -%}
+			        	{%- unless nav_size  			== blank -%}--header-nav-size: {{nav_size}};{%- endunless -%}
+			        	{%- unless mobile_nav_size  	== blank -%}--mobile-header-nav-size: {{mobile_nav_size}};{%- endunless -%}
+			        	{%- unless nav_weight  			== blank -%}--header-nav-weight: {{nav_weight}};{%- endunless -%}
+			        	{%- unless header_bg_color  	== blank -%}--header-bg-color: {{header_bg_color}};{%- endunless -%}
+			        	{%- unless text_color  			== blank -%}--header-nav-color: {{text_color}};{%- endunless -%}
+			        	{%- unless text_hover_color  	== blank -%}--header-nav-hover-color: {{text_hover_color}};{%- endunless -%}
+			        {%- endcapture -%}
+			        {%- unless root == blank -%}:root{ {{root}} }{%- endunless -%}
+
+	      {%- endcase -%}
+	    {%- endfor -%}
+
+	{%- when 'icon' -%}
+		{%- liquid
+			assign blocks = section.blocks | map: 'settings' | where: 'mega_title', l.title
+			assign block = blocks | first
+		-%}
+
+		{%- if blocks.size > 0 -%}
+			<span class="icon">
+				{%- case block.menu_icon_type -%}
+				{%- when 'image' -%}<img src="{{block.menu_icon_image | img_url: '50x' }}" alt="{{l.title | escape}}">
+				{%- when 'svg' -%}{{block.menu_icon_svg}}
+				{%- endcase -%}
+			</span>
+		{%- endif -%}
+{%- endcase -%}

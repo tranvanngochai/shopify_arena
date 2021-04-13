@@ -1,0 +1,106 @@
+<div class="wl-cart-drawer">
+  <div class="section_content-overlay" data-close-cart data-parent="#sidebarDrawer"></div>
+  <a href="" class="cartShopping-close" data-close-cart data-parent="#cartShopping"></a>
+  <form id="myForm" method="post" action="/cart/add" accept-charset="UTF-8" enctype="multipart/form-data" novalidate="novalidate">
+    <div class="wl-cart-head text-center">
+      <h3>
+        <a href="javascript:void(0);">
+          {{ 'wishlist' | t }}
+          <span class="number_wl" data-cart-count></span>
+        </a>
+      </h3>
+      <a href="javascript:void(0)" class="closebtn">
+        <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.3805 16.895L2.9182 2.43267C2.6584 2.17286 2.55963 1.92523 2.67128 1.81358L3.71333 0.77153C3.82498 0.659881 4.07262 0.758651 4.33242 1.01845L18.8813 15.5674C19.1411 15.8272 19.2399 16.0748 19.1283 16.1865L18.0862 17.2285C17.9252 17.2163 17.6403 17.1548 17.3805 16.895Z" fill="{{ stroke }}"/>
+          <path d="M4.41928 16.895L18.8816 2.43267C19.1414 2.17286 19.2402 1.92523 19.1285 1.81358L18.0865 0.77153C17.9748 0.659881 17.7272 0.758651 17.4674 1.01845L2.91847 15.5674C2.65866 15.8272 2.55989 16.0748 2.67154 16.1865L3.7136 17.2285C3.87463 17.2163 4.15948 17.1548 4.41928 16.895Z" fill="{{ stroke }}"/></svg>
+      </a>
+    </div>
+
+    <div class="wl-cart-body">
+      <div class="btn-clear-unavailable"><a href="javascript:void(0);" class="view-btn arn-clear-unavailable">Clear unavailable item</a></div>
+      <div class="wl-cart-body-inner animation-fade" data-cart-body>
+        {%- if productList.items.size == 0 -%}
+        <span class="text">{{wishlist_translate.t_empty }}</span>
+
+        {%- else -%}
+        {% for product in productList.items %}
+        <div class="cart-item-block animation-fade-index-{{productList.items.size}} wishlist-item"  data-line-item>
+          <div class="row no-gutters wishlist-content">
+				<div class="col-3 wishlist-image">
+					<div class="featured_product__item-image">
+                      	
+						<a href="{{product.uri | within: collection }}">
+								<span class="image__style" style="display: block;position: relative">
+									<img class="overlay-ui w-100 h-100" src="{{product.featured_image}}" alt="" data-item-image>
+								</span>
+						</a>
+                     
+					</div>
+				</div>
+            <div class="col-9 wishlist-info">
+					<div class="featured_product__item-info" style="margin-left: 1rem">
+						<h6>
+							<a href="{{product.uri | within: collection }}" data-item-url>
+								<span class="product-title" data-item-title>{{product.title}}</span>
+							</a>
+						</h6>
+                      
+                       <div class="product-qty product-cart">
+									<div class="qty-wrapper" data-quantity>
+										<div class="qty-select">
+											<a href="javascript:void(0);" class="qty-minus">-</a>
+											<input type="text" class="input_quantity" name="quantity" value="1" pattern="[0-9]+" min="1"/>
+											<a href="javascript:void(0);" class="qty-plus">+</a>
+										</div>
+									</div>
+							</div>
+                      {% if product.available %} 
+                        {% if product.variants.size == 1 %}
+                        {% for variant in product.variants %}
+                        <input class="input_id" name="id" value="{{ variant.id }}" type="hidden">
+                        {% endfor%}
+                        {% else %}
+                        <span>{{wishlist_translate.t_variant}}</span>
+                        <select class="input_id" name="id">
+                          {% for variant in product.variants %}
+                          {% if variant.available %}
+                          <option value="{{ variant.id }}">{{ variant.title }}</option>
+                          {% endif %}
+                          {% endfor%}
+                        </select>
+                        {% endif %}
+                       <p class="instock">{{ wishlist_translate.t_instock }}</p>
+                      {% else %}
+                      <p class="outstock">{{ wishlist_translate.t_outstock }}</p>
+                      {% endif %}
+                      <div class="price">{{ product.price }}</div>
+                        <div class="general-button">
+                        {% if product.available %} 
+                          <button data-handle="{{product.handle}}" type="submit"  name="add" class="btn {{addToCartClass}}">{{wishlist_translate.t_add}}</button>
+                        {% endif %}
+                        <a href="javascript:void(0);" class="wl-remove-item" data-handle="{{product.handle}}">{{wishlist_translate.t_remove}}</a>
+                      </div>
+                      
+              </div>
+          </div>
+        </div>
+           </div>
+        {%- endfor -%}
+        {%- endif -%}
+   
+    </div>
+    </div>
+  </form>
+  <div class="arn-load-more" style="
+    display: flex;
+    justify-content: center;
+    margin-top: 4px;
+"><div class="btn arn-btn-load-more" style="
+    background: #8c8b85;
+    color: var(--button-add-cl);
+    padding: 2px 28px;
+">LoadMore</div></div>
+</div>
+<div class="bg">
+<div class="loader"></div>
+</div>
+

@@ -1,0 +1,106 @@
+{%- if section.settings.boxed_layout -%}{%- assign _layout = 'boxed' -%}{%- else -%}{%- assign _layout = 'full' -%}{%- endif -%}
+{%- assign sectionType = 'product' -%}
+
+{%- capture section_class -%}
+  {{- -}}section-{{- section.id -}}
+  {{- -}}|layout-{{- _layout -}}
+{%- endcapture -%}{%- assign section_class = section_class | strip | split: '|' | join: ' ' -%}
+{%- assign sectionID = '.section-' | append: section.id -%}
+
+{%- render 'breadcrumb', _layout: _layout -%}
+
+<div class="{{section_class}}" data-section-type="{{sectionType}}" data-section-id="{{section.id}}">
+    {%- if _layout == 'boxed' -%}<div class="container">{%- endif -%}
+        <div class="container-wrapper">
+
+            <div class="product-page-header">
+                <div class="row">
+                    <div class="product-gallery col-lg-6 col-12">
+                        {%- render 'product-detail-media', product: product -%}
+                    </div>
+
+                    <div class="product-info col-lg-6 col-12">
+                        {%- render 'product-detail-snippet', type: 'title' -%}
+                        {%- render 'product-detail-snippet', type: 'review' -%}
+                        {%- render 'product-detail-snippet', type: 'price' -%}
+                        {%- render 'product-detail-snippet', type: 'stock' -%}
+                        {%- render 'product-detail-snippet', type: 'short_description' -%}
+                        {%- render 'product-detail-snippet', type: 'form', section: section -%}
+                        {%- render 'product-detail-snippet', type: 'wlcp' -%}
+                        {%- render 'product-detail-snippet', type: 'information' -%}
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-page-body">
+                {%- render 'product-detail-description' %}
+            </div>
+
+        </div>
+    {%- if _layout == 'boxed' -%}</div>{%- endif -%}
+</div>
+
+{%- render 'product-detail-snippet', product: product, type: 'json' -%}
+
+{%- capture sectionCss -%}{{- section_css -}}{%- endcapture -%}
+{%- assign sectionCss = sectionCss | strip_newlines | strip -%}
+{%- unless sectionCss == blank -%}{% style %}{{sectionCss}}{% endstyle %}{%- endunless -%}
+
+{% schema %}
+{
+    "name": "Product page",
+    "tag": "section",
+    "settings": [
+        {
+            "type": "checkbox",
+            "id": "boxed_layout",
+            "label": "Boxed layout",
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "enable_dynamic_checkout",
+            "label": "Show dynamic checkout button",
+            "info": "Each customer will see their preferred payment method from those available on your store, such as PayPal or Apple Pay. [Learn more](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+        },
+        {
+            "type": "checkbox",
+            "id": "disable_auto_product_selected",
+            "label": "Disable selected options"
+        },
+        {
+            "type": "header",
+            "content": "Multi Tab settings"
+        },
+        {
+            "type": "checkbox",
+            "id": "enable_multi_tab",
+            "label": "Use Multi-tabs with heading 5 tag",
+            "default": true,
+            "info": "We use heading 5 in Product's description to seperate Multi-tabs, each <h5>Tabs Title</h5> will be considered as content seperator and tabs title"
+        }
+    ],
+    "blocks": [
+        {
+            "type": "page",
+            "name": "Static - Page",
+            "settings": [
+                {
+                    "type": "paragraph",
+                    "content": "Static tan is created based on Page content. It's ueseful to add the same content for all products such as Shipping term, Size guide, etc."
+                },
+                {
+                    "type": "text",
+                    "id": "page_title",
+                    "label": "Heading"
+                },
+                {
+                    "type": "page",
+                    "id": "page",
+                    "label": "Select a Page"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

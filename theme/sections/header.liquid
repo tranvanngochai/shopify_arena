@@ -1,0 +1,197 @@
+ <div class="header">
+      {%- for block in section.blocks -%}
+        
+      {%- case block.type -%}
+
+            <div class="container-fluid header__top">
+            {%- when 'top_text_page' -%}
+              <div class="header__top-text">
+                  <p>{{block.settings.text_page}}</p>
+              </div>
+            
+            
+            <div class="header__top-right">
+              {%- when 'top_link_page' -%}
+                  <div class="header__top-listmenu">
+                    <ul>
+                        {% for link in linklists[block.settings.menu_page].links %}
+                                <a href="{{ link.url }}"><li>{{ link.title }}</li></a>
+                        {% endfor %}
+                    </ul>
+                  </div>
+
+              {%- when 'top_icon_page' -%}
+                  {% render 'snippets-header-listicon' %}
+
+              {%- when 'top_select_page' -%}
+                <div class="header__nav">
+                      <div class="header__nav-item">
+                        <a href="">English</a>
+                        <a href=""><i class="fas fa-chevron-down"></i></a>
+                      </div>
+                      <div class="header__nav-item">
+                        <a href="">USD</a>
+                        <a href=""><i class="fas fa-chevron-down"></i></a>
+                      </div>
+                </div>
+            </div>
+              
+          </div>
+            
+
+              
+
+      {%- endcase -%}
+      
+      {%- endfor -%}
+      
+      
+      
+
+
+
+      <div class="container header__center">
+        <div class="header__logo">
+          <img src="{{ section.settings.logo | img_url : 'master' }}" alt="">
+        </div>
+
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'needhelp_header' -%}
+              <div class="header__bottom-text">
+                  <p>{{block.settings.need_help}}</p>
+              </div>
+          {%- endif -%}
+        {%- endfor -%}
+        {% render 'snippets-header-search' %}
+        
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'nav_header' -%}
+          <div class="header__nav">
+                <div class="header__nav-item">
+                  <a href="">English</a>
+                  <a href=""><i class="fas fa-chevron-down"></i></a>
+                </div>
+                <div class="header__nav-item">
+                  <a href="">USD</a>
+                  <a href=""><i class="fas fa-chevron-down"></i></a>
+                </div>
+          </div>
+          {%- endif -%}
+        {%- endfor -%}
+
+        {% render 'snippets-header-card' %}
+
+      </div>
+      <div class="container-fluid header__hr"></div>
+      <div class="container header__bottom">
+        <div class="header__bottom-icon">
+            <a href=""></a>
+              <i class="fas fa-bars"></i>
+            </a>
+        </div>
+        <div class="header__bottom-list">
+            <ul>
+                {% for link in linklists[section.settings.nav_link].links %}
+                        <a href="{{ link.url }}"><li>{{ link.title }}</li></a>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="header__bottom-text">
+            <p>{{block.settings.need_help}}</p>
+        </div>
+
+    </div>
+    
+    
+    </div>
+
+{% schema %}
+{
+    "name": "Header Section",
+    "tag": "section",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Logo"
+        },
+        {
+            "type": "image_picker",
+            "id": "logo",
+            "label": "Logo image"
+        },
+        {
+            "type": "header",
+            "content": "Menu settings"
+        },
+        {
+            "type": "link_list",
+            "id": "nav_link",
+            "label": "Main menu",
+            "default": "main-menu"
+        }
+        
+        
+    ],
+    "blocks": [
+        {
+            "type": "top_text_page",
+            "name": "Text Page",
+            "settings": [
+            {  
+                "type": "textarea",
+                "label": "Text Page",
+                "id": "text_page"
+            }                               
+          ]
+        },
+        
+        {
+            "type": "top_link_page",
+            "name": "Link Page",
+            "settings": [
+            {
+                "type": "link_list",
+                "id": "menu_page",
+                "label": "Menu Page"
+            }                               
+          ]
+        },
+        {
+            "type": "top_icon_page",
+            "name": "Icon Page",
+            "settings": [
+                                          
+          ]
+        },
+        
+        {
+            "type": "top_select_page",
+            "name": "Select Page",
+            "settings": [                              
+          ]
+        },
+
+        {
+            "type": "needhelp_header",
+            "name": "Need Help",
+            "settings": [
+              {  
+                "type": "textarea",
+                "label": "Need Help",
+                "id": "need_help",
+                "default" : "Need help?  0020 500 - MYMEDI - 000"
+              }                               
+          ]
+        },
+        {
+            "type": "nav_header",
+            "name": "Nav Header",
+            "settings": [
+                                             
+          ]
+        }
+
+    ]
+}
+{% endschema %}

@@ -1,0 +1,19 @@
+{%- liquid
+ 	assign navLink = section.settings.nav_link
+-%}
+
+<div class="navigation-mobile">
+	<div class="navigation-inner">
+		<div class="navigation-close">
+          {%- render 'button', type: 'hamburger' -%}
+		</div>
+		{%- if navLink != blank and linklists[navLink].links.size > 0 -%}
+			<ul class="menu-mobile" aria-label="Main" role="navigation">
+				{%- for l in linklists[navLink].links -%}
+					{%- render 'nav-link', l: l, class: 'nav-item', navigationMobile: true -%}
+				{%- endfor -%}
+			</ul>
+		{%- endif -%}
+		{%- render 'header-snippets', type: 'iconList', navigationMobile: true -%}
+	</div>
+</div>

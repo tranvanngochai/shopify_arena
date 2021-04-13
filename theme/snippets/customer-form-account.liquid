@@ -1,0 +1,137 @@
+{%- capture loginForm -%}
+  <div class="col-md-6 col-12">
+    <div class="customer-block" id="customerLogin">
+
+      <h3 class="title">{{- 'customer.login.title' | t -}}</h3>
+
+      {%- form 'customer_login', class: 'form-account' -%}
+        {{ form.errors | default_errors }}
+
+        <div class="form-control">
+          <input type="email" name="customer[email]" id="loginEmail" required placeholder="{{- 'customer.login.email' | t -}}"/>
+        </div>
+
+        {%- if form.password_needed -%}
+          <div class="form-control">
+            <input type="password" name="customer[password]" id="loginPassword" required placeholder="{{- 'customer.login.password' | t -}}"/>
+          </div>
+        {%- endif -%}
+
+        <div class="form-control-button">
+          <button class="btn btn-1" type="submit" value="{{ 'customer.login.submit' | t }}">{{ 'customer.login.submit' | t }}</button>
+          <p id="loginForgotPassword">
+            <a href="javascript:void(0);" onclick="showRecoverPasswordForm();return false;">{{- 'customer.login.forgot_password' | t -}}</a>
+          </p>
+        </div>
+      {%- endform -%}
+    </div>
+
+    <div class="customer-block" id="customerRecoverPassword" style="display: none;">
+      <h3 class="title">{{- 'customer.recover_password.title' | t -}}</h3>
+      <p class="note">{{- 'customer.recover_password.subtext' | t -}}</p>
+
+      {%- form 'recover_customer_password', class: 'form-account form-account-recover' -%}
+        {%- assign recover_successfully = form.posted_successfully? -%}
+        <!--===== {{recover_successfully}} ===== -->
+        <!--===== {{{{ form.errors | default_errors }}}} ===== -->
+        {%- capture recoverFormNoti -%}
+          {%- if recover_successfully -%}{{ "customer.recover_password.confirm_mail" | t }}`;</script>
+          {%- else -%}{{ form.errors | default_errors }}
+          {%- endif -%}
+        {%- endcapture -%}
+
+        {%- unless recoverFormNoti == blank -%}
+          <script>document.querySelector('#customerRecoverPassword .note').innerHTML = `{{recoverFormNoti}}`;</script>
+        {%- endunless -%}
+
+        <div class="form-control">
+          <input type="email" name="email" id="recoverEmail" placeholder="{{- 'customer.recover_password.email' | t -}}" required/>
+        </div>
+
+        <div class="form-control-button">
+          <button class="btn btn-1" type="submit">{{- 'customer.recover_password.submit' | t -}}</button>
+          {%- unless recover_successfully -%}
+            <button class="btn btn-1" type="button" onclick="hideRecoverPasswordForm();">{{- 'customer.recover_password.cancel' | t -}}</button>
+          {%- endunless -%}
+        </div>
+        {%- if recover_successfully -%}
+          <style>.form-recover{display: none!important;}</style>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+
+    {%- if shop.checkout.guest_login -%}
+      <div class="customer-block" id="customerGuestLogin">
+        <h3 class="title">{{- 'customer.login.guest_login' | t -}}</h3>
+        {%- form 'guest_login', class: 'form-account form-guest-login' -%}
+          <div class="form-control-button">
+            <button class="btn btn-1" type="submit">{{- 'customer.login.guest_continue' | t -}}</button>
+          </div>
+        {%- endform -%}
+      </div>
+    {%- endif -%}
+  </div>
+{%- endcapture -%}
+
+{%- capture registerForm -%}
+  <div class="col-md-6 col-12">
+    <div class="customer-block" id="customerRegister">
+      <h3 class="title">{{- 'customer.register.title' | t -}}</h3>
+
+      {%- form 'create_customer', class: 'form-account form-account-register' -%}
+        {{ form.errors | default_errors }}
+
+        <div class="form-control">
+          <input id="registerFirstName" type="text" name="customer[first_name]" placeholder="{{- 'customer.register.first_name' | t -}}"/>
+        </div>
+
+        <div class="form-control">
+          <input id="registerLastName" type="text" name="customer[last_name]" placeholder="{{- 'customer.register.last_name' | t -}}"/>
+        </div>
+
+        <div class="form-control">
+          <input id="registerEmail" type="email" name="customer[email]" placeholder="{{- 'customer.register.email' | t -}}"/>
+        </div>
+
+        <div class="form-control">
+          <input id="registerPassword" type="password" name="customer[password]" placeholder="{{- 'customer.register.password' | t -}}"/>
+        </div>
+
+        <div class="form-control-button">
+          <button class="btn btn-1" type="submit">{{ 'customer.register.submit' | t }}</button>
+        </div>
+      {%- endform -%}
+    </div>
+  </div>
+{%- endcapture -%}
+
+<div class="container">
+  <div class="row">
+    {%- if request.page_type == 'customers/login' -%}
+      {{loginForm}}
+      {{registerForm}}
+    {%- else -%}
+      {{registerForm}}
+      {{loginForm}}
+    {%- endif -%}
+  </div>
+</div>
+<script type="text/javascript">
+  {%- if recover_successfully -%}
+    showRecoverPasswordForm();
+  {%- endif -%}
+  if (window.location.hash == '#recover') { showRecoverPasswordForm(); }
+
+  function showRecoverPasswordForm() {
+    document.getElementById('customerLogin').style.display='none';
+    document.getElementById('customerRecoverPassword').style.display = 'block';
+    window.location.hash = '#recover';
+  }
+
+
+  function hideRecoverPasswordForm() {
+    document.getElementById('customerRecoverPassword').style.display = 'none';
+    document.getElementById('customerLogin').style.display = 'block';
+    window.location.hash = '';
+  }
+</script>

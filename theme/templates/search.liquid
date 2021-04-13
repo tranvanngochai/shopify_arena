@@ -1,0 +1,45 @@
+{%- capture keyWord -%}{{search.terms | escape}}{%- endcapture -%}
+
+<div class="container">
+  <div class="page-heading">
+    <h1>{{- 'search.general.result_title' | t: number: search.results_count, keyword: keyWord -}}</h1>
+    <div class="search-wrapper">
+      {%- render 'search' -%}
+    </div>
+  </div>
+
+  {% if search.performed %}
+    {% paginate search.results by 20 %}
+
+      {% if search.results == empty %}
+        <p>{{- 'search.general.empty' | t: keyword: keyWord -}}</p>
+      {% else %}
+
+        <div class="result-list">
+          {% for item in search.results %}
+            <div class="result-item item-type-{{ item.object_type }}">
+
+              <div class="result-image">
+                {%- assign image = item.image | default: item.featured_image -%}
+                {% if image != blank %}
+                  <a href="{{item.url}}" title="{{ item.title }}">
+                    <figure>
+                      {%- render 'image-style', image: image -%}
+                    </figure>
+                  </a>
+                {% endif %}
+              </div>
+
+              <div class="result-content">
+                <h4>{{ item.title | link_to: item.url }}</h4>
+                <span>{{ item.content | strip_html | truncatewords: 40 | highlight: search.terms }}</span>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      {%- include 'pagination' -%}
+
+    {% endpaginate %}
+  {% endif %}
+</div>

@@ -1,0 +1,50 @@
+/*remove_production*/ 
+{%- liquid
+  assign font_body_base_size = settings.body_font_size | times: 0.625
+-%}
+
+:root {    
+  // Homepage
+
+  --body-bg-color: {{ block.settings.body_bg_color }};
+  --body-color: {{ block.settings.body_text_color }};
+  --body-link: {{ block.settings.body_link_color }};
+  --body-link-hover: {{ block.settings.body_link_color_hover }};
+
+  --price-color:  {{ block.settings.price_color }};
+  --price-sale-color:  {{ block.settings.price_sale_color }};
+  --price-compare-color:  {{ block.settings.price_compare_color }};
+  --rating-star-color:  {{ block.settings.rating_star_color }};
+  --rating-star-empty-color:  {{ block.settings.rating_star_empty_color }};
+
+  --card-title: {{settings.product_card_title_fs}};
+  --card-price: {{settings.product_card_price_sale_fs}};    
+  --card-price-compare: {{settings.product_card_price_fs}};
+
+  --body-border-color: #ececec;
+
+  --footer-bg-color: #ffffff;
+  --footer-text-color: #ffffff;
+  --footer-link-hover-color: #ffffff;
+
+  --header-nav-color: #ffffff;
+  --header-nav-hover-color: #ff9439;
+  --header-nav-size: 12px;
+  --header-nav-weight: 400;
+  
+  --menu-bg-color: #ffffff;
+  --menu-br-color: #eeeeee;
+  --menu-link: #333333;
+  --menu-link-hover: #ff9439;
+
+  --popup-bg-color: #ffffff;
+  --popup-text-color: #333333;
+
+  --ff-heading: 'Poppins', sans-serif;
+  --ff-body: 'Nunito Sans', sans-serif;
+
+  
+
+}  
+
+/*end_remove_production*/ 

@@ -1,0 +1,28 @@
+{%- liquid
+ 	assign search_type = search_type | default: 'all' | replace: 'all', '*'
+ 	assign search_unavailable_result = search_unavailable_result | default: 'last'
+-%}
+
+{%- capture placeholder -%}
+{%- if search_type == 'article' -%}
+	{{ 'search.general.placeholder' | t }}
+{%- else -%}
+	{{ 'search.general.search_placeholder' | t }}
+{%- endif -%}
+{%- endcapture -%}
+
+<div class="form-search-container">
+	<form action="{{ routes.search_url }}" class="form-search form-search-inline">
+		<input type="hidden" name="type" value="{{search_type}}"/>
+		<input type="hidden" name="options[unavailable_products]" value="{{search_unavailable_result}}"/>
+		<input type="hidden" name="options[prefix]" value="last"/>
+		<input name="q" type="text" placeholder="{{placeholder}}" autocomplete="off"/>
+
+		<button type="submit" class="btn btn-search" title="{{- 'search.general.submit' | t -}}">
+			{%- render 'svg', type: 'search', fill: 'inherit' -%}
+		</button>
+	</form>
+	<div class="search-result-container">
+		<ul class="search-result-list"></ul>
+	</div>
+</div>

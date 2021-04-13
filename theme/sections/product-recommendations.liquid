@@ -1,0 +1,194 @@
+{%- capture content -%}
+
+{%- if section.settings.boxed_layout -%}{%- assign _layout = 'boxed' -%}{%- else -%}{%- assign _layout = 'full' -%}{%- endif -%}
+{%- liquid
+  assign sectionType    = 'recommend-products'
+  assign _enable_slider = true
+  assign sectionID      = '.section' | append: section.id
+  assign _base_on       = section.settings.recommend_base_on
+  assign _items_resp    = section.settings.items_resp | default: '5,2'
+-%}
+
+{%- capture gridClass -%}{%- render 'set-item-per-row', value: _items_resp -%}{%- endcapture -%}
+{%- capture section_class -%}
+  home-products-grid
+  |home-products-grid-slide
+  |layout-{{- _layout -}}
+  |{{- sectionID | remove_first: '.' -}}
+{%- endcapture -%}{%- assign section_class = section_class | strip | split: '|' | join: ' ' -%}
+
+
+{%- if recommendations.performed -%}
+  {%- if recommendations.products_count > 0 and _base_on != 'metafield' -%}
+    {%- for p in recommendations.products -%}
+      <section class="product-section {{gridClass}}">
+        {%- render 'product-item', product: p -%}
+      </section>
+    {%- endfor -%}
+  {%- endif -%}
+{%- else -%}
+
+<div class="{{section_class}}" data-section-type="{{sectionType}}" data-section-id="{{section.id}}" data-base-url="{{ routes.product_recommendations_url }}" data-product-id="{{ product.id }}" data-limit="{{section.settings.shopify_limit}}" data-type="{{_base_on}}" style="{% if _base_on != 'metafield' %}visibility: hidden;{% endif %}">
+
+  {%- render 'section-snippet', type: 'style', object: section -%}
+
+  {%- if _layout == 'boxed' -%}<div class="container">{%- endif -%}
+
+
+    <div class="section-inner section_content-wrapper">
+
+      {%- render 'section-snippet', type: 'heading', object: section -%}
+
+      {%- comment -%}
+      -------------------------------
+      BODY
+      -------------------------------
+      {%- endcomment-%}
+      <div class="section_content-body" data-slide-wrapper>
+        <div class="recommendations-content row{% if _enable_slider %} slide_ui-element{% endif %}">
+          {%- if _base_on != 'shopify_api'  -%}
+            {%- unless product.metafields.c_f.recommend == blank -%}
+              {%- assign listHandle = product.metafields.c_f.recommend | split: '|' -%}
+              {%- for p in listHandle -%}
+                {%- assign prod = all_products[p] -%}
+                {%- unless prod == blank -%}
+                  <section class="product-section {{gridClass}}">
+                    {%- render 'product-item', product: prod -%}
+                  </section>
+                {%- endunless -%}
+              {%- endfor -%}
+            {%- endunless -%}
+          {%- endif -%}
+        </div>
+
+        {%- render 'set-item-per-row', value: _items_resp
+                                       ,type: 'slider'
+                                       ,itemClass: 'product-section'
+                                       ,loop: section.settings.slide_loop
+                                       ,nav: section.settings.slide_nav
+                                       ,dot: section.settings.slide_dot
+                                       ,gutter: 0 -%}
+
+    </div>
+      </div>
+      {%- if _layout == 'boxed' -%}</div>{%- endif -%}
+</div>
+
+{%- endif -%}
+{%- endcapture -%}
+{%- render 'compress', content: content -%}
+
+
+{% schema %}
+{
+   "name": "Product Recommendations",
+   "tag": "section",
+   "settings": [
+      {
+         "type": "header",
+         "content": "LAYOUT"
+      },
+      {
+         "type": "checkbox",
+         "id": "boxed_layout",
+         "label": "Boxed layout",
+         "default": true
+      },
+      {
+         "type"  :"text",
+         "id"    :"section_padding",
+         "label" :"Section Padding",
+         "info": "Order: Top Right Bottom Left. E.g: 5px 20px 5px 20px"
+      },
+      {
+         "type":"header",
+         "content":"Layout content"
+      },
+      {
+         "type"  :"text",
+         "id"    :"items_resp",
+         "label":"Max number of content per row",
+         "default": "5,2",
+         "info": "Responsive. E.g: 5,2"
+      },
+      {
+        "type":"select",
+        "id":"recommend_base_on",
+        "label":"Recommend base on",
+        "options":[
+          {
+            "value":"metafield",
+            "label": "Metafield"
+          },
+          {
+            "value":"shopify_api",
+            "label": "Shopify API"
+          },
+          {
+            "value":"all",
+            "label": "Both of above"
+          }
+        ],
+        "default": "all"
+      },
+      {
+        "type":"range",
+        "id":"shopify_limit",
+        "label":"Limit items from Shopify API",
+        "min":1,
+        "max":10,
+        "default": 4
+      },
+      {
+         "type":"header",
+         "content":"Slider settings"
+      },
+      {
+         "type":"checkbox",
+         "id":"slide_loop",
+         "label":"Enable Loop"
+      },
+      {
+         "type":"checkbox",
+         "id":"slide_nav",
+         "label":"Show Arrows",
+         "default": true
+      },
+      {
+         "type":"checkbox",
+         "id":"slide_dot",
+         "label":"Show Dots"
+      },
+      {
+         "type":"header",
+         "content":"Section info"
+      },
+      {
+        "type":"text",
+        "id":"heading",
+        "label":"Heading"
+      },
+      {
+       "type":"color",
+       "id":"heading_color",
+       "label":"Heading color"
+     },
+      {
+        "type":"text",
+        "id":"subheading",
+        "label":"Subheading"
+      },
+      {
+       "type":"color",
+       "id":"subheading_color",
+       "label":"Subheading color"
+     },
+      {
+        "type":"text",
+        "id":"heading_align",
+        "label":"Text alignment",
+        "default": "left"
+      }
+   ]
+}
+{% endschema %}

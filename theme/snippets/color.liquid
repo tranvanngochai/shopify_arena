@@ -1,0 +1,28 @@
+{%- assign colorName = color | strip | downcase -%}
+{%- capture colorCode -%}
+	{%- case colorName -%}
+		{%- when 'aqua' 		-%}#00FFFF
+		{%- when 'black' 		-%}#000000
+		{%- when 'blue' 		-%}#0000FF
+		{%- when 'brown' 		-%}#654321
+		{%- when 'fuchsia' 		-%}#FF00FF
+		{%- when 'gold' 		-%}#FFD700
+		{%- when 'gray' 		-%}#808080
+		{%- when 'green' 		-%}#008000
+		{%- when 'grey' 		-%}#808080
+		{%- when 'lime' 		-%}#00FF00
+		{%- when 'maroon' 		-%}#800000
+		{%- when 'navy' 		-%}#000080
+		{%- when 'olive' 		-%}#808000
+		{%- when 'orange' 		-%}#FFA500
+		{%- when 'pink' 		-%}#FFC0CB
+		{%- when 'purple' 		-%}#800080
+		{%- when 'red' 			-%}#FF0000
+		{%- when 'red' 			-%}#FF0000
+		{%- when 'silver' 		-%}#C0C0C0
+		{%- when 'teal' 		-%}#008080
+		{%- when 'white' 		-%}#FFFFFF
+		{%- when 'yellow' 		-%}#FFFF00
+	{%- endcase -%}
+{%- endcapture -%}
+{%- unless colorCode == blank -%}{{colorCode}}{%- endunless -%}

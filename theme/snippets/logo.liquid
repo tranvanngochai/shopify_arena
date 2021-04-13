@@ -1,0 +1,48 @@
+{%- liquid
+	assign object 			= object | default: section
+ 	assign _logo_svg	 	= object.settings.logo_svg
+ 	assign _logo 		 	= object.settings.logo
+ 	assign _logo_max 		= object.settings.logo_max_width
+ 	assign _logoMaxWidth 	= _logo_max | strip | remove: 'px'
+ 	assign _logo_size 	 	= _logoMaxWidth | append: 'x'
+ 	assign _logo_size_2x  	= _logoMaxWidth | times: 2 | append: 'x'
+ 	assign _logo_size_max 	= _logoMaxWidth | append: 'px'
+-%}
+
+{%- capture logoSrc -%}{{ _logo | img_url: _logo_size }} 1x, {{ _logo | img_url: _logo_size_2x }} 2x{%- endcapture -%}
+
+<figure class="logo-wrapper">
+	<a href="{{routes.root_url}}" title="{{ shop.name | escape }}" class="logo-site">
+		{%- unless _logo_svg == blank -%}
+			{{ _logo_svg }}
+		{%- else -%}
+			{%- unless _logo == blank -%}
+				<img class="lazyload" data-srcset="{{ logoSrc | strip_newlines }}" alt="{{ shop.name | escape }}"/>
+				<noscript><img src="{{ _logo | img_url: _logo_size }}"/></noscript>
+			{%- else -%}
+				<h1 class="d-none d-md-block">{{shop.name | uppercase }}</h1>
+				<small class="d-md-none">{{shop.name | uppercase }}</small>
+			{%- endunless -%}
+		{%- endunless -%}
+
+		{%- if section.id == 'header' -%}
+
+			{%- case request.page_type -%}
+				{%- when 'index' -%}<h1 class="hide">{{ shop.name }}</h1>
+				{%- when 'blog' -%}
+				{%- when 'article' -%}
+				{%- else -%}<h1 class="hide">{{ page_title }}</h1>
+			{%- endcase -%}
+
+		{%- endif -%}
+	</a>
+</figure>
+
+{%- if _logo_svg == blank -%}
+	{%- capture block_css -%}
+		{%- unless _logo_max == blank -%}
+			.section-{{ object.id }} .logo-wrapper img{max-width: {{ _logo_size_max }};}
+		{%- endunless -%}
+	{%- endcapture -%}
+	{%- assign section_css = section_css | append: block_css -%}
+{%- endif -%}

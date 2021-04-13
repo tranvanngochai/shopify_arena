@@ -1,0 +1,17 @@
+{%- layout none -%}
+
+<button aria-label="Close modal" data-dialog-close>{%- render 'svg', type: 'close' -%}</button>
+
+<div class="modal-body">
+  <p class="modal-title h2 text-center">{{- 'general.text.select_language' | t -}}</p>
+
+  <ul class="language-list">
+    {%- for locale in shop.published_locales -%}
+      <li class="language-item">
+        <a href="javascript:void(0);" class="btn btn-language{% if locale.name == request.locale.name %} active disabled{% endif %}" data-lang="{% unless locale.primary %}/{{locale.iso_code}}{% endunless %}">
+          {{ locale.name }}{% if settings.multi_language_code %} ({{ locale.iso_code }}){% endif %}
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+</div>

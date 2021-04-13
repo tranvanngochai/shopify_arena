@@ -1,0 +1,90 @@
+{%- unless disableAbsolute -%}
+	{%- capture imageClass -%}overlay-ui w-100 h-100{%- endcapture -%}
+{%- else -%}
+	{%- assign disablePadding = true -%}
+{%- endunless -%}
+
+{%- if image != blank -%}
+	{%- if image_size == blank -%}
+		{%- assign width = width | default: '100,280,360,540,1080,1296' | split: ',' -%}
+		{%- capture image_width -%}
+			{%- for w in width -%}
+				{%- assign number = w | strip | times: 1 -%}
+		        {%- if number <= image.width -%}
+		            {%- unless forloop.first -%},{%- endunless -%}
+		            {{- number -}}
+		            {%- assign image_size = number | append: 'x' -%}
+		        {%- else -%}
+	            	{%- unless forloop.first -%},{%- endunless -%}
+	            	{{- image.width -}}
+		            {%- assign image_size = image.width | append: 'x' -%}
+		            {%- break -%}
+		        {%- endif -%}
+			{%- endfor -%}
+
+			{%- if image.width > number -%},{{- image.width -}}{%- endif -%}
+		{%- endcapture -%}
+	{%- endif -%}
+
+	{%- liquid
+		assign imageRatio 	= image.aspect_ratio | default: 1
+		assign imageHeight 	= 1 | divided_by: imageRatio | times: 100 | append: '%'
+		assign image_url    = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.'
+	-%}
+
+	{%- unless disablePadding -%}
+		{%- assign imagePadding = imagePadding | default: imageHeight -%}
+	{%- endunless -%}
+
+	{%- capture image_width -%}[{{ image_width | remove: 'x' }}]{%- endcapture -%}
+
+	{%- if set_width != blank -%}
+		{%- assign image_width = set_width -%}
+	{%- endif -%}
+
+	{%- capture imageRatio_height -%}" style="
+		{%- comment -%} Set Padding{%- endcomment -%}{%- unless imagePadding == blank -%}padding-top: {{- imagePadding -}};{%- endunless -%}
+		{%- comment -%} Set Width  {%- endcomment -%}{%- if setWidth -%}width: {% unless manualWidth == blank %} {{ manualWidth }} {% else %}{{image.width}}px{% endunless %};{%- endif -%}		
+	{%- endcapture -%}
+
+	{%- capture imageRatio_css -%}{% unless image_css == blank %}" style="{{ image_css }}{% endunless %}{%- endcapture -%}
+
+
+	<span class="image__style{{wrapperClass}}{{imageRatio_height | strip_newlines }}" data-origin-width="{{image.width}}">
+			<img class="{{imageClass}} lazyload {{ image_class }}{{imageRatio_css}}"
+				{% comment %}src="{{image | img_url }}"{% endcomment %}
+				data-srcset="{{ image_url }}"
+				data-widths="{{ image_width}}"
+				data-aspectratio="{{ imageRatio }}"
+				data-sizes="auto"
+				data-parent-fit="cover"
+				{% if lazyExpand %} data-expand="-20"{% endif %}
+				alt="{{ image.alt }}"
+				title="{{ product.title | default: collection.title | default: image.alt | default: shop.name }}"/>
+			<noscript><img class="{{imageClass}} {{ image_class }}{{imageRatio_css}}" src="{{ image | img_url: image_size }}"/></noscript>
+	</span>
+
+{%- else -%}
+	{%- liquid
+		assign defaultImage = 'default-image.jpg' | asset_img_url
+		assign image_url    = 'default-image.jpg' | asset_img_url: '1x1' | replace: '_1x1.', '_{width}x.'
+		assign imageRatio 	= 1
+	-%}
+
+	{%- capture imageRatio_height -%}" style="padding-top: 100%;"{%- endcapture -%}
+	
+	<span class="image__style{{wrapperClass}}{{imageRatio_height | strip_newlines }}" data-origin-width="1">
+			<img class="{{imageClass}} lazyload {{ image_class }}{{imageRatio_css}}"
+				{% comment %}src="{{defaultImage}}"{% endcomment %}
+				data-srcset="{{ image_url }}"
+				data-widths="[100,360,540,1080]"
+				data-aspectratio="{{ imageRatio }}"
+				data-sizes="auto"
+				data-parent-fit="cover"
+				data-expand="-20"
+				alt="{{shop.name}}"
+				title="{{ product.title | default: collection.title | default: image.alt | default: shop.name }}"/>
+			<noscript><img class="{{imageClass}} {{ image_class }}{{imageRatio_css}}" src="{{ defaultImage }}"/></noscript>
+	</span>
+
+{%- endif -%}

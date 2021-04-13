@@ -1,0 +1,238 @@
+{%- liquid
+	assign wishlistApp 		= settings.wishlist_app
+	assign enableWishlist 	= settings.enable_product_wishlist
+	assign enableCompare 	= settings.enable_product_compare
+
+	assign svgIcon = 'hicon_svg_' | append: type
+	assign imgIcon = 'hicon_img_' | append: type
+
+	assign svgIcon = settings[svgIcon]
+	assign imgIcon = settings[imgIcon]
+-%}
+
+{%- capture defaultClass -%}{% if section.id == 'header' %}header-btn{% else %}btn{% endif %}{%- endcapture -%}
+{%- assign button_class = button_class | default: defaultClass -%}
+
+{%- case type -%}
+	{%- when 'account' -%}
+		{%- capture growaveSettings -%}{{- settings.wishlist_app -}}{{- settings.review_app -}}{%- endcapture -%}
+		{% capture the_snippet_auth %}{%- if growaveSettings contains 'growave' -%}{% render 'socialshopwave-widget-auth' %}{%- else -%}Liquid error{%- endif -%}{% endcapture %}
+
+		{%- if the_snippet_auth contains 'Liquid error' -%}
+			<a href="{{routes.account_url}}" class="{{ button_class }}" aria-label="{{ type | capitalize }}"{% if customer %} title="{{- 'customer.general.welcome' | t: name: customer.first_name -}}"{% endif %}>
+				{%- unless customer -%}
+				{{- 'general.header.login' | t -}}
+				{%- else -%}
+				{{- 'general.header.account' | t -}}
+				{%- endunless -%}
+			</a>
+		{%- else -%}
+			{%- if shop.customer_accounts_enabled -%}
+				<div id="ssw-topauth" class="ssw-topauth">
+					{%- if customer -%}
+						<div class="ssw-tprofile ssw-dropdown">
+							<a class="ssw-dropdown-toggle {{ button_class }}" data-toggle="ssw-dropdown" href="javascript:void(0);">
+								<span class="svg__ui">{%- render 'svg', type: 'account', stroke: stroke, fill: fill -%}</span>
+							</a>
+							<ul class="ssw-dropdown-menu" role="menu" aria-labelledby="dLabel">
+								<li id="customer_myorders_li"><a tabindex="-1" href="/account">{{ 'socialshopwave.my_orders' | t }}</a></li>
+								{%- render 'ssw-widget-dropdown' -%}
+								<li class="ssw-divider"></li>
+								<li><a id="customer_logout_link" tabindex="-1" href="/account/logout">{{ 'socialshopwave.logout' | t }}</a></li>
+							</ul>
+						</div>
+					{%- else -%}
+
+						<a id="customer_login_link" href="#" class="{{ button_class }}" onclick="event.preventDefault()" data-toggle="ssw-modal" data-target="#login_modal" onclick="trackShopStats('login_popup_view', 'all')">
+							{%- if svgIcon != blank 	-%}{%- render 'svg', type: 'custom', name: svgIcon -%}
+							{%- elsif imgIcon != blank 	-%}<img src="{{ imgIcon | img_url: '30x' }}" alt="{{type | capitalize}}">
+							{%- else 					-%}<span class="svg__ui">{%- render 'svg', type: 'account', stroke: stroke, fill: fill -%}</span>
+							{%- endif -%}
+						</a>
+					{%- endif -%}
+				</div>
+			{%- endif -%}
+		{%- endif -%}
+
+	{%- when 'cart' -%}
+		<a href="{{routes.cart_url}}" class="{{ button_class }}" aria-label="{{ type | capitalize }}">
+			{%- render 'svg', type: 'cart' -%}
+			{%- if navigationMobile -%}
+				<span class="text">{{- 'general.header.my_cart' | t -}}</span>
+			{%- endif -%}
+			<span class="number" data-cart-count>{{cart.item_count}}</span>
+
+			{%- if section.id == 'header' or navigationMobile -%}
+				<span class="cart-total" data-cart-total>{%- render 'money-format', price: cart.total_price -%}</span>
+			{%- endif -%}
+		</a>
+
+	{%- when 'hamburger' -%}
+
+		<button type="button" class="{{ button_class }} hamburger-btn" aria-label="{{ type | capitalize }}{% if section.id == 'header-mobile' %}" data-dialog-trigger="#menuMobile{% endif %}">
+
+			{%- if svgIcon != blank 	-%}{%- render 'svg', type: 'custom', name: svgIcon, class: ' hamburger-show' -%}
+			{%- elsif imgIcon != blank 	-%}<img src="{{ imgIcon | img_url: '30x' }}" alt="{{type | capitalize}}">
+			{%- else 					-%}<span class="svg__ui hamburger-show">{%- render 'svg', type: 'hamburger', stroke: stroke, fill: fill -%}</span>
+			{%- endif -%}
+
+			<span class="svg__ui hamburger-close">{%- render 'svg', type: 'close', fill: fill -%}</span>
+			{%- unless btnContent == blank -%}{{- btnContent -}}{%- endunless -%}
+		</button>
+
+	{%- when 'custom' -%}
+		<a href="{{url | default: 'javascript:void(0);' }}" class="btn {{ class | handle }}">{{ label }}</a>
+
+	{%- when 'wishlist' -%}
+		{%- if enableWishlist -%}
+			{% capture the_snippet_fave_icon_menu %}{%- if settings.wishlist_app == 'growave' -%}{% render 'ssw-widget-faveicon-menu' with product.id %}{%- else -%}Liquid error{%- endif -%}{% endcapture %}
+
+			{% unless the_snippet_fave_icon_menu contains 'Liquid error' %}
+
+			{% else %}
+				{%- capture WLCPInclude -%}{%- if wishlistApp == 'default' -%}{% render 'arn_wl_cp_settings' %}{%- else -%}Liquid error{%- endif -%}{%- endcapture -%}
+
+				{%- assign wlSetting = shop.metafields.arena.wl_cp_settings.wishlist_settings -%}
+				{%- capture wlClass -%}
+					{%- unless WLCPInclude contains 'Liquid error' -%}
+						|{{ wlSetting.wishlist_show_class }}
+						|{{ wlSetting.add_class_icon.icon_id }}
+						{% unless wlSetting.wishlist_enable == true %}|disabled{% endunless %}
+						"data-arn-action="show
+					{%- endunless -%}
+				{%- endcapture -%}
+				{%- assign wlClass = wlClass | strip | strip_newlines | split: '|' | join: ' ' | uniq -%}
+
+				<a href="javascript:void(0);" class="{{ button_class }}{{wlClass}}" aria-label="{{ type | capitalize }}">
+
+					{%- if svgIcon != blank 	-%}{%- render 'svg', type: 'custom', name: svgIcon -%}
+					{%- elsif imgIcon != blank 	-%}<img src="{{ imgIcon | img_url: '30x' }}" alt="{{type | capitalize}}">
+					{%- else 					-%}<span class="svg__ui">{%- render 'svg', type: 'wishlist', stroke: stroke, fill: fill -%}</span>
+					{%- endif -%}
+
+					{%- unless btnContent == blank -%}{{- btnContent -}}{%- endunless -%}
+					{%- if navigationMobile -%}
+					<span>{{- 'general.header.my_wishlist' | t -}}</span>
+					{%- endif -%}
+
+					{% if shop.metafields.arena.wl_cp_settings.general_settings.show_number_status == true %}
+						<span class="number">
+							<span class="n-item">0</span>
+						</span>
+					{% endif %}
+				</a>
+			{% endunless %}
+		{%- endif -%}
+
+	{%- when 'wishlist_add' -%}
+		{%- if enableWishlist -%}
+
+			{% capture the_snippet_fave_icon %}{%- if settings.wishlist_app == 'growave' -%}{% render 'ssw-widget-faveicon' with product.id %}{%- else -%}Liquid error{%- endif -%}{% endcapture %}
+
+			{% unless the_snippet_fave_icon contains 'Liquid error' %}
+				{{ the_snippet_fave_icon }}
+			{% else %}
+
+				{%- capture WLCPInclude -%}{%- if wishlistApp == 'default' -%}{% render 'arn_wl_cp_settings' %}{%- else -%}Liquid error{%- endif -%}{%- endcapture -%}
+
+				{%- assign wlSetting = shop.metafields.arena.wl_cp_settings.wishlist_settings -%}
+				{%- capture wlClass -%}
+					{%- unless WLCPInclude contains 'Liquid error' -%}
+						|{{- wlSetting.wishlist_add_class -}}
+						|{{- wlSetting.add_class_icon.icon_id -}}
+						{% unless wlSetting.wishlist_enable == true %}|disabled{% endunless -%}
+						" data-arn-action="add" data-handle="{{ product.handle }}
+					{%- endunless -%}
+				{%- endcapture -%}
+				{%- assign wlClass = wlClass | strip | strip_newlines | split: '|' | join: ' ' | uniq -%}
+				{%- liquid
+					assign svgIcon = settings.hicon_svg_wishlist_add
+					assign imgIcon = settings.hicon_img_wishlist_add
+				-%}
+
+				<a href="javascript:void(0);" title="{{- 'products.product.add_to_wishlist' | t -}}" class="{{ wlClass }}">
+
+					{%- if svgIcon != blank 	-%}{%- render 'svg', type: 'custom', name: svgIcon, fill: fill-%}
+					{%- elsif imgIcon != blank 	-%}<img src="{{ imgIcon | img_url: '30x' }}" alt="{{type | capitalize}}">
+					{%- else 					-%}<span class="svg__ui">{%- render 'svg', type: 'productWishlist', fill: fill -%}</span>
+					{%- endif -%}
+
+					<span class="wlcp-target-label">
+						<span>{{- 'products.product.add_to_wishlist' | t -}}</span>
+					</span>
+				</a>
+			{% endunless %}
+		{%- endif -%}
+
+	{%- when 'compare' -%}
+		{%- if enableCompare -%}
+			{%- capture WLCPInclude -%}{%- if wishlistApp == 'default' -%}{% render 'arn_wl_cp_settings' %}{%- else -%}Liquid error{%- endif -%}{%- endcapture -%}
+			{%- assign cpSetting = shop.metafields.arena.wl_cp_settings.compare_settings -%}
+			{%- capture cpClass -%}
+				{%- unless WLCPInclude contains 'Liquid error' -%}
+					|{{ cpSetting.compare_show_class }}
+					|{{ cpSetting.show_class_icon.icon_id }}
+					{% unless cpSetting.compare_enable == true %}|disabled{% endunless %}
+					"data-arn-action="show
+				{%- endunless -%}
+			{%- endcapture -%}
+			{%- assign cpClass = cpClass | strip | strip_newlines | split: '|' | join: ' ' | uniq -%}
+
+			<a href="javascript:void(0);" class="{{ button_class }}{{cpClass}}" aria-label="{{ type | capitalize }}">
+
+
+				{%- if svgIcon != blank 	-%}{%- render 'svg', type: 'custom', name: svgIcon -%}
+				{%- elsif imgIcon != blank 	-%}<img src="{{ imgIcon | img_url: '30x' }}" alt="{{type | capitalize}}">
+				{%- else 					-%}<span class="svg__ui">{%- render 'svg', type: 'compare', stroke: stroke, fill: fill -%}</span>
+				{%- endif -%}
+
+				{%- unless btnContent == blank -%}{{- btnContent -}}{%- endunless -%}
+				{%- if navigationMobile -%}
+					<span>{{- 'general.header.compare' | t -}}</span>
+				{%- endif -%}
+
+				{% if shop.metafields.arena.wl_cp_settings.general_settings.show_number_status == true %}
+					<span class="number">
+						<span class="n-item" data-count>0</span>
+					</span>
+				{% endif %}
+			</a>
+		{%- endif -%}
+
+	{%- when 'compare_add' -%}
+		{%- if enableCompare -%}
+			{%- capture WLCPInclude -%}{%- if wishlistApp == 'default' -%}{% render 'arn_wl_cp_settings' %}{%- else -%}Liquid error{%- endif -%}{%- endcapture -%}
+
+			{%- assign cpSetting = shop.metafields.arena.wl_cp_settings.compare_settings -%}
+			{%- capture cpClass -%}
+				{%- unless WLCPInclude contains 'Liquid error' -%}
+					|{{- cpSetting.compare_add_class -}}
+					|{{- cpSetting.add_class_icon.icon_id -}}
+					{% unless cpSetting.compare_enable == true %}|disabled{% endunless -%}
+					" data-arn-action="add" data-handle="{{ product.handle }}
+				{%- endunless -%}
+			{%- endcapture -%}
+			{%- assign cpClass = cpClass | strip | strip_newlines | split: '|' | join: ' ' | uniq -%}
+
+			{%- liquid
+				assign svgIcon = settings.hicon_svg_compare_add
+				assign imgIcon = settings.hicon_img_compare_add
+			-%}
+			<a href="javascript:void(0);" title="{{- 'products.product.add_to_compare' | t -}}" class="{{ cpClass }}">
+				{%- if svgIcon != blank 	-%}{%- render 'svg', type: 'custom', name: svgIcon, fill: fill -%}
+				{%- elsif imgIcon != blank 	-%}<img src="{{ imgIcon | img_url: '30x' }}" alt="{{type | capitalize}}">
+				{%- else 					-%}<span class="svg__ui">{%- render 'svg', type: 'productCompare', fill: fill -%}</span>
+				{%- endif -%}
+
+				<span class="wlcp-target-label">
+					<span>{{- 'products.product.add_to_compare' | t -}}</span>
+				</span>
+			</a>
+		{%- endif -%}
+
+	{%- when 'language' -%}
+		<a href="javascript:void(0);" class="{{button_class}}{% if shop.published_locales.size > 1 %}" data-dialog-trigger="#languageModal{% endif %}">
+			<span data-lang-code style="text-transform: uppercase; color: {{fill}};">{{ request.locale.iso_code }}</span>
+		</a>
+
+{%- endcase -%}

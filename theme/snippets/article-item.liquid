@@ -1,0 +1,58 @@
+{%- case type -%}
+
+  	{%- when 'list' -%}
+		<div class="article-item">
+			<div class="article-header">
+				<a href="{{ article.url }}">
+					{%- render 'image-style', image: article.image -%}
+				</a>
+			</div>
+			<div class="article-body">
+				<h3 class="article-title"><a href="{{ article.url }}">{{article.title | default: 'Article title' }}</a></h3>
+				{%- capture publishDate -%}{{ article.published_at | date: '%B, %d' }}{%- endcapture -%}
+				<div class="release-info">{{- publishDate -}}</div>
+			</div>
+		</div>
+
+  	{%- when 'related' -%}
+  		<div class="article-item">
+			<div class="article-header">
+				<a href="{{ article.url }}">
+					{%- render 'image-style', image: article.image -%}
+				</a>
+			</div>
+			<div class="article-body">
+				<h3 class="article-title">
+					<a href="{{ article.url }}">{{article.title | default: 'Article title' }}</a>
+				</h3>
+				{%- unless article == blank -%}
+					{%- capture publishDate -%}{{ article.published_at | date: '%B, %d' }}{%- endcapture -%}
+					<div class="release-info">{{- 'blogs.article.posted_by' | t: author: article.author, date: publishDate -}}</div>
+				{%- endunless -%}
+			</div>
+		</div>
+
+  	{%- else -%}
+		<div class="article-item">
+			<div class="article-header">
+				<a href="{{ article.url }}">
+					{%- render 'image-style', image: article.image -%}
+				</a>
+			</div>
+			<div class="article-body">
+				{%- unless article == blank -%}
+					{%- capture publishDate -%}{{ article.published_at | date: '%B, %d' }}{%- endcapture -%}
+					<div class="release-info">{{- 'blogs.article.posted_by' | t: author: article.author, date: publishDate -}}</div>
+				{%- endunless -%}
+				<h3 class="article-title h4"><a href="{{article.url | default: 'javascript:void(0);'}}">{{article.title | default: 'Article title' }}</a></h3>
+
+				{%- if article.excerpt != blank and excerpt != false -%}
+					<div class="article-excerpt">{{article.excerpt}}</div>
+				{%- endif -%}
+
+				<div class="article-button">
+					<a href="{{article.url | default: 'javascript:void(0);' }}" class="btn btn-{{buttonStyle | default: 1 }}">{{- 'blogs.article.continue_reading' | t -}}</a>
+				</div>
+			</div>
+		</div>
+{%- endcase -%}

@@ -1,0 +1,117 @@
+{%- capture content -%}
+{%- if section.settings.boxed_layout -%}{%- assign _layout = 'boxed' -%}{%- else -%}{%- assign _layout = 'full' -%}{%- endif -%}
+
+{%- liquid
+  assign sectionType        = 'collection'
+  assign _items_resp        = section.settings.items_resp | default: '4,2'
+  assign _total             = section.settings.total | split: ',' | first | strip | default: '20' | times: 1
+  assign cartAttributes     = cart.attributes
+  assign collectionViewMode = cartAttributes.viewMode | default: 'list'
+-%}
+
+{%- capture cataClass -%}{%- render 'set-item-per-row', value: _items_resp -%}{%- endcapture -%}
+{%- if collectionViewMode == 'list' -%}{%- assign cataClass = 'col-12' -%}{%- endif -%}
+
+{%- capture section_class -%}
+  section-{{- section.id -}}
+  |layout-{{- _layout -}}
+{%- endcapture -%}{%- assign section_class = section_class | strip | split: '|' | join: ' ' -%}
+{%- assign sectionID = '.section-' | append: section.id -%}
+
+<div class="{{section_class}}" data-section-type="{{sectionType}}" data-section-id="{{section.id}}">
+  {%- if _layout == 'boxed' -%}<div class="container">{%- endif -%}
+    <div class="row">
+      <div class="col-md-3">
+        <div class="filter-mobile-toogle d-md-none">
+        </div>
+        {%- render 'collection-snippet', type: 'filter' -%}
+      </div>
+
+      <div class="col-md-9 col-12">
+        <div class="section_content-wrapper">
+          <h2 class="{% if collection.description == blank %}hide{% endif %}">{{collection.description}}</h2>
+          {%- paginate collection.products by _total -%}
+            {%- render 'collection-snippet', type: 'toolbar', viewMode: collectionViewMode, paginate: paginate -%}
+          {%- endpaginate -%}
+
+          <div class="section_content-body">
+            {%- paginate collection.products by _total -%}
+              <div id="col-main">
+                <div class="row" data-product-grid>
+                  {%- if collection.products.size > 0 -%}
+                     {%- for product in collection.products -%}
+                        {%- assign productClass = 'product-section' -%}
+
+                        <section class="{{ productClass }} {{cataClass}}" data-product-class="{{productClass}}">
+                           {%- render 'product-item', product: product, viewMode: collectionViewMode -%}
+                        </section>
+                     {%- endfor -%}
+
+                  {%- else -%}
+                    <p class="no-products">{{- 'collections.general.no_product' | t -}}</p>
+                  {%- endif -%}
+                </div>
+
+                <div data-dynamic-content="pagination">
+                  {%- include 'pagination' -%}
+                </div>
+              </div>
+            {%- endpaginate -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- if _layout == 'boxed' -%}</div>{%- endif -%}
+</div>
+{%- endcapture -%}
+{%- render 'compress', content: content -%}
+
+{% schema %}
+{
+
+   "blocks": [
+      {
+         "type": "filter_group",
+         "name": "Filter group",
+         "settings": [
+            {
+               "type": "text",
+               "id": "title",
+               "label": "Heading",
+               "default": "Brands"
+            },
+            {
+               "type": "textarea",
+               "id": "filter_tags",
+               "label": "Tags",
+               "default": "All, Accessories, Adapters, Bundles, Cables, Chargers",
+               "info": "Separated by commas. Eg: Blue, Red, Yellow, ..."
+            }
+         ]
+      }
+   ],
+   "name": "Collection page",
+   "tag": "section",
+   "settings": [
+      {
+         "type": "checkbox",
+         "id": "boxed_layout",
+         "label": "Boxed layout",
+         "default": true
+      },
+      {
+         "type"  :"text",
+         "id"    :"items_resp",
+         "label":"Max number of content per row",
+         "default": "4,2",
+         "info": "E.g: 4,2"
+      },
+      {
+         "type":"text",
+         "id":"total",
+         "label":"Total items",
+         "default": "9"
+      }
+   ]
+}
+{% endschema %}
