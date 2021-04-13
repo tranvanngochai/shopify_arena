@@ -1,16 +1,33 @@
  <div class="header">
-      {%- for block in section.blocks -%}
-        
-      {%- case block.type -%}
+      
+          <div class="container-fluid header__top-app">
 
-            <div class="container-fluid header__top">
-            {%- when 'top_text_page' -%}
+            {% style %}
+              .header__top-app{
+                background-color: {{section.settings.background_color_top}}
+              }
+            {% endstyle %}
+          
+
+            <div class="container header__top">
+            {% style %}
+              .header__top{
+                background-color: {{section.settings.background_color_top}}
+              }
+            {% endstyle %}
+
+            {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'top_text_page' -%}
               <div class="header__top-text">
                   <p>{{block.settings.text_page}}</p>
+                  {% style %}
+                    .header__top-text p{
+                      color: {{block.settings.text_color_top}}
+                    }
+                  {% endstyle %}
               </div>
             
-            
-            <div class="header__top-right">
               {%- when 'top_link_page' -%}
                   <div class="header__top-listmenu">
                     <ul>
@@ -19,7 +36,7 @@
                         {% endfor %}
                     </ul>
                   </div>
-
+              
               {%- when 'top_icon_page' -%}
                   {% render 'snippets-header-listicon' %}
 
@@ -34,20 +51,17 @@
                         <a href=""><i class="fas fa-chevron-down"></i></a>
                       </div>
                 </div>
-            </div>
+            
+
+            {%- endcase -%}
+      
+            {%- endfor -%}  
+            </div>  
               
           </div>
             
 
               
-
-      {%- endcase -%}
-      
-      {%- endfor -%}
-      
-      
-      
-
 
 
       <div class="container header__center">
@@ -57,13 +71,18 @@
 
         {%- for block in section.blocks -%}
           {%- if block.type == 'needhelp_header' -%}
+            {%- if section.settings.needhelp_alignment == 'top' -%}
               <div class="header__bottom-text">
                   <p>{{block.settings.need_help}}</p>
               </div>
+            {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
+
+
         {% render 'snippets-header-search' %}
         
+
         {%- for block in section.blocks -%}
           {%- if block.type == 'nav_header' -%}
           <div class="header__nav">
@@ -97,9 +116,15 @@
             </ul>
         </div>
         
-        <div class="header__bottom-text">
-            <p>{{block.settings.need_help}}</p>
-        </div>
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'needhelp_header' -%}
+            {%- if section.settings.needhelp_alignment == 'bottom' -%}
+              <div class="header__bottom-text">
+                  <p>{{block.settings.need_help}}</p>
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
 
     </div>
     
@@ -129,7 +154,27 @@
             "id": "nav_link",
             "label": "Main menu",
             "default": "main-menu"
-        }
+        },
+        {
+            "type": "header",
+            "content": "Background color Header Top"
+        },
+        {
+            "type": "color",
+            "id": "background_color_top",
+            "label": "Background color",
+            "default": "#F0F2F5"
+        },
+        {
+            "type": "radio",
+            "id": "needhelp_alignment",
+            "options": [
+                { "value": "top", "label": "Top"},
+                { "value": "bottom", "label": "Bottom"}
+            ],
+            "label": "Need Help Alignment",
+            "default" : "bottom"
+}
         
         
     ],
@@ -139,10 +184,16 @@
             "name": "Text Page",
             "settings": [
             {  
-                "type": "textarea",
+                "type": "richtext",
                 "label": "Text Page",
                 "id": "text_page"
-            }                               
+            },
+            {
+                "type": "color",
+                "id": "text_color_top",
+                "label": "Text color Top",
+                "default": "#FFC800"
+            }                              
           ]
         },
         
@@ -177,10 +228,9 @@
             "name": "Need Help",
             "settings": [
               {  
-                "type": "textarea",
+                "type": "richtext",
                 "label": "Need Help",
-                "id": "need_help",
-                "default" : "Need help?  0020 500 - MYMEDI - 000"
+                "id": "need_help"
               }                               
           ]
         },

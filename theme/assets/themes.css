@@ -86,52 +86,57 @@
   to {
     transform: scale(0); } }
 
+.header__top, .header__top-app {
+  background-color: #f0f2f5; }
+
 .header__top {
   display: flex;
   align-items: center;
   height: 30px;
-  background-color: var(--text-color); }
+  justify-content: center; }
 
 .header__top .header__top-text p {
   font-size: 15px;
-  color: #ffc800;
-  flex: 1; }
+  color: #ffc800; }
 
-.header__top .header__top-right {
-  flex: 1; }
-
-.header__top .header__top-right .header__top-listmenu {
+.header__top .header__top-listmenu {
   display: inline-flex;
-  transform: translateX(60px); }
+  flex: 1;
+  transform: translateX(90px); }
 
-.header__top .header__top-right .header__top-listmenu ul {
+.header__top .header__top-listmenu ul {
   display: flex;
   list-style: none; }
 
-.header__top .header__top-right .header__top-listmenu ul a {
+.header__top .header__top-listmenu ul a {
   text-decoration: none;
   padding-right: 30px;
   border-right: 1px solid #000;
   margin-right: 30px; }
 
-.header__top .header__top-right .header__top-listicon {
+.header__top .header__top-listicon {
   border-right: 1px solid #000;
-  margin-right: -30px;
+  margin-right: 35px;
   display: inline-flex;
   padding-right: 15px; }
 
-.header__top .header__top-right .header__top-listicon a {
+.header__top .header__top-listicon a {
   margin-right: 20px; }
 
-.header__top .header__top-right .header__nav {
+.header__top .header__nav {
   display: flex; }
 
-.header__top .header__top-right .header__nav .header__nav-item:first-child {
+.header__top .header__nav .header__nav-item a:first-child {
+  margin-right: 10px; }
+
+.header__top .header__nav .header__nav-item:first-child {
+  display: inline-flex;
   margin-right: 15px;
   padding-right: 20px;
   border-right: 1px solid #000; }
 
-.header__top .header__top-right .header__nav .header__nav-item:last-child {
+.header__top .header__nav .header__nav-item:last-child {
+  display: inline-flex;
   margin-right: 0; }
 
 .header__center {
@@ -215,10 +220,13 @@
 .header__bottom .header__bottom-icon .fa-bars {
   font-size: 25px; }
 
+.header__bottom .header__bottom-list {
+  flex: 1; }
+
 .header__bottom .header__bottom-list ul {
   list-style: none;
   display: inline-flex;
-  margin-left: -255px; }
+  margin-left: 15px; }
 
 .header__bottom .header__bottom-list ul a {
   text-decoration: none;

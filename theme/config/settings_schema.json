@@ -5,11 +5,11 @@
       "vi": "Link Icon"
     },
     "settings" : [
-        {
+      {
             "type": "url",
             "id": "icon_link_one",
             "label": "Icon link"
-        },
+      },
       {
             "type": "url",
             "id": "icon_link_two",
@@ -58,9 +58,9 @@
             "label": "Icon"
         },
         {
-          "type": "text",
-          "id": "icon_five",
-          "label": "Icon"
+            "type": "text",
+            "id": "icon_five",
+            "label": "Icon"
         }
       
     ]
