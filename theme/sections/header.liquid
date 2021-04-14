@@ -114,9 +114,19 @@
                         <a href="{{ link.url }}"><li>{{ link.title }}</li></a>
                 {% endfor %}
             </ul>
+            
+            {%- for block in section.blocks -%}
+            {%- if block.type == 'bottom_contact_blog' -%}
+            <div class="header__bottom-contact_blog">
+                <a href="">Blog</a>
+                <a href="">Contact</a>
+            </div>
+            {% endif %}
+            {%- endfor -%}
         </div>
         
         {%- for block in section.blocks -%}
+
           {%- if block.type == 'needhelp_header' -%}
             {%- if section.settings.needhelp_alignment == 'bottom' -%}
               <div class="header__bottom-text">
@@ -125,6 +135,16 @@
             {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
+
+
+        {%- if section.settings.needhelp_alignment == 'top' -%}
+        {%- style -%}
+                .header__bottom-contact_blog{
+                  position: absolute;
+                  right: 0;
+                }
+        {%- endstyle -%}
+        {%- endif -%}
 
     </div>
     
@@ -219,6 +239,12 @@
         {
             "type": "top_select_page",
             "name": "Select Page",
+            "settings": [                              
+          ]
+        },
+        {
+            "type": "bottom_contact_blog",
+            "name": "Bottom Contact Blog",
             "settings": [                              
           ]
         },

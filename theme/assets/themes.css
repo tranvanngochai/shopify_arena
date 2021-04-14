@@ -191,7 +191,8 @@
   color: var(--icon-color); }
 
 .header__center .header__icon-list .card {
-  position: relative; }
+  position: relative;
+  margin-right: 0; }
 
 .header__center .header__icon-list .card:before {
   content: "0";
@@ -209,6 +210,7 @@
   border-top: 1px solid var(--text-color); }
 
 .header__bottom {
+  position: relative;
   height: 62px;
   display: flex;
   justify-content: space-between;
@@ -232,6 +234,12 @@
   text-decoration: none;
   margin-right: 30px;
   color: var(--text-color); }
+
+.header__bottom .header__bottom-list .header__bottom-contact_blog {
+  display: inline-flex; }
+
+.header__bottom .header__bottom-list .header__bottom-contact_blog a:first-child {
+  padding-right: 30px; }
 
 html {
   box-sizing: border-box;
@@ -864,8 +872,6 @@ body:not(.templateIndex) #main-content {
 
 .container {
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
   margin-right: auto;
   margin-left: auto; }
 
@@ -2607,3 +2613,31 @@ footer {
   color: var(--footer-text-color);
   line-height: 19.6px;
   font-size: var(--body-font-size); }
+
+.saleoff_container {
+  height: 300px;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 30px; }
+
+.saleoff_container .saleoff__item {
+  position: relative; }
+
+.saleoff_container .saleoff__item .saleoff__item-img, .saleoff_container .saleoff__item .saleoff__item-img img {
+  height: 300px; }
+
+.saleoff_container .saleoff__item .saleoff__item-caption {
+  position: absolute;
+  top: 20%;
+  left: 10%; }
+
+.saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_text {
+  font-size: 30px;
+  color: var(--text-color); }
+
+.saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption-btn {
+  width: 80px;
+  height: 40px;
+  background-color: var(--icon-color);
+  border-radius: 30px;
+  padding: 10px 24px; }

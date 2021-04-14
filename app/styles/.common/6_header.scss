@@ -1,3 +1,4 @@
+
 .header__top-app{
     background-color: #F0F2F5;
 }
@@ -119,6 +120,7 @@
         }
         .card{
             position: relative;
+            margin-right: 0;
         }
         .card::before{
             content: "0";
@@ -140,6 +142,7 @@
 }
 
 .header__bottom{
+    position: relative;
     height: 62px;
     display: flex;
     justify-content: space-between;
@@ -160,6 +163,12 @@
                 text-decoration: none;
                 margin-right: 30px;
                 color: var(--text-color);
+            }
+        }
+        .header__bottom-contact_blog{
+            display: inline-flex;
+            a:first-child{
+                padding-right: 30px;
             }
         }
     }

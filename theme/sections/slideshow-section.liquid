@@ -1,0 +1,277 @@
+
+
+<!-- Slideshow container -->
+<div class="container slideshow-container">
+    {%- for block in section.blocks -%}
+  <!-- Full-width images with number and caption text -->
+        <div class="mySlides fade">
+            <img src="{{ block.settings.img_slide | img_url : 'master' }}" alt="" >
+            <div class="caption__slideshow">
+                <div class="heading__slide">
+                    <h1>{{ block.settings.heading}}</h1>
+                </div>
+                <div class="content__slide">
+                    <p>{{block.settings.heading}}</p>
+                </div>
+                <div class="price__slide">
+                    <div class="new__price">{{block.settings.new_price}}</div>
+                    <div class="old__price">{{block.settings.old_price}}</div>
+                </div>
+                <div class="btn__slide">
+                  <button>Shop now</button>
+                </div>
+            </div>
+            <div class="sale__slide">
+                {{block.settings.sale}}
+            </div>
+        </div>
+    {%endfor%}
+  
+
+  <!-- Next and previous buttons -->
+  <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+  <a class="next" onclick="plusSlides(1)">&#10095;</a>
+</div>
+<br>
+
+<!-- The dots/circles -->
+<div style="text-align:center">
+  <span class="dot" onclick="currentSlide(1)"></span>
+  <span class="dot" onclick="currentSlide(2)"></span>
+  <span class="dot" onclick="currentSlide(3)"></span> 
+</div>
+
+
+{%- style -%}
+
+* {box-sizing:border-box}
+/* Slideshow container */
+.slideshow-container {
+  position: relative;
+  margin: auto;
+}
+
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: 40px;
+  height: 40px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 50%;
+  user-select: none;
+  background-color: rgba(0,0,0,1)
+}
+.prev{
+    margin-left: -17px;
+    padding: 10px 13px;
+}
+
+/* Position the "next button" to the right */
+.next {
+    right: 0;
+    padding: 10px 15px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+.caption__slideshow{
+    width: 437px;
+    max-height: 250px;
+    position: absolute;
+    top: 17%;
+    left: 76px;
+}
+.heading__slide{
+    color: var(--text-color);    
+}
+.content__slide{
+    color: var(--text-color);
+}
+.price__slide{
+    display: inline-flex;
+}
+.new__price{
+        font-size: 50px;
+    color: var(--icon-color);
+    margin-top: 15px;
+}
+.old__price{
+    color: #5b6c8f;
+    text-decoration: line-through;
+    font-size: 25px;
+    margin-left: 14px;
+}
+        
+.btn__slide{
+    background-color: var(--icon-color);
+    width: 120px;
+    height: 40px;
+    border-radius: 30px;
+    margin-top: 15px;
+}
+.btn__slide button{
+    color: var(--white-color);
+    margin: 12px 29px;
+}
+.sale__slide{
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background-color: var(--icon-color);
+    color: var(--white-color);
+    top: 20%;
+    right: 50%;
+    padding: auto;
+    padding: 35px 10px;
+    font-size: 30px;
+    font-weight: bold;
+}
+    
+
+
+{%- endstyle -%}
+
+
+<script>
+var slideIndex = 1;
+  showSlides(slideIndex);
+
+// Next/previous controls
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+}
+</script>
+
+
+
+
+{% schema %}
+{
+    "name": "Slideshow section",
+    "settings": [
+        {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Slideshow",
+        "info": "this is info"
+        }
+    ],
+    "blocks":[
+        {
+            "type": "block_slide",
+            "name": "Slideshow",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "label": "Image Slide",
+                    "id": "img_slide"
+                },
+                {
+                    "type": "text",
+                    "id": "heading",
+                    "label": "Heading"
+                },
+                {
+                    "type": "richtext",
+                    "id": "content",
+                    "label": "Content",
+                    "info": "content"
+                },
+                {
+                    "type": "textarea",
+                    "id": "new_price",
+                    "label": "New Price",
+                    "default" : "$15.99"
+                },
+                {
+                    "type": "textarea",
+                    "id": "old_price",
+                    "label": "Old Price",
+                    "default" : "$29.99"
+                },
+                {
+                    "type": "text",
+                    "id": "sale",
+                    "label": "Sale",
+                    "default" : "-30%"
+                }
+
+            ]
+        }
+        
+    ],
+    "presets": [
+        {
+            "category": "Advanced layout",
+            "name": "Slideshow section"
+        }
+    ]
+}
+{% endschema %}

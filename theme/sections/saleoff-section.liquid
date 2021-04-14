@@ -1,0 +1,113 @@
+<div class="container saleoff_container">
+    <div class="saleoff__item">
+        <div class="saleoff__item-img">
+            <img src="https://i.doanhnhansaigon.vn/2020/01/13/5phuongthucquangcaotruyenthongvanhoatonghieuquathoi40-1578851812_1578851914_750x0.jpg" alt="">
+        </div>
+        <div class="saleoff__item-caption">
+            <div class="saleoff__item-caption_text">
+                <p>Vaprorizer Charger X200 5KW</p>
+            </div>
+            <div class="saleoff__item-caption-btn">
+                <button>More</button>
+            </div>
+        </div>
+    </div>
+    <div class="saleoff__item">
+        <div class="saleoff__item-img">
+            <img src="https://i.doanhnhansaigon.vn/2020/01/13/5phuongthucquangcaotruyenthongvanhoatonghieuquathoi40-1578851812_1578851914_750x0.jpg" alt="">
+        </div>
+        <div class="saleoff__item-caption">
+            <div class="saleoff__item-caption_text">
+                <p>Vaprorizer
+                    Charger
+                    X200 5KW</p>
+            </div>
+            <div class="saleoff__item-caption-btn">
+                <button>More</button>
+            </div>
+        </div>
+    </div>
+    <div class="saleoff__item">
+        <div class="saleoff__item-img">
+            <img src="https://i.doanhnhansaigon.vn/2020/01/13/5phuongthucquangcaotruyenthongvanhoatonghieuquathoi40-1578851812_1578851914_750x0.jpg" alt="">
+        </div>
+        <div class="saleoff__item-caption">
+            <div class="saleoff__item-caption_text">
+                <p>Vaprorizer
+                    Charger
+                    X200 5KW</p>
+            </div>
+            <div class="saleoff__item-caption-btn">
+                <button>More</button>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+
+
+{% schema %}
+{
+    "name": "Saleoff section",
+    "settings": [
+        {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Saleoff"
+        }
+    ],
+    "blocks":[
+        {
+            "type": "block_slide",
+            "name": "Slideshow",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "label": "Image Slide",
+                    "id": "img_slide"
+                },
+                {
+                    "type": "text",
+                    "id": "heading",
+                    "label": "Heading"
+                },
+                {
+                    "type": "richtext",
+                    "id": "content",
+                    "label": "Content",
+                    "info": "content"
+                },
+                {
+                    "type": "textarea",
+                    "id": "new_price",
+                    "label": "New Price",
+                    "default" : "$15.99"
+                },
+                {
+                    "type": "textarea",
+                    "id": "old_price",
+                    "label": "Old Price",
+                    "default" : "$29.99"
+                },
+                {
+                    "type": "text",
+                    "id": "sale",
+                    "label": "Sale",
+                    "default" : "-30%"
+                }
+
+            ]
+        }
+        
+    ],
+    "presets": [
+        {
+            "category": "Advanced layout",
+            "name": "Saleoff section"
+        }
+    ]
+}
+{% endschema %}
