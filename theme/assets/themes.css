@@ -2641,3 +2641,24 @@ footer {
   background-color: var(--icon-color);
   border-radius: 30px;
   padding: 10px 24px; }
+
+.categories_container {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto;
+  gap: 30px;
+  padding-right: 0;
+  padding-left: 0; }
+
+.categories_container .categories_container-item {
+  text-align: left; }
+
+.categories_container .categories_container-item .categories_container-heading h1 {
+  font-size: 20px;
+  padding: 0; }
+
+.categories_container .categories_container-item .categories_container-select ul {
+  list-style: none;
+  padding: 0; }
+
+.categories_container .categories_container-item .categories_container-select ul a {
+  text-decoration: none; }
