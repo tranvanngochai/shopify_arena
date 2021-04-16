@@ -1,49 +1,44 @@
 <div class="container saleoff_container">
-    <div class="saleoff__item">
+    {%- for block in section.blocks -%}
+        <div class="saleoff__item">
         <div class="saleoff__item-img">
-            <img src="https://i.doanhnhansaigon.vn/2020/01/13/5phuongthucquangcaotruyenthongvanhoatonghieuquathoi40-1578851812_1578851914_750x0.jpg" alt="">
+            <img src="{{ block.settings.img_saleoff | img_url : 'master' }}" alt="" >
         </div>
         <div class="saleoff__item-caption">
             <div class="saleoff__item-caption_text">
-                <p>Vaprorizer Charger X200 5KW</p>
-            </div>
-            <div class="saleoff__item-caption-btn">
-                <button>More</button>
+                <h1>{{block.settings.heading}}</h1>
             </div>
         </div>
+        <div class="saleoff__item-btn">
+            <a href="">
+                <button>{{block.settings.button}}</button>
+            </a>
+        </div>     
     </div>
-    <div class="saleoff__item">
-        <div class="saleoff__item-img">
-            <img src="https://i.doanhnhansaigon.vn/2020/01/13/5phuongthucquangcaotruyenthongvanhoatonghieuquathoi40-1578851812_1578851914_750x0.jpg" alt="">
-        </div>
-        <div class="saleoff__item-caption">
-            <div class="saleoff__item-caption_text">
-                <p>Vaprorizer
-                    Charger
-                    X200 5KW</p>
-            </div>
-            <div class="saleoff__item-caption-btn">
-                <button>More</button>
-            </div>
-        </div>
-    </div>
-    <div class="saleoff__item">
-        <div class="saleoff__item-img">
-            <img src="https://i.doanhnhansaigon.vn/2020/01/13/5phuongthucquangcaotruyenthongvanhoatonghieuquathoi40-1578851812_1578851914_750x0.jpg" alt="">
-        </div>
-        <div class="saleoff__item-caption">
-            <div class="saleoff__item-caption_text">
-                <p>Vaprorizer
-                    Charger
-                    X200 5KW</p>
-            </div>
-            <div class="saleoff__item-caption-btn">
-                <button>More</button>
-            </div>
-        </div>
-    </div>
-    
+    {%- if forloop.length == 1 -%}
+      {%- style -%}
+        .saleoff_container{
+            grid-template-columns: auto;
+        }
+        .saleoff__item{
+            margin: auto;
+        }
+      {%- endstyle -%}
+    {%- elsif forloop.length == 2 -%}
+      {%- style -%}
+        .saleoff_container{
+            grid-template-columns: auto auto;
+        }
+        .saleoff__item-img img{
+            width: 100%;
+        }
+      {%- endstyle -%}
+    {%- endif -%}
+    {%- endfor -%}
 </div>
+
+
+
 
 
 
@@ -61,43 +56,25 @@
     ],
     "blocks":[
         {
-            "type": "block_slide",
-            "name": "Slideshow",
+            "type": "block_saleoff",
+            "name": "Sale Off",
             "settings": [
-                {
-                    "type": "image_picker",
-                    "label": "Image Slide",
-                    "id": "img_slide"
-                },
-                {
-                    "type": "text",
-                    "id": "heading",
-                    "label": "Heading"
-                },
-                {
-                    "type": "richtext",
-                    "id": "content",
-                    "label": "Content",
-                    "info": "content"
-                },
-                {
-                    "type": "textarea",
-                    "id": "new_price",
-                    "label": "New Price",
-                    "default" : "$15.99"
-                },
-                {
-                    "type": "textarea",
-                    "id": "old_price",
-                    "label": "Old Price",
-                    "default" : "$29.99"
-                },
-                {
-                    "type": "text",
-                    "id": "sale",
-                    "label": "Sale",
-                    "default" : "-30%"
-                }
+            {
+                "type": "image_picker",
+                "label": "Image SaleOff",
+                "id": "img_saleoff"
+            },
+            {
+                "type": "richtext",
+                "id": "heading",
+                "label": "Heading"
+            },
+            {
+                "type": "text",
+                "id": "button",
+                "label": "Button Text",
+                "default" : "More"
+            }
 
             ]
         }

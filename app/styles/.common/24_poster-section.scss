@@ -1,0 +1,39 @@
+.poster__container{
+    height: 90px;
+    position: relative;
+    img{
+        width: 100%;
+        height: 90px;
+    }
+    .poster__full{
+        width: 100%;
+        height: 90px;
+        display: flex;
+        position: absolute;
+        top: 0;
+        left: 0;
+        align-items: center;
+        justify-content: space-between;
+        .poster__icon-content{
+            display: flex;
+            align-items: center;
+            i{
+                padding-right: 10px;
+            }
+            p{
+
+            }
+        }
+        .poster__btn{
+            width: 98px;
+            height: 34px;
+            background-color: var(--green-color);
+            border-radius: 40px;
+            button{
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+    
+}

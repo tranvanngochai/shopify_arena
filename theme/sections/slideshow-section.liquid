@@ -18,7 +18,9 @@
                     <div class="old__price">{{block.settings.old_price}}</div>
                 </div>
                 <div class="btn__slide">
-                  <button>Shop now</button>
+                    <a href="">
+                        <button>Shop now</button>
+                    </a>   
                 </div>
             </div>
             <div class="sale__slide">
@@ -42,139 +44,6 @@
 </div>
 
 
-{%- style -%}
-
-* {box-sizing:border-box}
-/* Slideshow container */
-.slideshow-container {
-  position: relative;
-  margin: auto;
-}
-
-
-/* Next & previous buttons */
-.prev, .next {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: 40px;
-  height: 40px;
-  margin-top: -22px;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  transition: 0.6s ease;
-  border-radius: 50%;
-  user-select: none;
-  background-color: rgba(0,0,0,1)
-}
-.prev{
-    margin-left: -17px;
-    padding: 10px 13px;
-}
-
-/* Position the "next button" to the right */
-.next {
-    right: 0;
-    padding: 10px 15px;
-}
-
-/* On hover, add a black background color with a little bit see-through */
-.prev:hover, .next:hover {
-  background-color: rgba(0,0,0,0.8);
-}
-
-/* The dots/bullets/indicators */
-.dot {
-  cursor: pointer;
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
-}
-
-.active, .dot:hover {
-  background-color: #717171;
-}
-
-/* Fading animation */
-.fade {
-  -webkit-animation-name: fade;
-  -webkit-animation-duration: 1.5s;
-  animation-name: fade;
-  animation-duration: 1.5s;
-}
-
-@-webkit-keyframes fade {
-  from {opacity: .4}
-  to {opacity: 1}
-}
-
-@keyframes fade {
-  from {opacity: .4}
-  to {opacity: 1}
-}
-
-.caption__slideshow{
-    width: 437px;
-    max-height: 250px;
-    position: absolute;
-    top: 17%;
-    left: 76px;
-}
-.heading__slide{
-    color: var(--text-color);    
-}
-.content__slide{
-    color: var(--text-color);
-}
-.price__slide{
-    display: inline-flex;
-}
-.new__price{
-        font-size: 50px;
-    color: var(--icon-color);
-    margin-top: 15px;
-}
-.old__price{
-    color: #5b6c8f;
-    text-decoration: line-through;
-    font-size: 25px;
-    margin-left: 14px;
-}
-        
-.btn__slide{
-    background-color: var(--icon-color);
-    width: 120px;
-    height: 40px;
-    border-radius: 30px;
-    margin-top: 15px;
-}
-.btn__slide button{
-    color: var(--white-color);
-    margin: 12px 29px;
-}
-.sale__slide{
-    position: absolute;
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    background-color: var(--icon-color);
-    color: var(--white-color);
-    top: 20%;
-    right: 50%;
-    padding: auto;
-    padding: 35px 10px;
-    font-size: 30px;
-    font-weight: bold;
-}
-    
-
-
-{%- endstyle -%}
 
 
 <script>

@@ -1,0 +1,57 @@
+<div class="container poster__container">
+    {%- for block in section.blocks -%}
+    
+    <img src="{{ block.settings.img_poster | img_url : 'master' }}" alt="" >
+    <div class="poster__full">
+        <div class="poster__icon-content">
+            <i class="fas fa-bell"></i>
+            <p>{{block.settings.content}}</p>
+        </div>
+        <div class="poster__btn">
+            <button>More</button>
+        </div>
+    </div>
+     {%- endfor -%}
+</div>
+
+
+{% schema %}
+{
+    "name": "Poster section",
+    "settings": [
+        {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Poster",
+        "info": "this is info"
+        }
+    ],
+    "blocks":[
+        {
+            "type": "block_poster",
+            "name": "Poster",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "label": "Image Poster",
+                    "id": "img_poster"
+                },
+                {
+                    "type": "richtext",
+                    "id": "content",
+                    "label": "content"
+                }
+
+            ]
+        }
+        
+    ],
+    "presets": [
+        {
+            "category": "Advanced layout",
+            "name": "Poster section"
+        }
+    ]
+}
+{% endschema %}

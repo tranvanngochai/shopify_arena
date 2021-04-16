@@ -1,0 +1,49 @@
+<div class="container menu__optionlist">
+    {%- for block in section.blocks -%}
+        {% render 'snippets-menu-optionlist', block: block %}
+    {%- endfor -%}
+</div>
+
+
+
+{% schema %}
+{
+    "name": "Menu List section",
+    "settings": [
+        {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Menu List"
+        }
+    ],
+    "blocks":[
+        {
+            "type": "block_menu_list",
+            "name": "Menu List",
+            "settings": [
+                
+                {
+                    "type": "text",
+                    "id": "heading",
+                    "label": "Heading"
+                },
+                {
+                    "type": "link_list",
+                    "id": "menu_link",
+                    "label": "Menu Link"
+                }
+
+
+            ]
+        }
+        
+    ],
+    "presets": [
+        {
+            "category": "Advanced layout",
+            "name": "Menu List section"
+        }
+    ]
+}
+{% endschema %}

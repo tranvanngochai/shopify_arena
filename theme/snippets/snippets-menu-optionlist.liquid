@@ -1,0 +1,12 @@
+    <div class="menu__optionlist-item">
+      <div class="menu__optionlist-item--heading">
+        <h1>{{block.settings.heading}}</h1>
+      </div>
+      <div class="menu__optionlist-item--listmenu">
+        <ul>
+          {% for link in linklists[block.settings.menu_link].links %}
+              <a href="{{ link.url }}"><li>{{ link.title }}</li></a>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>

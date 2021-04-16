@@ -13,21 +13,32 @@
         }
         // position: relative;
         .saleoff__item-caption{
+            width: 100%;
             position: absolute;
-            top: 20%;
+            top: 10%;
             left: 10%;
+            height: 250px;
 
             .saleoff__item-caption_text{
-                font-size: 30px;
-                color: var(--text-color);
+                width: 90%;
+                h1{
+                    font-size: 30px;
+                    font-weight: bold;
+                    color: var(--text-color);
+                    bottom: 10%;
+                    left: 10%;
+                }
             }
-            .saleoff__item-caption-btn{
-                width: 80px;
-                height: 40px;
-                background-color: var(--icon-color);
-                border-radius: 30px;
-                padding: 10px 24px;
-            }
+        }
+        .saleoff__item-btn{
+            width: 80px;
+            height: 40px;
+            background-color: var(--icon-color);
+            border-radius: 30px;
+            padding: 10px 24px;
+            bottom: 30px;
+            left: 40px;
+            position: absolute;
         }
     }
 }

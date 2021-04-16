@@ -1,0 +1,130 @@
+  <!-- Swiper -->
+<div class="container swiper-container">
+   <div class="swiper-heading">
+      <h1>Featured products</h1>
+   </div>
+   <div class="swiper-wrapper">
+      {%- for block in section.blocks -%}
+      {% assign collection = collections[block.settings.list_collection] %}
+      {%- for product in collection.products -%} 
+      {%- liquid
+      assign variant_first =  product.variants | first
+      assign first_available_variant  = product.first_available_variant | default: variant_first
+      -%}
+      <div class="swiper-slide">
+         <div class="swiper-slide__item--img">
+            <img src="{{ product | img_url }}" />
+         </div>
+         <div class="swiper-slide__item--content">
+            <div class="swiper-slide__item--title">
+            <h3>{{product.title}}</h3>
+         </div>
+         <div class="swiper-slide__item--price">
+            <div class="swiper-slide__item--price_new">
+               <p>{{ first_available_variant.price | money }}</p>
+            </div>
+            <div class="swiper-slide__item--price_old">
+               <del>{{ first_available_variant.compare_at_price | money }}</del>
+            </div>
+         </div>
+         <div class="swiper-slide__item--iconstar">
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+         </div>
+         </div>
+      </div>
+      {%- endfor -%}
+      {%- endfor -%}
+   </div>
+   <!-- Add Pagination -->
+   <div class="swiper-pagination"></div>
+   <!-- Add Arrows -->
+   <div class="swiper-button-next"></div>
+   <div class="swiper-button-prev"></div>
+</div>
+
+
+
+  <!-- Swiper JS -->
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+    var appendNumber = 4;
+    var prependNumber = 1;
+    var swiper = new Swiper('.swiper-container', {
+      slidesPerView: 4,
+      centeredSlides: true,
+      spaceBetween: 30,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+    document.querySelector('.prepend-2-slides').addEventListener('click', function (e) {
+      e.preventDefault();
+      swiper.prependSlide([
+        '<div class="swiper-slide">Slide ' + (--prependNumber) + '</div>',
+        '<div class="swiper-slide">Slide ' + (--prependNumber) + '</div>'
+      ]);
+    });
+    document.querySelector('.prepend-slide').addEventListener('click', function (e) {
+      e.preventDefault();
+      swiper.prependSlide('<div class="swiper-slide">Slide ' + (--prependNumber) + '</div>');
+    });
+    document.querySelector('.append-slide').addEventListener('click', function (e) {
+      e.preventDefault();
+      swiper.appendSlide('<div class="swiper-slide">Slide ' + (++appendNumber) + '</div>');
+    });
+    document.querySelector('.append-2-slides').addEventListener('click', function (e) {
+      e.preventDefault();
+      swiper.appendSlide([
+        '<div class="swiper-slide">Slide ' + (++appendNumber) + '</div>',
+        '<div class="swiper-slide">Slide ' + (++appendNumber) + '</div>'
+      ]);
+    });
+  </script>
+
+
+
+
+
+{% schema %}
+{
+    "name": "Lates Products section",
+    "settings": [
+        {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "lates products"
+        }
+    ],
+    "blocks":[
+        {
+          "type": "Block_Collection",
+          "name": "Collection",
+          "settings": [
+          {
+            "type": "collection",
+            "id": "list_collection",
+            "label": "Collection"
+         }
+          ]
+      }
+        
+    ],
+    "presets": [
+        {
+            "category": "Advanced layout",
+            "name": "Lates Products section"
+        }
+    ]
+}
+{% endschema %}

@@ -1,0 +1,77 @@
+<div class="container categories_container">
+    <div class="row_top categories_top">
+        <div class="categories_top-title">
+            <h1>Check out the most popular categories</h1>
+        </div>
+        <div class="categories_top-list_item">
+            {%- for block in section.blocks -%}
+            {%- if block.type == 'block_categories' -%}
+              
+            <div class="categories_top-item">
+                <div class="categories_top-item_img">
+                    <img src="{{ block.settings.img_categories | img_url : 'master' }}" alt="" >
+                </div>
+                <div class="categories_top-item_caption">
+                    <div class="categories_top-item--heading">
+                        <h1>{{block.settings.heading}}</h1>
+                    </div>
+                    <div class="categories_top-item--btn">
+                        <button>{{block.settings.button}}</button>
+                    </div>
+                </div>           
+            </div>
+            {%- endif -%}
+            {%- endfor -%}
+        </div>       
+    </div>
+
+</div>
+
+
+
+{% schema %}
+{
+    "name": "Categories section",
+    "settings": [
+        {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Categories",
+        "info": "this is info"
+        }
+    ],
+    "blocks":[
+        {
+            "type": "block_categories",
+            "name": "Categories",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "label": "Image Categories",
+                    "id": "img_categories"
+                },
+                {
+                    "type": "richtext",
+                    "id": "heading",
+                    "label": "Heading"
+                },
+                {
+                    "type": "text",
+                    "id": "button",
+                    "label": "Button Text",
+                    "default" : "More"
+                }
+
+            ]
+        }
+        
+    ],
+    "presets": [
+        {
+            "category": "Advanced layout",
+            "name": "Categories section"
+        }
+    ]
+}
+{% endschema %}

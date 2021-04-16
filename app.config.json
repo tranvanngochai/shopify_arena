@@ -9,8 +9,12 @@
     "9_product-items",
     "14_pagination",
     "15_footer",
+    "19_slideshow-section",
     "20_saleoff-section",
-    "21_categories-section"
+    "21_categories-section",
+    "22_menu_optionlist-section",
+    "23_latestproducts-section",
+    "24_poster-section"
   ],
   "homepage": [
     "1_functions",
