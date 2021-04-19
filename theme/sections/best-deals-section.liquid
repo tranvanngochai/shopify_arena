@@ -1,0 +1,163 @@
+<div class="container bestdeal-container">
+    <div class="bestdeal__top">
+        <div class="bestdeal-heading">
+            <h1>Best Deals of the week!</h1>
+        </div>
+        <div id="countdown">
+            <div class="days">
+                <span id="days"></span>
+            </div>
+            <span class="br">:</span>
+            <div class="hours">
+                <span id="hours"></span>
+            </div>
+            <span class="br">:</span>
+            <div class="minutes">
+                <span id="minutes"></span>
+            </div>
+            <span class="br">:</span>
+            <div class="seconds">
+                <span id="seconds"></span>
+            </div>
+            
+        </div>
+       
+    </div>
+
+
+    <div class="bestdeal__list">
+       {%- for block in section.blocks -%}
+       {% assign collection = collections[block.settings.list_collection] %}
+       {%- for product in collection.products -%} 
+       {%- liquid
+       assign variant_first =  product.variants | first
+       assign first_available_variant  = product.first_available_variant | default: variant_first
+       -%}
+       <div class="bestdeal__list-item">
+          <div class="bestdeal__list-item--sale">
+             <span>{{block.settings.sale}}</span>
+          </div>
+          
+          <div class="bestdeal__list-item--img">
+             <img src="{{ product | img_url }}" />
+          </div>
+          <div class="bestdeal__list-item--content">
+             <div class="bestdeal__list-item--title">
+             <h3>{{product.title}}</h3>
+          </div>
+          <div class="bestdeal__list-item--price">
+             <div class="bestdeal__list-item--price_new">
+                <p>{{ first_available_variant.price | money }}</p>
+             </div>
+             <div class="bestdeal__list-item--price_old">
+                <del>{{ first_available_variant.compare_at_price | money }}</del>
+             </div>
+          </div>
+          <div class="bestdeal__list-item--iconstar">
+               <i class="far fa-star"></i>
+               <i class="far fa-star"></i>
+               <i class="far fa-star"></i>
+               <i class="far fa-star"></i>
+          </div>
+          </div>
+       </div>
+       {%- endfor -%}
+       {%- endfor -%}
+    </div>
+</div>
+
+
+  
+
+<script>
+    (function () {
+    const second = 1000,
+          minute = second * 60,
+          hour = minute * 60,
+          day = hour * 24;
+    
+    let birthday = " April 25 , 2021 00:00:00",
+        countDown = new Date(birthday).getTime(),
+        x = setInterval(function() {    
+  
+          let now = new Date().getTime(),
+              distance = countDown - now;
+  
+          document.getElementById("days").innerText = Math.floor(distance / (day)),
+            document.getElementById("hours").innerText = Math.floor((distance % (day)) / (hour)),
+            document.getElementById("minutes").innerText = Math.floor((distance % (hour)) / (minute)),
+            document.getElementById("seconds").innerText = Math.floor((distance % (minute)) / second);
+  
+          //do something later when date is reached
+          if (distance < 0) {
+            let headline = document.getElementById("headline"),
+                countdown = document.getElementById("countdown"),
+                content = document.getElementById("content");
+  
+            headline.innerText = "It's my birthday!";
+            countdown.style.display = "none";
+            content.style.display = "block";
+  
+            clearInterval(x);
+          }
+          //seconds
+        }, 0)
+    }());
+</script>
+
+
+{% schema %}
+{
+    "name": "Best Deals section",
+    "settings": [
+        {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Best Deals",
+        "info": "this is info"
+        }
+    ],
+    "blocks":[
+        {
+          "type": "Block_best_deal",
+          "name": "bestdeal",
+          "settings": [
+          {
+            "type": "collection",
+            "id": "list_collection",
+            "label": "Collection"
+         },
+         {
+            "type": "text",
+            "id": "sale",
+            "label": "Sale",
+            "default" : "-50%"
+         },
+         {
+            "type": "text",
+            "id": "time_month",
+            "label": "Time month"
+         },
+         {
+            "type": "text",
+            "id": "time_day",
+            "label": "Time day"
+         },
+         {
+            "type": "text",
+            "id": "time_year",
+            "label": "Time year"
+         }
+          ]
+      }
+        
+    ],
+    "presets": [
+        {
+            "category": "Advanced layout",
+            "name": "Best Deals section"
+        }
+    ]
+}
+{% endschema %}

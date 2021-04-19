@@ -2793,14 +2793,16 @@ footer {
   width: 100%;
   display: grid;
   grid-template-columns: 25% 16% 25% 16% 15%;
-  gap: 10px;
+  -moz-column-gap: 10px;
+  column-gap: 10px;
   grid-template-rows: 300px; }
 
 .categories_container .categories_top .categories_top-list_item .categories_top-item {
   position: relative; }
 
 .categories_container .categories_top .categories_top-list_item .categories_top-item .categories_top-item_img img {
-  height: 300px; }
+  height: 300px;
+  width: 100%; }
 
 .categories_container .categories_top .categories_top-list_item .categories_top-item .categories_top-item_caption {
   position: absolute;
@@ -2855,7 +2857,12 @@ footer {
 .swiper-container .swiper-heading h1 {
   font-size: 30px;
   color: var(--text-color);
-  font-weight: 700; }
+  font-weight: 700;
+  text-align: center; }
+
+.swiper-container .swiper-wrapper {
+  justify-content: center;
+  margin-left: -310px; }
 
 .swiper-container .swiper-wrapper .swiper-slide {
   height: 345px;
@@ -2864,6 +2871,23 @@ footer {
   margin-right: 30px;
   margin-bottom: 30px;
   background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.swiper-container .swiper-wrapper .swiper-slide .swiper-slide__item--sale {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 50px;
+  z-index: 1;
+  border-radius: 30px;
+  background-color: var(--icon-color); }
+
+.swiper-container .swiper-wrapper .swiper-slide .swiper-slide__item--sale span {
+  color: var(--white-color);
+  font-size: 13px;
   display: flex;
   justify-content: center;
   align-items: center; }
@@ -2956,8 +2980,11 @@ footer {
   justify-content: space-between; }
 
 .poster__container .poster__full .poster__icon-content {
+  font-size: 25px;
   display: flex;
-  align-items: center; }
+  align-items: center;
+  color: var(--green-color);
+  margin-left: 30px; }
 
 .poster__container .poster__full .poster__icon-content i {
   padding-right: 10px; }
@@ -2966,8 +2993,141 @@ footer {
   width: 98px;
   height: 34px;
   background-color: var(--green-color);
-  border-radius: 40px; }
+  border-radius: 40px;
+  margin-right: 30px;
+  color: var(--white-text); }
 
 .poster__container .poster__full .poster__btn button {
   width: 100%;
   height: 100%; }
+
+.bestdeal-container {
+  width: 100%;
+  margin-top: 50px; }
+
+.bestdeal-container .bestdeal__top {
+  justify-content: center;
+  margin-bottom: 30px; }
+
+.bestdeal-container .bestdeal__top, .bestdeal-container .bestdeal__top .bestdeal-heading {
+  height: 63px;
+  display: flex;
+  align-items: center; }
+
+.bestdeal-container .bestdeal__top .bestdeal-heading h1 {
+  font-size: 30px;
+  color: var(--text-color);
+  font-weight: 700;
+  text-align: center; }
+
+.bestdeal-container .bestdeal__top #countdown {
+  height: 63px;
+  width: 290px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px; }
+
+.bestdeal-container .bestdeal__top #countdown .br {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-bottom: 7px; }
+
+.bestdeal-container .bestdeal__top #countdown .days, .bestdeal-container .bestdeal__top #countdown .hours, .bestdeal-container .bestdeal__top #countdown .minutes, .bestdeal-container .bestdeal__top #countdown .seconds {
+  height: 100%;
+  margin-right: 7px;
+  margin-left: 7px; }
+
+.bestdeal-container .bestdeal__top #countdown .days span, .bestdeal-container .bestdeal__top #countdown .hours span, .bestdeal-container .bestdeal__top #countdown .minutes span, .bestdeal-container .bestdeal__top #countdown .seconds span {
+  line-height: 60px;
+  background-color: var(--icon-color);
+  color: var(--white-color);
+  font-weight: 700; }
+
+.bestdeal-container .bestdeal__list {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  gap: 25px; }
+
+.bestdeal-container .bestdeal__list .bestdeal__list-item {
+  height: 345px;
+  width: 197px;
+  font-size: 18px;
+  background: #fff;
+  position: relative;
+  display: flex;
+  align-items: center; }
+
+.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--sale {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 40px;
+  width: 40px;
+  z-index: 1;
+  border-radius: 50%;
+  background-color: var(--text-color); }
+
+.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--sale span {
+  color: var(--white-color);
+  font-size: 13px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  transform: translateY(50%);
+  font-weight: 700; }
+
+.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--img {
+  width: 197px;
+  height: 197px !important;
+  position: absolute;
+  top: 0 !important;
+  left: 0; }
+
+.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--img img {
+  width: 100%;
+  height: 100%; }
+
+.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content {
+  height: 104px;
+  width: 197px;
+  margin-top: 110px; }
+
+.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--title {
+  height: 20px;
+  margin-top: 30px; }
+
+.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--title h3 {
+  line-height: 20px;
+  font-size: 20px;
+  color: var(--text-color); }
+
+.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--price {
+  display: flex;
+  margin-top: 30px;
+  height: 30px; }
+
+.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--price .bestdeal__list-item--price_new {
+  display: flex;
+  height: 30px;
+  align-items: center; }
+
+.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--price .bestdeal__list-item--price_new p {
+  font-size: 20px;
+  color: var(--icon-color);
+  margin-right: 10px;
+  line-height: 30px; }
+
+.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--price .bestdeal__list-item--price_old {
+  display: flex;
+  height: 30px;
+  align-items: center; }
+
+.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--price .bestdeal__list-item--price_old p {
+  font-size: 17px;
+  line-height: 30px; }
+
+.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-itemiconstar {
+  margin-top: 10px; }

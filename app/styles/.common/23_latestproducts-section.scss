@@ -7,10 +7,32 @@
         font-size: 30px;
         color: var(--text-color);
         font-weight: bold;
+        text-align: center;
       }
     }
     .swiper-wrapper{
+        justify-content: center;
+        margin-left: -310px;
         .swiper-slide {
+          .swiper-slide__item--sale{
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20px;
+            width: 50px;
+            z-index: 1;
+            border-radius: 30px;
+            background-color: var(--icon-color);
+            span{
+              color: var(--white-color);
+              font-size: 13px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              }
+            }
+          
+          
           height: 345px;
           width: 197px !important ;
           font-size: 18px;

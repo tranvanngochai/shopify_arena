@@ -11,7 +11,11 @@
       assign variant_first =  product.variants | first
       assign first_available_variant  = product.first_available_variant | default: variant_first
       -%}
-      <div class="swiper-slide">
+      <div class="swiper-slide item">
+         <div class="swiper-slide__item--sale">
+            <span>SALE</span>
+         </div>
+         
          <div class="swiper-slide__item--img">
             <img src="{{ product | img_url }}" />
          </div>
