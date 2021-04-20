@@ -2849,9 +2849,9 @@ footer {
 
 .swiper-container {
   width: 100%;
-  margin: 30px auto; }
+  margin-top: 30px; }
 
-.swiper-container .swiper-heading {
+.swiper-container, .swiper-container .swiper-heading {
   margin-bottom: 30px; }
 
 .swiper-container .swiper-heading h1 {
@@ -2860,20 +2860,18 @@ footer {
   font-weight: 700;
   text-align: center; }
 
-.swiper-container .swiper-wrapper {
-  justify-content: center;
-  margin-left: -310px; }
-
 .swiper-container .swiper-wrapper .swiper-slide {
   height: 345px;
-  width: 197px !important;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   font-size: 18px;
-  margin-right: 30px;
-  margin-bottom: 30px;
   background: #fff;
+  position: relative;
   display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: center; }
+  flex-direction: column; }
 
 .swiper-container .swiper-wrapper .swiper-slide .swiper-slide__item--sale {
   position: absolute;
@@ -2893,24 +2891,10 @@ footer {
   align-items: center; }
 
 .swiper-container .swiper-wrapper .swiper-slide .swiper-slide__item--img {
-  width: 197px;
-  height: 197px !important;
-  position: absolute;
-  top: 0 !important;
-  left: 0; }
-
-.swiper-container .swiper-wrapper .swiper-slide .swiper-slide__item--img img {
-  width: 100%;
-  height: 100%; }
-
-.swiper-container .swiper-wrapper .swiper-slide .swiper-slide__item--content {
-  height: 104px;
-  width: 197px;
-  margin-top: 110px; }
-
-.swiper-container .swiper-wrapper .swiper-slide .swiper-slide__item--content .swiper-slide__item--title {
-  height: 20px;
-  margin-top: 30px; }
+  height: 197px;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
 
 .swiper-container .swiper-wrapper .swiper-slide .swiper-slide__item--content .swiper-slide__item--title h3 {
   line-height: 20px;
@@ -3045,21 +3029,23 @@ footer {
   color: var(--white-color);
   font-weight: 700; }
 
-.bestdeal-container .bestdeal__list {
-  display: grid;
-  grid-template-columns: auto auto auto auto auto;
-  gap: 25px; }
+.bestdeal-container .container-list {
+  overflow: hidden; }
 
-.bestdeal-container .bestdeal__list .bestdeal__list-item {
+.bestdeal-container .container-list .bestdeal__list .bestdeal__list-item {
   height: 345px;
-  width: 197px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   font-size: 18px;
   background: #fff;
   position: relative;
   display: flex;
-  align-items: center; }
+  align-items: center;
+  justify-content: center;
+  flex-direction: column; }
 
-.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--sale {
+.bestdeal-container .container-list .bestdeal__list .bestdeal__list-item .bestdeal__list-item--sale {
   position: absolute;
   top: 0;
   left: 0;
@@ -3069,7 +3055,7 @@ footer {
   border-radius: 50%;
   background-color: var(--text-color); }
 
-.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--sale span {
+.bestdeal-container .container-list .bestdeal__list .bestdeal__list-item .bestdeal__list-item--sale span {
   color: var(--white-color);
   font-size: 13px;
   display: flex;
@@ -3079,55 +3065,156 @@ footer {
   transform: translateY(50%);
   font-weight: 700; }
 
-.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--img {
+.bestdeal-container .container-list .bestdeal__list .bestdeal__list-item .bestdeal__list-item--img {
+  height: 197px;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.bestdeal-container .container-list .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--title {
+  margin-top: 30px; }
+
+.bestdeal-container .container-list .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--title h3 {
+  line-height: 20px;
+  font-size: 20px;
+  color: var(--text-color); }
+
+.bestdeal-container .container-list .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--price {
+  display: flex;
+  margin-top: 30px;
+  height: 30px; }
+
+.bestdeal-container .container-list .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--price .bestdeal__list-item--price_new {
+  display: flex;
+  height: 30px;
+  align-items: center; }
+
+.bestdeal-container .container-list .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--price .bestdeal__list-item--price_new p {
+  font-size: 20px;
+  color: var(--icon-color);
+  margin-right: 10px;
+  line-height: 30px; }
+
+.bestdeal-container .container-list .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--price .bestdeal__list-item--price_old {
+  display: flex;
+  height: 30px;
+  align-items: center; }
+
+.bestdeal-container .container-list .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--price .bestdeal__list-item--price_old p {
+  font-size: 17px;
+  line-height: 30px; }
+
+.bestdeal-container .container-list .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-itemiconstar {
+  margin-top: 10px; }
+
+.bestsellers-container {
+  width: 100%; }
+
+.bestsellers-container .bestsellers-heading h1 {
+  font-size: 30px;
+  color: var(--text-color);
+  font-weight: 700;
+  text-align: center; }
+
+.bestsellers-container .tab {
+  display: flex;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1; }
+
+.bestsellers-container .tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: .3s;
+  font-size: 17px; }
+
+.bestsellers-container .tab button:hover {
+  background-color: #ddd; }
+
+.bestsellers-container .bestsellers__item-list {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 25px; }
+
+.bestsellers-container .bestsellers__item-list .bestsellers__item {
+  height: 345px;
+  width: 197px;
+  font-size: 18px;
+  background: #fff;
+  position: relative;
+  display: flex;
+  align-items: center; }
+
+.bestsellers-container .bestsellers__item-list .bestsellers__item .bestsellers__item--sale {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 50px;
+  z-index: 1;
+  border-radius: 30px;
+  background-color: var(--icon-color); }
+
+.bestsellers-container .bestsellers__item-list .bestsellers__item .bestsellers__item--sale span {
+  color: var(--white-color);
+  font-size: 13px;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.bestsellers-container .bestsellers__item-list .bestsellers__item .bestsellers__item--img {
   width: 197px;
   height: 197px !important;
   position: absolute;
   top: 0 !important;
   left: 0; }
 
-.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--img img {
+.bestsellers-container .bestsellers__item-list .bestsellers__item .bestsellers__item--img img {
   width: 100%;
   height: 100%; }
 
-.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content {
+.bestsellers-container .bestsellers__item-list .bestsellers__item .bestsellers__item--content {
   height: 104px;
   width: 197px;
   margin-top: 110px; }
 
-.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--title {
+.bestsellers-container .bestsellers__item-list .bestsellers__item .bestsellers__item--content .bestsellers__item--title {
   height: 20px;
   margin-top: 30px; }
 
-.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--title h3 {
+.bestsellers-container .bestsellers__item-list .bestsellers__item .bestsellers__item--content .bestsellers__item--title h3 {
   line-height: 20px;
   font-size: 20px;
   color: var(--text-color); }
 
-.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--price {
+.bestsellers-container .bestsellers__item-list .bestsellers__item .bestsellers__item--content .bestsellers__item--price {
   display: flex;
   margin-top: 30px;
   height: 30px; }
 
-.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--price .bestdeal__list-item--price_new {
+.bestsellers-container .bestsellers__item-list .bestsellers__item .bestsellers__item--content .bestsellers__item--price .bestsellers__item--price_new {
   display: flex;
   height: 30px;
   align-items: center; }
 
-.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--price .bestdeal__list-item--price_new p {
+.bestsellers-container .bestsellers__item-list .bestsellers__item .bestsellers__item--content .bestsellers__item--price .bestsellers__item--price_new p {
   font-size: 20px;
   color: var(--icon-color);
   margin-right: 10px;
   line-height: 30px; }
 
-.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--price .bestdeal__list-item--price_old {
+.bestsellers-container .bestsellers__item-list .bestsellers__item .bestsellers__item--content .bestsellers__item--price .bestsellers__item--price_old {
   display: flex;
   height: 30px;
   align-items: center; }
 
-.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-item--price .bestdeal__list-item--price_old p {
+.bestsellers-container .bestsellers__item-list .bestsellers__item .bestsellers__item--content .bestsellers__item--price .bestsellers__item--price_old p {
   font-size: 17px;
   line-height: 30px; }
 
-.bestdeal-container .bestdeal__list .bestdeal__list-item .bestdeal__list-item--content .bestdeal__list-itemiconstar {
+.bestsellers-container .bestsellers__item-list .bestsellers__item .bestsellers__item--content .bestsellers__item--iconstar {
   margin-top: 10px; }

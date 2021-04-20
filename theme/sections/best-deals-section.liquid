@@ -24,50 +24,66 @@
        
     </div>
 
-
-    <div class="bestdeal__list">
-       {%- for block in section.blocks -%}
-       {% assign collection = collections[block.settings.list_collection] %}
-       {%- for product in collection.products -%} 
-       {%- liquid
-       assign variant_first =  product.variants | first
-       assign first_available_variant  = product.first_available_variant | default: variant_first
-       -%}
-       <div class="bestdeal__list-item">
-          <div class="bestdeal__list-item--sale">
-             <span>{{block.settings.sale}}</span>
-          </div>
-          
-          <div class="bestdeal__list-item--img">
-             <img src="{{ product | img_url }}" />
-          </div>
-          <div class="bestdeal__list-item--content">
-             <div class="bestdeal__list-item--title">
-             <h3>{{product.title}}</h3>
-          </div>
-          <div class="bestdeal__list-item--price">
-             <div class="bestdeal__list-item--price_new">
-                <p>{{ first_available_variant.price | money }}</p>
-             </div>
-             <div class="bestdeal__list-item--price_old">
-                <del>{{ first_available_variant.compare_at_price | money }}</del>
-             </div>
-          </div>
-          <div class="bestdeal__list-item--iconstar">
-               <i class="far fa-star"></i>
-               <i class="far fa-star"></i>
-               <i class="far fa-star"></i>
-               <i class="far fa-star"></i>
-          </div>
-          </div>
-       </div>
-       {%- endfor -%}
-       {%- endfor -%}
+    <div class="container container-list">
+        <div class="swiper-wrapper bestdeal__list">
+        {%- for block in section.blocks -%}
+            {% assign collection = collections[block.settings.list_collection] %}
+            {%- for product in collection.products -%} 
+            {%- liquid
+            assign variant_first =  product.variants | first
+            assign first_available_variant  = product.first_available_variant | default: variant_first
+            -%}
+        <div class="swiper-slide bestdeal__list-item">
+            <div class="bestdeal__list-item--sale">
+                <span>{{block.settings.sale}}</span>
+            </div>
+            <div class="bestdeal__list-item--img">
+                <img src="{{ product | img_url:'197x197' }}" />
+            </div>
+            <div class="bestdeal__list-item--content">
+                <div class="bestdeal__list-item--title">
+                <h3>{{product.title}}</h3>
+            </div>
+            <div class="bestdeal__list-item--price">
+                <div class="bestdeal__list-item--price_new">
+                    <p>{{ first_available_variant.price | money }}</p>
+                </div>
+                <div class="bestdeal__list-item--price_old">
+                    <del>{{ first_available_variant.compare_at_price | money }}</del>
+                </div>
+            </div>
+            <div class="bestdeal__list-item--iconstar">
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+            </div>
+            </div>
+        </div>
+        {%- endfor -%}
+        {%- endfor -%}
+        </div>
     </div>
 </div>
 
 
   
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    var swiper = new Swiper('.container.container-list', {
+      slidesPerView: 4,
+      {% comment %} spaceBetween: 10, {% endcomment %}
+      wrapperClass: 'swiper-wrapper',
+      {% comment %} loop: true, {% endcomment %}
+      // init: false,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      }
+      
+    });
+  </script>
+
 
 <script>
     (function () {
