@@ -1,7 +1,7 @@
 <div class="container categories_container">
     <div class="row_top categories_top">
         <div class="categories_top-title">
-            <h1>Check out the most popular categories</h1>
+            <h1>{{section.settings.title}}</h1>
         </div>
         <div class="categories_top-list_item">
             {%- for block in section.blocks -%}
@@ -37,7 +37,7 @@
         "type": "text",
         "id": "title",
         "label": "Title",
-        "default": "Categories",
+        "default": "Check out the most popular categories",
         "info": "this is info"
         }
     ],

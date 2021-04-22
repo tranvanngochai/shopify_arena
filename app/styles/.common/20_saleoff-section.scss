@@ -13,32 +13,75 @@
         }
         // position: relative;
         .saleoff__item-caption{
-            width: 100%;
+            width: 60%;
             position: absolute;
             top: 10%;
             left: 10%;
             height: 250px;
-
+            .saleoff__item-caption_new{
+                height: 20px;
+                width: 50px;
+                border-radius:30px; 
+                background-color: var(--green-color);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                span{
+                    color: var(--white-color);
+                }
+            }
             .saleoff__item-caption_text{
-                width: 90%;
+                width: 100%;
                 h1{
-                    font-size: 30px;
+                    font-size: 25px;
                     font-weight: bold;
-                    color: var(--text-color);
+                    // color: var(--text-color);
                     bottom: 10%;
                     left: 10%;
                 }
             }
+            .saleoff__item-caption_content{
+                display: flex;
+                .saleoff__item-caption_sale{
+                    h1{
+                        color: var(--icon-color);
+                        font-size: 55px;
+                        font-weight: bold;
+                    }
+                }
+                .saleoff__item-caption_price{
+                    
+                    .price_new{
+                        h1{
+                            color: #FFC800;
+                            font-size: 55px;
+                            font-weight: bold;                           
+                        }
+                    }
+                    .price_old{
+                        del{
+                            color: var(--white-color);
+                            font-size: 20px;
+                        }
+                    }
+                }
+            }
         }
         .saleoff__item-btn{
-            width: 80px;
+            max-width: 120px;
             height: 40px;
-            background-color: var(--icon-color);
+            background-color: var(--text-color);
             border-radius: 30px;
             padding: 10px 24px;
             bottom: 30px;
             left: 40px;
             position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            button{
+                color: var(--white-color);
+            }
         }
     }
 }

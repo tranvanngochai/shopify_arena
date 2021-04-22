@@ -1,154 +1,160 @@
   <!-- Swiper -->
 <div class="container bestsellers-container">
    <div class="bestsellers-heading">
-      <h1>Featured products</h1>
+      <h1>Top 5 Bestsellers in:</h1>
    </div>
-   <div class="tab">
-        <button class="tablinks" onclick="openCity(event, 'Bloodpressure')">Blood pressure</button>
-        <button class="tablinks" onclick="openCity(event, 'Facemasks')">Face masks</button>
-        <button class="tablinks" onclick="openCity(event, 'Stomatology')">Stomatology</button>
-    </div>
+   <div id="tabs">
+        <ul>
+            <li><a href="#tabs-1">Blood pressure</a></li>
+            <li><a href="#tabs-2">Face masks</a></li>
+            <li><a href="#tabs-3">Stomatology</a></li>
+        </ul>
+   
+        
+            {%- for block in section.blocks  -%} 
 
-    <div class="bestsellers__item-list">
-    {%- for block in section.blocks -%}                     
-        {% assign collection = collections[block.settings.list_collection] %}
-        {% comment %} {% assign collection_two = collections[block.settings.list_collection_two] %}
-        {% assign collection_three = collections[block.settings.list_collection_three] %} {% endcomment %}
-            
-     
-            {%- for product in collection.products -%} 
-            {%- liquid
-            assign variant_first =  product.variants | first
-            assign first_available_variant  = product.first_available_variant | default: variant_first
-            -%}
-            <div class="bestsellers__item tabcontent block-{{block.id}}" id="Bloodpressure" >
-                <div class="bestsellers__item--sale">
-                    <span>SALE</span>
-                </div>
-            
-                <div class="bestsellers__item--img">
-                    <img src="{{ product | img_url }}" />
-                </div>
-                <div class="bestsellers__item--content">
-                    <div class="bestsellers__item--title">
-                    <h3>{{product.title}}</h3>
-                </div>
-                <div class="bestsellers__item--price">
-                    <div class="bestsellers__item--price_new">
-                        <p>{{ first_available_variant.price | money }}</p>
+                                       
+                {% assign collection = collections[block.settings.list_collection] %}
+
+                    <div class="bestsellers__item-list" id="tabs-1">
+
+                    {%- for product in collection.products -%} 
+                        {%- liquid
+                        assign variant_first =  product.variants | first
+                        assign first_available_variant  = product.first_available_variant | default: variant_first
+                        -%}      
+
+                        
+                            <div class="bestsellers__item block-{{block.id}}">
+                                <div class="bestsellers__item--sale">
+                                    <span>SALE</span>
+                                </div>
+                            
+                                <div class="bestsellers__item--img">
+                                    <img src="{{ product | img_url: '197x197' }}" />
+                                </div>
+                                <div class="bestsellers__item--content">
+                                    <div class="bestsellers__item--title">
+                                        <h3>{{product.title}}</h3>
+                                    </div>
+                                    <div class="bestsellers__item--price">
+                                        <div class="bestsellers__item--price_new">
+                                            <p>{{ first_available_variant.price | money }}</p>
+                                        </div>
+                                        <div class="bestsellers__item--price_old">
+                                            <del>{{ first_available_variant.compare_at_price | money }}</del>
+                                        </div>
+                                    </div>
+                                    <div class="bestsellers__item--iconstar">
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>   
+                        
+                        {%- endfor -%}
                     </div>
-                    <div class="bestsellers__item--price_old">
-                        <del>{{ first_available_variant.compare_at_price | money }}</del>
-                    </div>
-                </div>
-                <div class="bestsellers__item--iconstar">
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star"></i>
-                </div>
-            </div>   
-            {%- endfor -%}
-           
 
-            {% comment %} ---------------------------------------- {% endcomment %}
-
-          
-
-           
-            {%- for product in collection.products -%} 
-            {%- liquid
-            assign variant_first =  product.variants | first
-            assign first_available_variant  = product.first_available_variant | default: variant_first
-            -%}
-            <div class="bestsellers__item tabcontent block-{{block.id}}" id="Facemasks">
-                <div class="bestsellers__item--sale">
-                    <span>SALE</span>
-                </div>
+                        {% comment %} ---------------------------------------- {% endcomment %}
                 
-                <div class="bestsellers__item--img">
-                    <img src="{{ product | img_url }}" />
-                </div>
-                <div class="bestsellers__item--content">
-                    <div class="bestsellers__item--title">
-                    <h3>{{product.title}}</h3>
-                </div>
-                <div class="bestsellers__item--price">
-                    <div class="bestsellers__item--price_new">
-                        <p>{{ first_available_variant.price | money }}</p>
+
+                    {% assign collection_2 = collections[block.settings.list_collection_2] %}
+                    <div class="bestsellers__item-list" id="tabs-2">
+                        {%- for product in collection_2.products offset: 1 -%} 
+                        {%- liquid
+                        assign variant_first_2 =  product.variants | first
+                        assign first_available_variant_2  = product.first_available_variant | default: variant_first_2
+                        -%} 
+                        
+                            <div class="bestsellers__item block-{{block.id}}">
+                                <div class="bestsellers__item--sale">
+                                    <span>SALE</span>
+                                </div>
+                            
+                                <div class="bestsellers__item--img">
+                                    <img src="{{ product | img_url: '197x197' }}" />
+                                </div>
+                                <div class="bestsellers__item--content">
+                                    <div class="bestsellers__item--title">
+                                        <h3>{{product.title}}</h3>
+                                    </div>
+                                    <div class="bestsellers__item--price">
+                                        <div class="bestsellers__item--price_new">
+                                            <p>{{ first_available_variant_2.price | money }}</p>
+                                        </div>
+                                        <div class="bestsellers__item--price_old">
+                                            <del>{{ first_available_variant_2.compare_at_price | money }}</del>
+                                        </div>
+                                    </div>
+                                    <div class="bestsellers__item--iconstar">
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>   
+                        
+                        {%- endfor -%}
                     </div>
-                    <div class="bestsellers__item--price_old">
-                        <del>{{ first_available_variant.compare_at_price | money }}</del>
+
+                        {% comment %} ---------------------------------------- {% endcomment %}
+                    
+                    {% assign collection_3 = collections[block.settings.list_collection_3] %}
+                    <div class="bestsellers__item-list" id="tabs-3">
+                        {%- for product in collection_3.products -%} 
+                        {%- liquid
+                        assign variant_first_3 =  product.variants | first
+                        assign first_available_variant_3  = product.first_available_variant | default: variant_first_3
+                        -%} 
+                        
+                            <div class="bestsellers__item block-{{block.id}}">
+                                <div class="bestsellers__item--sale">
+                                    <span>SALE</span>
+                                </div>
+                            
+                                <div class="bestsellers__item--img">
+                                    <img src="{{ product | img_url: '197x197' }}" />
+                                </div>
+                                <div class="bestsellers__item--content">
+                                    <div class="bestsellers__item--title">
+                                        <h3>{{product.title}}</h3>
+                                    </div>
+                                    <div class="bestsellers__item--price">
+                                        <div class="bestsellers__item--price_new">
+                                            <p>{{ first_available_variant_3.price | money }}</p>
+                                        </div>
+                                        <div class="bestsellers__item--price_old">
+                                            <del>{{ first_available_variant_3.compare_at_price | money }}</del>
+                                        </div>
+                                    </div>
+                                    <div class="bestsellers__item--iconstar">
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>   
+                    
+                    {%- endfor -%}
                     </div>
-                </div>
-                <div class="bestsellers__item--iconstar">
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star"></i>
-                </div>
-            </div>
+                        {% comment %} ---------------------------------------- {% endcomment %}
+              
+                        
+                
             {%- endfor -%}
-
-            {% comment %} ----------------------------------------- {% endcomment %}
-
-         
-                   
-          
-            {%- for product in collection.products -%} 
-            {%- liquid
-            assign variant_first =  product.variants | first
-            assign first_available_variant  = product.first_available_variant | default: variant_first
-            -%}
-            <div class="bestsellers__item tabcontent block-{{block.id}}" id="Stomatology">
-                <div class="bestsellers__item--sale">
-                    <span>SALE</span>
-                </div>              
-                <div class="bestsellers__item--img">
-                    <img src="{{ product | img_url }}" />
-                </div>
-                <div class="bestsellers__item--content">
-                    <div class="bestsellers__item--title">
-                    <h3>{{product.title}}</h3>
-                </div>
-                <div class="bestsellers__item--price">
-                    <div class="bestsellers__item--price_new">
-                        <p>{{ first_available_variant.price | money }}</p>
-                    </div>
-                    <div class="bestsellers__item--price_old">
-                        <del>{{ first_available_variant.compare_at_price | money }}</del>
-                    </div>
-                </div>
-                <div class="bestsellers__item--iconstar">
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star"></i>
-                </div>
-            </div>
-            {%- endfor -%}
-            
-            
-        {%- endfor -%}
-    </div>
-
+        
+   </div>
 </div>
 
 
 <script>
-function openCity(evt, cityName) {
-  var i, tabcontent, tablinks;
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-  document.getElementById(cityName).style.display = "block";
-  evt.currentTarget.className += " active";
-}
+  $( function() {
+    $( "#tabs" ).tabs();
+  } );
 </script>
 
 
@@ -178,20 +184,11 @@ function openCity(evt, cityName) {
           {
             "type": "collection",
             "id": "list_collection",
-            "label": "Collection"
-          },
-          {
-            "type": "collection",
-            "id": "list_collection_2",
-            "label": "Collection"
-          },
-          {
-            "type": "collection",
-            "id": "list_collection_3",
-            "label": "Collection"
+            "label": "Collection Tab"
           }
+          
           ]
-      }
+        }
       
         
     ],

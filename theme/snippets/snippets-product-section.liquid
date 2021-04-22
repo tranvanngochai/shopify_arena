@@ -1,0 +1,42 @@
+<div class="heading">
+    <h1>{{block.settings.heading}}</h1>
+</div>
+<div class="item-list">
+    {% assign collection = collections[block.settings.list_collection] %}
+   {%- for product in collection.products -%} 
+        {%- liquid
+            assign variant_first =  product.variants | first
+            assign first_available_variant  = product.first_available_variant | default: variant_first
+        -%} 
+
+  <div class="item block-{{ block.id }}">
+    <div class="item--sale">
+      <span>SALE</span>
+    </div>
+
+    <div class="item--img">
+      <img src="{{ product | img_url: '197x197' }}" />
+    </div>
+    <div class="item--content">
+      <div class="item--title">
+        <h3>{{ product.title }}</h3>
+      </div>
+      <div class="item--price">
+        <div class="item--price_new">
+          <p>{{ first_available_variant.price | money }}</p>
+        </div>
+        <div class="item--price_old">
+          <del>{{ first_available_variant.compare_at_price | money }}</del>
+        </div>
+      </div>
+      <div class="item--iconstar">
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+        <i class="far fa-star"></i>
+      </div>
+    </div>
+  </div>
+
+  {%- endfor -%}
+</div>

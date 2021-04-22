@@ -1,7 +1,7 @@
 .swiper-container {
       width: 100%;
-      margin-bottom: 30px;
-      margin-top: 30px;
+      margin-bottom: 50px;
+      margin-top: 50px;
     .swiper-heading{
       margin-bottom: 30px;
       h1{
@@ -51,7 +51,7 @@
           }
           .swiper-slide__item--content{
             .swiper-slide__item--title{
-
+              margin-top: 10px;
               h3{
                 line-height: 20px;
                 font-size: 20px;
@@ -59,8 +59,8 @@
               }
             }
             .swiper-slide__item--price{
+              margin-top: 10px;
               display: flex;
-              margin-top: 30px;
               height: 30px;
               .swiper-slide__item--price_new{
                 display: flex;
@@ -86,7 +86,7 @@
             .swiper-slide__item--iconstar{
               margin-top: 10px;
               i{
-
+                color: var(--icon-color);
               }
             }
           }

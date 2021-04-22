@@ -1,7 +1,5 @@
-.bestsellers-container {
-    width: 100%;
-    margin-top: 50px;
-  .bestsellers-heading{
+.heading{
+  margin-bottom: 30px;
     h1{
       font-size: 30px;
       color: var(--text-color);
@@ -11,11 +9,11 @@
   }
 
   
-  .bestsellers__item-list{
+.item-list{
         display: grid;
-        grid-template-columns: auto auto auto auto;
+        grid-template-columns: auto auto auto auto auto;
         gap: 25px;
-      .bestsellers__item {
+     .item {
         height: 345px;
         width: fit-content;
         font-size: 18px;
@@ -25,7 +23,7 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;  
-        .bestsellers__item--sale{
+        .item--sale{
           position: absolute;
           top: 0;
           left: 0;
@@ -43,14 +41,14 @@
             }
           }
 
-        .bestsellers__item--img{
+        .item--img{
           height: 197px;
           display: flex;
           justify-content: center;
           align-items: center;
         }
-        .bestsellers__item--content{
-          .bestsellers__item--title{
+        .item--content{
+          .item--title{
             margin-top: 10px;
             h3{
               line-height: 20px;
@@ -58,11 +56,11 @@
               color: var(--text-color);
             }
           }
-          .bestsellers__item--price{
+          .item--price{
             display: flex;
             margin-top: 10px;
             height: 30px;
-            .bestsellers__item--price_new{
+            .item--price_new{
               display: flex;
               height: 30px;
               align-items: center;
@@ -73,7 +71,7 @@
                 line-height: 30px;
               }
             }
-            .bestsellers__item--price_old{
+            .item--price_old{
               display: flex;
               height: 30px;
               align-items: center;
@@ -83,7 +81,7 @@
               }
             }
           }
-          .bestsellers__item--iconstar{
+          .item--iconstar{
             margin-top: 10px;
             i{
               color: var(--icon-color);
@@ -93,7 +91,7 @@
                 
       }
     }
-  }
+  
 
 
 

@@ -1,0 +1,54 @@
+<div class="saleoff__item block-{{block.id}}">
+            <div class="saleoff__item-img">
+                <img src="{{ block.settings.img_saleoff | img_url : 'master' }}" alt="" >
+            </div>
+            <div class="saleoff__item-caption">
+                {%- if block.settings.tag != blank -%}
+                    <div class="saleoff__item-caption_new">
+                    <span>{{block.settings.tag}}</span>
+                </div>
+                {%- endif -%}
+                
+                <div class="saleoff__item-caption_text">
+                    <h1 style="color:{{block.settings.color_text}}">{{block.settings.heading}}</h1>
+                </div>
+            
+                <div class="saleoff__item-caption_content">
+                    <div class="saleoff__item-caption_sale">
+                        <h1>{{block.settings.sale}}</h1>
+                    </div>
+                    <div class="saleoff__item-caption_price">
+                        <div class="price_new">
+                            <h1>{{block.settings.price_new}}</h1>
+                        </div>
+                        <div class="price_old">
+                            <del>{{block.settings.price_old}}</del>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+            <div class="saleoff__item-btn">
+                <a href="">
+                    <button>{{block.settings.button}}</button>
+                </a>
+            </div>     
+        </div>
+    {%- if forloop.length == 1 -%}
+      {%- style -%}
+        .saleoff_container{
+            grid-template-columns: auto;
+        }
+        .saleoff__item{
+            margin: auto;
+        }
+      {%- endstyle -%}
+    {%- elsif forloop.length == 2 -%}
+      {%- style -%}
+        .saleoff_container{
+            grid-template-columns: auto auto;
+        }
+        .saleoff__item-img img{
+            width: 100%;
+        }
+      {%- endstyle -%}
+    {%- endif -%}

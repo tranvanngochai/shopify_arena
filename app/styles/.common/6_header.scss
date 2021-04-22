@@ -9,16 +9,19 @@
     background-color: #F0F2F5;
     justify-content: center;
     .header__top-text{
-        
+        height: 30px;
         p{
             font-size: 15px;
             color: #FFC800;
+            line-height: 30px;
+            margin: 0;
         }
     }
     .header__top-listmenu{
         display: inline-flex;
         flex: 1;
         transform: translateX(90px);
+        height: 30px;
         ul{
                 display: flex;
                 list-style: none;
@@ -27,14 +30,17 @@
                     padding-right: 30px;
                     border-right: 1px solid black;
                     margin-right: 30px;
+                    line-height: 30px
                     }   
             } 
     }
     .header__top-listicon{
-        border-right: 1px solid black;
+        border-right: 1px solid #000;
         margin-right: 35px;
         display: inline-flex;
         padding-right: 15px;
+        height: 30px;
+        align-items: center;
         a{
             margin-right: 20px;
         }
@@ -42,8 +48,10 @@
     .header__nav{
         display: flex;
         .header__nav-item{
+            align-items: center;
             a:first-child{
                 margin-right: 10px;
+                line-height: 30px;
             }
         }
         .header__nav-item:first-child{

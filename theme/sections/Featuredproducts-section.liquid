@@ -1,0 +1,47 @@
+<div class="container featureproduct_container">
+    {%- for block in section.blocks -%}
+        {% render 'snippets-product-section', block: block %}
+    {%- endfor -%}
+</div>
+
+
+{% schema %}
+{
+    "name": "Featured products section",
+    "settings": [
+        {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Featured products"
+        }
+    ],
+    "blocks":[
+        {
+          "type": "tab_colection",
+          "name": "Tab Colection",
+          "settings": [
+          {
+            "type": "richtext",
+            "id": "heading",
+            "label": "Heading"
+          },
+          {
+            "type": "collection",
+            "id": "list_collection",
+            "label": "Collection Tab"
+          }
+          
+          ]
+        }
+      
+        
+    ],
+    "presets": [
+        {
+            "category": "Advanced layout",
+            "name": "Featured products section"
+        }
+    ]
+}
+{% endschema %}

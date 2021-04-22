@@ -50,12 +50,8 @@
   .container-list {
     overflow: hidden;
     .bestdeal__list {
-      // display: grid;
-      // grid-template-columns: auto auto auto auto auto;
-      // gap: 25px;
       .bestdeal__list-item {
         height: 345px;
-        // width: 197px;
         width: fit-content;
         font-size: 18px;
         background: #fff;
@@ -86,19 +82,14 @@
         }
 
         .bestdeal__list-item--img {
-          // position: absolute;
-          // top: 0 !important;
-          // left: 0;
           height: 197px;
-          
           display: flex;
           justify-content: center;
           align-items: center;
         }
         .bestdeal__list-item--content {
           .bestdeal__list-item--title {
-            // height: 20px;
-            margin-top: 30px;
+            margin-top: 10px;
             h3 {
               line-height: 20px;
               font-size: 20px;
@@ -106,8 +97,8 @@
             }
           }
           .bestdeal__list-item--price {
+            margin-top: 10px;
             display: flex;
-            margin-top: 30px;
             height: 30px;
             .bestdeal__list-item--price_new {
               display: flex;
@@ -130,9 +121,10 @@
               }
             }
           }
-          .bestdeal__list-itemiconstar {
+          .bestdeal__list-item--iconstar {
             margin-top: 10px;
             i {
+              color: var(--icon-color);
             }
           }
         }

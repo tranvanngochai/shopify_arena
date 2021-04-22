@@ -1,7 +1,7 @@
   <!-- Swiper -->
 <div class="container swiper-container">
    <div class="swiper-heading">
-      <h1>Featured products</h1>
+      <h1>{{section.settings.title}}</h1>
    </div>
    <div class="container list_item">
       <div class="swiper-wrapper">
@@ -23,21 +23,21 @@
          <div class="swiper-slide__item--content">
             <div class="swiper-slide__item--title">
             <h3>{{product.title}}</h3>
-         </div>
-         <div class="swiper-slide__item--price">
-            <div class="swiper-slide__item--price_new">
-               <p>{{ first_available_variant.price | money }}</p>
             </div>
-            <div class="swiper-slide__item--price_old">
-               <del>{{ first_available_variant.compare_at_price | money }}</del>
+            <div class="swiper-slide__item--price">
+               <div class="swiper-slide__item--price_new">
+                  <p>{{ first_available_variant.price | money }}</p>
+               </div>
+               <div class="swiper-slide__item--price_old">
+                  <del>{{ first_available_variant.compare_at_price | money }}</del>
+               </div>
             </div>
-         </div>
-         <div class="swiper-slide__item--iconstar">
-              <i class="far fa-star"></i>
-              <i class="far fa-star"></i>
-              <i class="far fa-star"></i>
-              <i class="far fa-star"></i>
-         </div>
+            <div class="swiper-slide__item--iconstar">
+               <i class="far fa-star"></i>
+               <i class="far fa-star"></i>
+               <i class="far fa-star"></i>
+               <i class="far fa-star"></i>
+            </div>
          </div>
       </div>
       {%- endfor -%}
@@ -59,9 +59,9 @@
 
   <script>
       var swiper = new Swiper(".container.list_item", {
-        slidesPerView: 4,
+        slidesPerView: 5,
         spaceBetween: 30,
-        slidesPerGroup: 4,
+        slidesPerGroup: 5,
         loop: true,
         loopFillGroupWithBlank: true,
         pagination: {
@@ -87,7 +87,7 @@
         "type": "text",
         "id": "title",
         "label": "Title",
-        "default": "lates products"
+        "default": "Latest products"
         }
     ],
     "blocks":[

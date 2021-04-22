@@ -16,7 +16,9 @@
     "23_latestproducts-section",
     "24_poster-section",
     "25_best-deals-section",
-    "26_bestsellers-section"
+    "26_bestsellers-section",
+    "27_product-section",
+    "28_featuredproduct-section"
   ],
   "homepage": [
     "1_functions",
