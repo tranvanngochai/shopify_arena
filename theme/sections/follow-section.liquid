@@ -1,0 +1,49 @@
+<div class="container follow-container">
+    <div class="follow__title">
+        <h1>{{section.settings.title}}</h1>
+    </div>
+    <div class="follow__list">
+        {%- for block in section.blocks -%}                
+            <div class="follow__list-item">
+                <div class="follow__list-item--img">
+                    <img src="{{ block.settings.img_follow | img_url : 'master' }}" alt="" >
+                </div>
+            </div>
+        {%- endfor -%}
+    </div>
+</div>
+
+
+
+{% schema %}
+{
+    "name": "Follow section",
+    "settings": [
+        {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+        }
+    ],
+    "blocks":[
+        {
+            "type": "follow_item",
+            "name": "follow",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "label": "Image Follow",
+                    "id": "img_follow"
+                }
+            ]
+        }
+        
+    ],
+    "presets": [
+        {
+            "category": "Advanced layout",
+            "name": "Follow section"
+        }
+    ]
+}
+{% endschema %}

@@ -1,10 +1,19 @@
-  <!-- Swiper -->
-<div class="container swiper-container">
-   <div class="swiper-heading">
+
+<div class="container slider-container">
+   <div class="slider-heading">
       <h1>{{section.settings.title}}</h1>
    </div>
-   <div class="container list_item">
-      <div class="swiper-wrapper">
+
+   <ul class="controls" id="customize-controls" aria-label="Carousel Navigation" tabindex="0">
+        <li class="prev" data-controls="prev" aria-controls="customize" tabindex="-1">
+            <i class="fas fa-angle-left"></i>
+        </li>
+        <li class="next" data-controls="next" aria-controls="customize" tabindex="-1">
+            <i class="fas fa-angle-right"></i>          
+        </li>
+    </ul>
+
+   <div class="my-slider">
       {%- for block in section.blocks -%}
       {% assign collection = collections[block.settings.list_collection] %}
       {%- for product in collection.products -%} 
@@ -12,27 +21,27 @@
       assign variant_first =  product.variants | first
       assign first_available_variant  = product.first_available_variant | default: variant_first
       -%}
-      <div class="swiper-slide item">
-         <div class="swiper-slide__item--sale">
+      <div class="slider-item item">
+         <div class="slider-item--sale">
             <span>SALE</span>
          </div>
          
-         <div class="swiper-slide__item--img">
+         <div class="slider-item--img">
             <img src="{{ product | img_url: '197x197' }}" />
          </div>
-         <div class="swiper-slide__item--content">
-            <div class="swiper-slide__item--title">
+         <div class="slider-item--content">
+            <div class="slider-item--title">
             <h3>{{product.title}}</h3>
             </div>
-            <div class="swiper-slide__item--price">
-               <div class="swiper-slide__item--price_new">
+            <div class="slider-item--price">
+               <div class="slider-item--price_new">
                   <p>{{ first_available_variant.price | money }}</p>
                </div>
-               <div class="swiper-slide__item--price_old">
+               <div class="slider-item--price_old">
                   <del>{{ first_available_variant.compare_at_price | money }}</del>
                </div>
             </div>
-            <div class="swiper-slide__item--iconstar">
+            <div class="slider-item--iconstar">
                <i class="far fa-star"></i>
                <i class="far fa-star"></i>
                <i class="far fa-star"></i>
@@ -43,37 +52,9 @@
       {%- endfor -%}
       {%- endfor -%}
    </div>
-   </div>
-   
-      <!-- Add Pagination -->
-      <div class="swiper-pagination"></div>
-      <!-- Add Arrows -->
-      <div class="swiper-button-next"></div>
-      <div class="swiper-button-prev"></div>
+
 </div>
 
-
-
-  <!-- Swiper JS -->
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
-  <script>
-      var swiper = new Swiper(".container.list_item", {
-        slidesPerView: 5,
-        spaceBetween: 30,
-        slidesPerGroup: 5,
-        loop: true,
-        loopFillGroupWithBlank: true,
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true
-        },
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev"
-        }
-      });
-    </script>
 
 
 

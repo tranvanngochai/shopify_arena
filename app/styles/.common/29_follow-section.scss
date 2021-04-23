@@ -1,0 +1,31 @@
+.follow-container{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    .follow__title{
+        margin-bottom: 30px;
+        text-align: center;
+        h1{
+            font-size: 30px;
+            color: var(--text-color);
+            font-weight: bold;
+        }
+    }
+    .follow__list{
+        display: grid;
+        grid-template-columns: auto auto auto auto auto auto;
+        grid-auto-rows: 200px;
+        gap: 10px;
+        .follow__list-item{
+            width: 200px;
+            .follow__list-item--img{
+                img{
+                    width: 200px;
+                    height: 200px;
+                }
+            }
+        }
+    }
+}
+
+
+

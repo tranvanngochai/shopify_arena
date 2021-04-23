@@ -1,7 +1,6 @@
 
-
 <!-- Slideshow container -->
-<div class="container-fluid slideshow-container">
+<div class="{% if section.settings.size_slide == 'container' %}container {% else %} container-fluid {% endif %}slideshow-container">
     {%- for block in section.blocks -%}
   <!-- Full-width images with number and caption text -->
         <div class="mySlides fade">
@@ -84,11 +83,13 @@ function showSlides(n) {
     "name": "Slideshow section",
     "settings": [
         {
-        "type": "text",
-        "id": "title",
-        "label": "Title",
-        "default": "Slideshow",
-        "info": "this is info"
+            "type": "radio",
+            "id": "size_slide",
+            "options": [
+                { "value": "container", "label": "container"},
+                { "value": "container-fluid", "label": "container-fluid"}
+            ],
+            "label": "Size Slide"
         }
     ],
     "blocks":[

@@ -20,12 +20,7 @@
             {%- case block.type -%}
               {%- when 'top_text_page' -%}
               <div class="header__top-text">
-                  <p>{{block.settings.text_page}}</p>
-                  {% style %}
-                    .header__top-text p{
-                      color: {{block.settings.text_color_top}}
-                    }
-                  {% endstyle %}
+                  <p style="color:{{block.settings.text_color_top}}">{{block.settings.text_page}}</p>
               </div>
             
               {%- when 'top_link_page' -%}

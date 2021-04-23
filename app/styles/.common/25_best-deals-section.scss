@@ -1,6 +1,5 @@
-.bestdeal-container {
-  width: 100%;
-  margin-top: 50px;
+.slider-container {
+  
   .bestdeal__top {
     height: 63px;
     display: flex;
@@ -47,19 +46,10 @@
       }
     }
   }
-  .container-list {
-    overflow: hidden;
-    .bestdeal__list {
-      .bestdeal__list-item {
-        height: 345px;
-        width: fit-content;
-        font-size: 18px;
-        background: #fff;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
+    
+    .my-slider {
+      .slider-item {
+        
         .bestdeal__list-item--sale {
           position: absolute;
           top: 0;
@@ -79,56 +69,12 @@
             transform: translateY(50%);
             font-weight: bold;
           }
-        }
-
-        .bestdeal__list-item--img {
-          height: 197px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        .bestdeal__list-item--content {
-          .bestdeal__list-item--title {
-            margin-top: 10px;
-            h3 {
-              line-height: 20px;
-              font-size: 20px;
-              color: var(--text-color);
-            }
-          }
-          .bestdeal__list-item--price {
-            margin-top: 10px;
-            display: flex;
-            height: 30px;
-            .bestdeal__list-item--price_new {
-              display: flex;
-              height: 30px;
-              align-items: center;
-              p {
-                font-size: 20px;
-                color: var(--icon-color);
-                margin-right: 10px;
-                line-height: 30px;
-              }
-            }
-            .bestdeal__list-item--price_old {
-              display: flex;
-              height: 30px;
-              align-items: center;
-              p {
-                font-size: 17px;
-                line-height: 30px;
-              }
-            }
-          }
-          .bestdeal__list-item--iconstar {
-            margin-top: 10px;
-            i {
-              color: var(--icon-color);
-            }
-          }
-        }
+        }    
       }
     }
-  }
+  
+}
+
+#tns1-iw{
+  margin: 0;
 }

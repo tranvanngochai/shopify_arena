@@ -24,6 +24,7 @@
     "yargs": "^16.2.0"
   },
   "dependencies": {
-    "gulp-sourcemaps": "^3.0.0"
+    "gulp-sourcemaps": "^3.0.0",
+    "tiny-slider": "^2.9.3"
   }
 }
