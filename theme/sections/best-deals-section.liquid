@@ -22,7 +22,7 @@
         </div> 
     </div>
 
-    <div class="my-slider">
+    <div class="my-slider my-slider-{{section.id}}">
         {%- for block in section.blocks -%}
             {% assign collection = collections[block.settings.list_collection] %}
             {%- for product in collection.products -%} 
@@ -63,6 +63,9 @@
     
 </div>
 
+<script>
+    slideshow({{section.id}});
+</script>
 
 
   

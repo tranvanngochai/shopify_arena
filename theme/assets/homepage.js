@@ -1,6 +1,6 @@
-(function() {
-  var slider = tns({
-    container: ".my-slider",
+(function slideshow(id) {
+  let slider = tns({
+    container: `.my-slider-${id}`,
     loop: true,
     items: 1,
     slideBy: "page",
@@ -22,4 +22,5 @@
       }
     }
   });
-})();
+  console.log(container); 
+});
