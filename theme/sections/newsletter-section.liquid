@@ -1,0 +1,50 @@
+<div class="newsletter-container" style="background-image: url('{{section.settings.img_background | img_url: 'master'}}')">
+    <div class="newsletter__heading">
+        <h1>{{section.settings.title}}</h1>
+    </div>
+    {%- for block in section.blocks -%}
+    {%- if block.type == 'Block_input' -%}   
+    <div class="newsletter__input">
+        <input type="text" placeholder="Your e-mail address">
+        <button>Subscribe</button>
+    </div>
+    {%- endif -%}
+    {%- endfor -%}
+</div>
+
+
+{% schema %}
+{
+    "name": "News Letter section",
+    "settings": [
+        {
+            "type": "image_picker",
+            "id": "img_background",
+            "label": "Image Background"
+            
+        },
+        {
+            "type": "textarea",
+            "id": "title",
+            "label": "Title",
+            "default": "News Letter"
+        }
+    ],
+    "blocks":[
+        {
+          "type": "Block_input",
+          "name": "Input Email",
+          "settings": [
+
+          ]
+      }
+        
+    ],
+    "presets": [
+        {
+            "category": "Advanced layout",
+            "name": "News Letter section"
+        }
+    ]
+}
+{% endschema %}

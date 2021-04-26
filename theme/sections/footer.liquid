@@ -1,242 +1,160 @@
-{%- capture content -%}
-{%- if section.settings.boxed_layout -%}{%- assign _layout = 'boxed' -%}{%- else -%}{%- assign _layout = 'full' -%}{%- endif -%}
-{%- liquid
-  assign sectionType = 'footer'
-  assign f_background_color     = section.settings.background_color | remove: 'rgba(0,0,0,0)'
-  assign f_text_color           = section.settings.text_color | remove: 'rgba(0,0,0,0)'
-  assign f_link_hover_color     = section.settings.link_hover_color | remove: 'rgba(0,0,0,0)'
--%}
-
-{%- capture section_class -%}
-  section-{{- section.id -}}
-  |layout-{{- _layout -}}
-{%- endcapture -%}{%- assign section_class = section_class | strip | split: '|' | join: ' ' -%}
-{%- assign sectionID = '.section-' | append: section.id -%}
-
-<div class="{{section_class}}" data-section-type="{{sectionType}}" data-section-id="{{section.id}}">
-	{%- if _layout == 'boxed' -%}<div class="container">{%- endif -%}
-
-    {%- if section.blocks.size > 0 -%}
-      <div class="row footer-block--items">
+<div class="container footer-container" style="background-color: {{section.settings.background_color}}">
+    <div class="container menu__optionlist">
         {%- for block in section.blocks -%}
-          {%- render 'footer-item', type: 'block', block: block, index: forloop.index0 -%}
-        {%- endfor -%}
-      </div>
-    {%- endif -%}
-    {%- if _layout == 'boxed' -%}</div>{%- endif -%}
+            {% case block.type %}
+                {%- when 'block_menu_list' -%}             
+                    {% render 'snippets-menu-optionlist', block: block %}
+                {%-  when 'block_needhelp' -%}          
+                    <div class="menu__optionlist--needhelp">
+                        <div class="menu__optionlist-needhelp--heading">
+                            <h1>{{block.settings.heading}}</h1>
+                        </div>
+                        <div class="menu__optionlist-needhelp--text">
+                            <p>{{block.settings.text}}</p>
+                        </div>
+                        <div class="menu__optionlist-needhelp--content">
+                            <p>{{block.settings.content_Monday-Friday}}</p>
+                            <p>{{block.settings.content_Saturady}}</p>
+                        </div>
+                        <div class="menu__optionlist-needhelp--email">
+                            <p>{{block.settings.text_email}}</p>
+                        </div>
+                    </div>
+            
+            
+                {%- when 'block_ourstore' -%}
+                    <div class="menu__optionlist-ourstore">
+                        <div class="menu__optionlist-ourstore--heading">
+                            <h1>{{block.settings.heading}}</h1>
+                        </div>
+                        <div class="menu__optionlist-ourstore--text">
+                            <p>{{block.settings.text_address}}</p>
+                            <a href="">
+                                <p>{{block.settings.show_map}}</p>
+                            </a>
+                        </div>
 
-    {%- comment -%}
-      **********
-      *
-      * FOOTER COPYRIGHT
-      *
-      *****
-    {%- endcomment-%}
-    <div class="footer-copyright">
-        <div class="copyright-content text-center">{{ section.settings.copyright }}</div>
+                        {% render 'snippets-header-listicon', block: block %}
+                        
+                    </div>
+           
+            {% endcase %}
+        {%- endfor -%}
     </div>
 </div>
 
-{%- capture sectionCss -%}
-    {%- render 'snippet-theme', type: 'sectionCSS', ID: sectionID  -%}
-    :root{
-        {%- if f_background_color   != blank -%}--footer-bg-color: {{f_background_color}};{%- endif -%}
-        {%- if f_text_color         != blank -%}--footer-text-color: {{f_text_color}};{%- endif -%}
-        {%- if f_link_hover_color   != blank -%}--footer-link-hover-color: {{f_link_hover_color}};{%- endif -%}
-    }
-{%- endcapture -%}
-{%- unless sectionCss == blank -%}{% style %}{{sectionCss}}{% endstyle %}{%- endunless -%}
-{%- endcapture -%}
-{%- render 'compress', content: content -%}
+<div class="container-fluid footer__bottom" style="background-color:{{section.settings.background_bottom}}">
+    <div class="container footer__bottom-container">
+        <div class="footer__bottom--text">
+            <p>{{section.settings.text_bottom}}</p>
+        </div>
+        <div class="footer__bottom--img">
+            <img src="{{ section.settings.img_bottom | img_url : '480x40' }}" alt="" >
+        </div>
+    </div>  
+</div>
+
+
+
 
 {% schema %}
 {
-    "blocks": [
-        {
-            "type": "logo",
-            "name": "Logo + Information",
-            "settings": [
-                {
-                    "type": "text",
-                    "id": "logo_svg",
-                    "label": "Logo SVG"
-                },
-                {
-                    "type": "image_picker",
-                    "id": "logo",
-                    "label": "Logo"
-                },
-                {
-                    "type": "text",
-                    "id": "logo_max_width",
-                    "label": "Logo max width",
-                    "info": "E.g: 150px"
-                },
-                {
-                    "type": "text",
-                    "id": "width",
-                    "label": "Column width:",
-                    "info": "Blank to auto. E.g: 3/12"
-                },
-                {
-                   "type":"header",
-                   "content":"Information"
-                },
-                {
-                    "type":"richtext",
-                    "id":"richtext",
-                    "label":"Information"
-                }
-            ]
-        },
-        {
-            "type": "menu",
-            "name": "Menu",
-            "settings": [
-                {
-                    "type": "link_list",
-                    "id": "menu",
-                    "label": "Menu"
-                },
-                {
-                    "type":"text",
-                    "id":"title",
-                    "label":"Menu title"
-                },
-                {
-                    "type": "text",
-                    "id": "width",
-                    "label": "Column width:",
-                    "info": "Blank to auto. E.g: 3/12"
-                }
-            ]
-        },
-        {
-            "type": "newsletter",
-            "name": "Sign up form",
-            "settings": [
-                {
-                    "type": "text",
-                    "id": "form_title",
-                    "label": "Title",
-                    "default": "Sign up for the latest on news, offers and more."
-                },
-                {
-                    "type": "header",
-                    "content": "Form settings"
-                },
-                {
-                    "type": "select",
-                    "id": "form_type",
-                    "label": "Form type:",
-                    "options": [
-                        {
-                            "value": "shopify",
-                            "label": "Shopify"
-                        },
-                        {
-                            "value": "mailchimp",
-                            "label": "Mailchimp"
-                        },
-                        {
-                            "value": "klaviyo",
-                            "label": "Klaviyo"
-                        }
-                    ],
-                    "default": "shopify"
-                },
-                {
-                    "type": "textarea",
-                    "id": "form_url",
-                    "label": "Form URL"
-                },
-                {
-                    "type": "paragraph",
-                    "content": "Mailchimp: [Where do I get my MailChimp Form Action](https://www.arenacommerce.com/blogs/faq/shopify-theme-how-to-get-a-mailchimp-form-action-url)"
-                },
-                {
-                    "type": "paragraph",
-                    "content": "KLAVIYO: [Sign up](https://www.klaviyo.com/partner/signup?utm_source=0010V00002PVTlf&utm_medium=partner)"
-                },
-                {
-                    "type": "text",
-                    "id": "btn_txt",
-                    "label": "Button label",
-                    "default": "Sign Up"
-                },
-                {
-                    "type": "range",
-                    "id": "btn_style",
-                    "label": "Button style",
-                    "min": 1,
-                    "max": 3,
-                    "step": 1,
-                    "default": 1
-                },
-                {
-                   "type":"header",
-                   "content":"Social links"
-                },
-                {
-                    "type":"checkbox",
-                    "id":"show_social_links",
-                    "label":"Show Social links"
-                },
-                {
-                    "type":"text",
-                    "id":"social_title",
-                    "label":"Title",
-                    "default": "SOCIAL LINKS"
-                },
-                {
-                   "type":"header",
-                   "content":"Block settings"
-                },
-                {
-                    "type": "text",
-                    "id": "width",
-                    "label": "Column width:",
-                    "info": "Blank to auto. E.g: 3/12"
-                }
-            ]
-        }
-    ],
-    "name": "Footer",
+    "name": "Footer Section",
     "tag": "section",
     "settings": [
         {
-            "type": "checkbox",
-            "id": "boxed_layout",
-            "label": "Boxed layout",
-            "default": true
+            "type": "color",
+            "id": "background_color",
+            "label": "Background color"
         },
         {
-            "type":"color",
-            "id":"background_color",
-            "label":"Background color",
-            "default": "#1C1C1C"
-        },
-        {
-            "type":"color",
-            "id":"text_color",
-            "label":"Text color",
-            "default": "#FFFFFF"
-        },
-        {
-            "type":"color",
-            "id":"link_hover_color",
-            "label":"Link hover color",
-            "default": "#FF9439"
-        },
-        {
-           "type":"header",
-           "content":"Copyright"
+            "type": "color",
+            "id": "background_bottom",
+            "label": "Background color Bottom"
         },
         {
             "type": "richtext",
-            "id": "copyright",
-            "label": "Copyright",
-            "default": "<p>LETSTANGO © 2021</p>"
+            "id": "text_bottom",
+            "label": "Text Bottom"
+        },
+        {
+            "type": "image_picker",
+            "label": "Image Bottom",
+            "id": "img_bottom"
+        }
+ 
+    ],
+    "blocks": [
+        {
+            "type": "block_menu_list",
+            "name": "Menu List",
+            "settings": [
+                
+                {
+                    "type": "text",
+                    "id": "heading",
+                    "label": "Heading"
+                },
+                {
+                    "type": "link_list",
+                    "id": "menu_link",
+                    "label": "Menu Link"
+                }
+            ]
+        },
+        {
+            "type": "block_needhelp",
+            "name": "Need Help",
+            "settings": [
+                
+                {
+                    "type": "text",
+                    "id": "heading",
+                    "label": "Heading"
+                },
+                {
+                    "type": "textarea",
+                    "id": "text",
+                    "label": "Text"
+                },
+                {
+                    "type": "richtext",
+                    "id": "content_Monday-Friday",
+                    "label": "Text"
+                },
+                {
+                    "type": "richtext",
+                    "id": "content_Saturady",
+                    "label": "Text"
+                },
+                {
+                    "type": "textarea",
+                    "id": "text_email",
+                    "label": "Email"
+                }
+            ]
+        },
+        {
+            "type": "block_ourstore",
+            "name": "Our Store",
+            "settings": [
+                
+                {
+                    "type": "text",
+                    "id": "heading",
+                    "label": "Heading"
+                },
+                {
+                    "type": "textarea",
+                    "id": "text_address",
+                    "label": "Address Store"
+                },
+                {
+                    "type": "textarea",
+                    "id": "show_map",
+                    "label": "Show Map"
+                }
+            ]
         }
     ]
 }

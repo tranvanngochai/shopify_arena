@@ -1,0 +1,55 @@
+<div class="container-fluid program-container" style="background-color: {{section.settings.background_color}}">
+    {%- for block in section.blocks -%}
+           
+    <div class="program__item">
+        <div class="program__item--icon">
+            <i class="{{block.settings.icon}}"></i>
+        </div>
+        <div class="program__item--text">
+            {{block.settings.text}}
+        </div>
+    </div>
+    {%- endfor -%}
+</div>
+
+
+
+{% schema %}
+{
+    "name": "Program section",
+    "settings": [
+        {
+            "type": "color",
+            "id": "background_color",
+            "label": "Background color",
+            "default": "#fff"
+        }
+
+    ],
+    "blocks":[
+        {
+            "type": "block_item",
+            "name": "Item",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "icon",
+                    "label": "icon"
+                },
+                {
+                    "type": "text",
+                    "id": "text",
+                    "label": "text"
+                }
+                
+            ]
+        }
+    ],
+    "presets": [
+        {
+            "category": "Advanced layout",
+            "name": "Program section"
+        }
+    ]
+}
+{% endschema %}
