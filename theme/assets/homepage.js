@@ -1,5 +1,6 @@
-(function slideshow(id) {
-  let slider = tns({
+console.log('home page js')
+function slideshow(id) {
+  var slider = tns({
     container: `.my-slider-${id}`,
     loop: true,
     items: 1,
@@ -22,5 +23,7 @@
       }
     }
   });
-  console.log(container); 
-});
+  console.log(slider.container);
+};
+
+

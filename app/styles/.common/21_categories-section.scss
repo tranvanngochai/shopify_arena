@@ -1,4 +1,5 @@
 .categories_container{
+    font-family: 'Oswald', sans-serif;
     .categories_top{
         width: 100%;
         .categories_top-title{
@@ -7,6 +8,7 @@
                 text-align: center;
                 margin: 55px auto 20px auto;
                 font-weight: bold;
+                font-size: 30px;
             }
         }
         .categories_top-list_item{

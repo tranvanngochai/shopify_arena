@@ -1,4 +1,4 @@
-<div class="container slider-container">
+<div class="container slider-container" data-section-type="featured-product" data-section-id="{{section.id}}">
     <div class="bestdeal__top">
         <div class="bestdeal-heading">
             <h1>Best Deals of the week!</h1>
@@ -21,6 +21,15 @@
             </div>            
         </div> 
     </div>
+
+    <ul class="controls" id="customize-controls-{{section.id}}" style="display:none" aria-label="Carousel Navigation" tabindex="0">
+        <li class="prev" data-controls="prev" aria-controls="customize" tabindex="-1">
+            <i class="fas fa-angle-left"></i>
+        </li>
+        <li class="next" data-controls="next" aria-controls="customize" tabindex="-1">
+            <i class="fas fa-angle-right"></i>          
+        </li>
+    </ul>
 
     <div class="my-slider my-slider-{{section.id}}">
         {%- for block in section.blocks -%}
@@ -64,8 +73,39 @@
 </div>
 
 <script>
-    slideshow({{section.id}});
+{% comment %} (() => {
+    console.log('best deals', typeof slideshow)
+    slideshow({{section.id}})
+}) {% endcomment %}
+
+
+    var slider = tns({
+    container: '.my-slider-{{section.id}}',
+    loop: true,
+    items: 1,
+    slideBy: "page",
+    nav: false,
+    autoplay: false,
+    speed: 400,
+    autoplayButtonOutput: false,
+    mouseDrag: true,
+    controlsContainer: "#customize-controls-{{section.id}}",
+    responsive: {
+      640: {
+        items: 2
+      },
+
+      768: {
+        items: 5,
+        gutter: 30,
+        edgePadding: 30
+      }
+    }
+  });
 </script>
+
+
+
 
 
   

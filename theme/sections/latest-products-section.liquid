@@ -4,7 +4,7 @@
       <h1>{{section.settings.title}}</h1>
    </div>
 
-   <ul class="controls" id="customize-controls" aria-label="Carousel Navigation" tabindex="0">
+   <ul class="controls" id="customize-controls-{{section.id}}" aria-label="Carousel Navigation" tabindex="0">
         <li class="prev" data-controls="prev" aria-controls="customize" tabindex="-1">
             <i class="fas fa-angle-left"></i>
         </li>
@@ -24,14 +24,13 @@
       <div class="slider-item item">
          <div class="slider-item--sale">
             <span>SALE</span>
-         </div>
-         
+         </div>       
          <div class="slider-item--img">
             <img src="{{ product | img_url: '197x197' }}" />
          </div>
          <div class="slider-item--content">
             <div class="slider-item--title">
-            <h3>{{product.title}}</h3>
+               <h3>{{product.title}}</h3>
             </div>
             <div class="slider-item--price">
                <div class="slider-item--price_new">
@@ -55,8 +54,39 @@
 
 </div>
 
+
 <script>
-   slideshow({{section.id}})
+    var slider = tns({
+    container: '.my-slider-{{section.id}}',
+    loop: true,
+    items: 1,
+    slideBy: "page",
+    nav: false,
+    autoplay: false,
+    speed: 400,
+    autoplayButtonOutput: false,
+    mouseDrag: true,
+    controlsContainer: "#customize-controls-{{section.id}}",
+    responsive: {
+      640: {
+        items: 2
+      },
+
+      768: {
+        items: 5,
+        gutter: 30,
+        edgePadding: 30
+      }
+    }
+  });
+</script>
+
+
+<script>
+   (() => {    
+      window.addEventListener("load", slideshow({{section.id}}));
+   })
+
 </script>
 
 

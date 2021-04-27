@@ -1,0 +1,47 @@
+.popular_categori-container{
+    font-family: 'Oswald', sans-serif;
+    color: var(--text-color);
+    margin: 50px auto;
+    .popular_categori__heading{
+        margin-bottom: 30px;
+        h1{
+            font-size: 30px;
+            font-weight: bold;
+            text-align: center;
+        }
+    }
+    .popular_categori__listitem{
+        display: grid;
+        grid-template-columns: auto auto auto auto auto auto auto;
+        column-gap: 30px; 
+        .popular_categori--item{
+            margin: auto;
+            .popular_categori--item-icon{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #F0F2F5;
+                width: 90px;
+                height: 90px;
+                border-radius: 50%; 
+                a{
+                    i{
+                        font-size: 35px;
+                    }
+                }
+            }
+            .popular_categori--item-title{
+                p{
+                    text-align: center;
+                }   
+            }
+        }   
+    }
+    .popular_categori__showall{
+        a{
+            p{
+                text-align: center;
+            }
+        }       
+    }
+}

@@ -3,11 +3,21 @@
         <div class="categories_top-title">
             <h1>{{section.settings.title}}</h1>
         </div>
-        <div class="categories_top-list_item">
+
+        <ul class="controls" id="customize-controls-{{section.id}}" style="display:none" aria-label="Carousel Navigation" tabindex="0">
+            <li class="prev" data-controls="prev" aria-controls="customize" tabindex="-1">
+                <i class="fas fa-angle-left"></i>
+            </li>
+            <li class="next" data-controls="next" aria-controls="customize" tabindex="-1">
+                <i class="fas fa-angle-right"></i>          
+            </li>
+        </ul>
+
+        <div class="my-slider my-slider-{{section.id}} categories_top-list_item">
             {%- for block in section.blocks -%}
             {%- if block.type == 'block_categories' -%}
               
-            <div class="categories_top-item">
+            <div class="slider-item categories_top-item">
                 <div class="categories_top-item_img">
                     <img src="{{ block.settings.img_categories | img_url : 'master' }}" alt="" >
                 </div>
@@ -24,8 +34,35 @@
             {%- endfor -%}
         </div>       
     </div>
-
 </div>
+
+
+<script>
+    var slider = tns({
+    container: '.my-slider-{{section.id}}',
+    loop: true,
+    items: 1,
+    slideBy: "page",
+    nav: false,
+    autoplay: false,
+    speed: 400,
+    autoplayButtonOutput: false,
+    mouseDrag: true,
+    controlsContainer: "#customize-controls-{{section.id}}",
+    responsive: {
+      640: {
+        items: 2
+      },
+
+      768: {
+        items: 5,
+        gutter: 30,
+        edgePadding: 30
+      }
+    }
+  });
+</script>
+
 
 
 
