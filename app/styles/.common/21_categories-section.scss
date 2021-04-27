@@ -1,7 +1,6 @@
 .categories_container{
     font-family: 'Oswald', sans-serif;
-    .categories_top{
-        width: 100%;
+
         .categories_top-title{
             h1{
                 color: var(--text-color);
@@ -13,22 +12,26 @@
         }
         .categories_top-list_item{
             width: 100%;
-            display: grid;
-            grid-template-columns: 25% 16% 25% 16% 15%;
-            column-gap: 10px;
-            grid-template-rows: 300px;
+            height: 300px;
+            // display: grid;
+            // grid-template-columns: 25% 16% 25% 16% 15%;
+            // column-gap: 10px;
+            // grid-template-rows: 300px;
             .categories_top-item{
+                height: 300px;
                 position: relative;
+                display: flex;
+                justify-content: center;
                 .categories_top-item_img{
                     img{
                         height: 300px;
-                        width: 100%;
                     }
                 }
                 .categories_top-item_caption{
                     position: absolute;
                     top: 5%;
                     left: 15%;
+                    width: 60%;
                     .categories_top-item--heading{
                         h1{
                             color: var(--text-color);
@@ -50,7 +53,7 @@
             }
         }
         
-    }
+    
 }
 
 

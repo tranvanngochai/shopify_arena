@@ -1,5 +1,5 @@
-console.log('home page js')
-function slideshow(id) {
+var i_sections = new theme.Sections();
+i_sections.register('latest-products-section', function slideshow(id) {
   var slider = tns({
     container: `.my-slider-${id}`,
     loop: true,
@@ -23,7 +23,8 @@ function slideshow(id) {
       }
     }
   });
-  console.log(slider.container);
-};
+}
+);
+
 
 

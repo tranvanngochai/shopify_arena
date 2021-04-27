@@ -82,12 +82,13 @@
 </script>
 
 
-<script>
-   (() => {    
-      window.addEventListener("load", slideshow({{section.id}}));
-   })
+{% comment %} <script>
+   slideshow({{section.id}})
+   console.log(typeof slideshow);
+   console.log(i_sections);
+</script> {% endcomment %}
 
-</script>
+
 
 
 

@@ -1,0 +1,109 @@
+<div class="container-fluid slider-container latestreview-container" style="background-image: url('{{section.settings.img_background | img_url: 'master'}}')">
+    <div class="container latestreview-full ">    
+        <div class="latestreview__heading">
+            <i class="fas fa-quote-right"></i>
+            <h1>{{section.settings.heading}}</h1>
+        </div>
+
+        <ul class="controls" id="customize-controls-{{section.id}}" style="width:79%" aria-label="Carousel Navigation" tabindex="0">
+            <li class="prev" data-controls="prev" aria-controls="customize" tabindex="-1">
+                <i class="fas fa-angle-left"></i>
+            </li>
+            <li class="next" data-controls="next" aria-controls="customize" tabindex="-1">
+                <i class="fas fa-angle-right"></i>          
+            </li>
+        </ul>
+
+        <div class="my-slider my-slider-{{section.id}} latestreview__list">
+            {%- for block in section.blocks -%}
+                <div class="latestreview__list--item">
+                    <div class="latestreview__list--item_caption">
+                        <div class="latestreview__list--item-text">
+                            {{block.settings.text}}
+                        </div>
+                        <div class="latestreview__list--item-author">
+                            <p>{{block.settings.author}}</p>
+                        </div>
+                        {% render 'snippets-icon_start', block: block %}
+                    </div>
+                    
+                </div>
+            {%- endfor -%}
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    var slider = tns({
+    container: '.my-slider-{{section.id}}',
+    loop: true,
+    items: 1,
+    slideBy: "page",
+    nav: true,
+    navPosition: "bottom",
+    autoplay: false,
+    speed: 400,
+    autoplayButtonOutput: false,
+    mouseDrag: true,
+    controlsContainer: "#customize-controls-{{section.id}}",
+    responsive: {
+      640: {
+        items: 2
+      },
+
+      768: {
+        items: 4,
+        gutter: 30,
+        edgePadding: 30
+      }
+    }
+  });
+</script>
+
+
+
+{% schema %}
+{
+    "name": "Latest reviews section",
+    "settings": [
+        {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Latest reviews"
+        },
+        {
+            "type": "image_picker",
+            "id": "img_background",
+            "label": "Image Background"   
+        }
+    ],
+    "blocks":[
+        {
+          "type": "Block_review",
+          "name": "Review",
+          "settings": [
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text"
+          },
+          {
+            "type": "textarea",
+            "id": "author",
+            "label": "Author"
+          }
+          ]
+      }
+        
+    ],
+    "presets": [
+        {
+            "category": "Advanced layout",
+            "name": "Latest reviews"
+        }
+    ]
+}
+{% endschema %}
