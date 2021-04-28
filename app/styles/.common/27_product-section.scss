@@ -13,85 +13,105 @@
         display: grid;
         grid-template-columns: auto auto auto auto auto;
         gap: 25px;
-     .item {
-        height: 345px;
-        width: fit-content;
-        font-size: 18px;
-        background: #fff;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;  
-        .item--sale{
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 20px;
-          width: 50px;
-          z-index: 1;
-          border-radius: 30px;
-          background-color: var(--icon-color);
-          span{
-            color: var(--white-color);
-            font-size: 13px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            }
-          }
-
-        .item--img{
-          height: 197px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        .item--content{
-          .item--title{
-            margin-top: 10px;
-            h3{
-              line-height: 20px;
-              font-size: 20px;
-              color: var(--text-color);
-            }
-          }
-          .item--price{
-            display: flex;
-            margin-top: 10px;
-            height: 30px;
-            .item--price_new{
+        .item {
+              height: 345px;
+              width: fit-content;
+              font-size: 18px;
+              background: #fff;
+              position: relative;
               display: flex;
-              height: 30px;
               align-items: center;
-              p{
-                font-size: 20px;
-                color: var(--icon-color);
-                margin-right: 10px;
-                line-height: 30px;
+              justify-content: center;
+              flex-direction: column;  
+              .item--sale{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    height: 20px;
+                    width: 50px;
+                    z-index: 1;
+                    border-radius: 30px;
+                    background-color: var(--icon-color);
+                    span{
+                      color: var(--white-color);
+                      font-size: 13px;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      }
               }
-            }
-            .item--price_old{
-              display: flex;
-              height: 30px;
-              align-items: center;
-              p{
-                font-size: 17px;
-                line-height: 30px;
+              .item--img{
+                      height: 197px;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
               }
-            }
-          }
-          .item--iconstar{
-            margin-top: 10px;
-            i{
-              color: var(--icon-color);
-            }
-          }
+              .item--content{
+                      .item--title{
+                          margin-top: 10px;
+                          h3{
+                            line-height: 20px;
+                            font-size: 20px;
+                            color: var(--text-color);
+                          }
+                      }
+                      .item--price{
+                            display: flex;
+                            margin-top: 10px;
+                            height: 30px;
+                            .item--price_new{
+                                display: flex;
+                                height: 30px;
+                                align-items: center;
+                                p{
+                                  font-size: 20px;
+                                  color: var(--icon-color);
+                                  margin-right: 10px;
+                                  line-height: 30px;
+                                }
+                            }
+                            .item--price_old{
+                                display: flex;
+                                height: 30px;
+                                align-items: center;
+                                p{
+                                  font-size: 17px;
+                                  line-height: 30px;
+                                }
+                            }
+                      }
+                      .item--iconstar{
+                            margin-top: 10px;
+                            i{
+                              color: var(--icon-color);
+                            }
+                      }
+              }      
         }
-                
-      }
     }
   
-
+    @media only screen and (max-width: 739px){
+      .heading{
+          h1{
+            font-size: 20px;
+          }
+        }
+      .item-list{
+        grid-template-columns: auto auto;
+        gap: 15px;
+        .item{
+          .item--content{
+            .item--title{
+              h3{
+                line-height: 20px;
+                font-size: 20px;
+                color: var(--text-color);
+              }
+            }
+            
+          }
+        }
+      }
+    }
 
 

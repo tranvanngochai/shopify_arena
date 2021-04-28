@@ -95,3 +95,74 @@
     }
     
 }
+
+
+@media only screen and (max-width: 739px){
+    .footer-container{
+        font-family: 'Oswald', sans-serif;
+        margin-bottom: 50px;
+        .menu__optionlist{
+            .menu__optionlist--needhelp{
+                grid-column: span 2;
+                text-align: left;
+                .menu__optionlist-needhelp--heading{
+                    h1{
+                        font-size: 20px;
+                        font-weight: bold;
+                        padding: 0;
+                        color: var(--text-color);
+                        padding-bottom: 15px;
+                    } 
+                }
+                .menu__optionlist-needhelp--text{
+                    p{
+                        font-size: 22px;
+                        font-weight: bold;
+                        color: var(--text-color);
+                    }
+                }
+                .menu__optionlist-needhelp--content{
+                    p{
+                        color: #5B6C8F;
+                    }
+                }
+                .menu__optionlist-needhelp--email{
+                    p{
+                        color: var(--text-color);
+                        text-align: center;
+                        font-size: 17px;
+                        font-weight: bold;
+                    }
+                }
+            }
+            .menu__optionlist-ourstore{
+                
+                .menu__optionlist-ourstore--heading{
+                    h1{
+                        font-size: 20px;
+                        font-weight: bold;
+                        padding: 0;
+                        color: var(--text-color);
+                        padding-bottom: 15px;
+                    }
+                }
+                .menu__optionlist-ourstore--text{
+                    p{
+                        color: #5B6C8F;
+                        font-size: 15px;   
+                    }
+                    p:last-child {
+                        text-decoration-line: underline;    
+                    }
+                }
+                .header__top-listicon{
+                    color: var(--text-color);
+                    a{
+                        margin-right: 20px;
+                    }
+                }
+            }
+        }
+        
+    } 
+}

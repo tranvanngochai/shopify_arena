@@ -56,9 +56,6 @@
           </div>
             
 
-              
-
-
       <div class="container header__center">
         <div class="header__logo">
           <img src="{{ section.settings.logo | img_url : 'master' }}" alt="">
@@ -96,13 +93,17 @@
         {% render 'snippets-header-card' %}
 
       </div>
+
+
       <div class="container-fluid header__hr"></div>
+
+
+
       <div class="container header__bottom">
         <div class="header__bottom-icon">
-            <a href=""></a>
               <i class="fas fa-bars"></i>
-            </a>
         </div>
+        
         <div class="header__bottom-list">
             <ul>
                 {% for link in linklists[section.settings.nav_link].links %}

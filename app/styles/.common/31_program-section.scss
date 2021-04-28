@@ -26,3 +26,22 @@
         }
     }
 }
+
+
+
+@media only screen and (max-width: 739px){
+    .program-container{
+        .program__item{
+            flex: 30%;
+            .program__item--icon{
+                i{
+                    font-size: 15px;
+                }
+            }
+            .program__item--text{
+                font-size: 15px;
+            }
+        }
+    }
+    
+}

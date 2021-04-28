@@ -13,6 +13,7 @@
     .popular_categori__listitem{
         display: grid;
         grid-template-columns: auto auto auto auto auto auto auto;
+        flex-wrap: wrap;
         column-gap: 30px; 
         .popular_categori--item{
             margin: auto;
@@ -45,3 +46,19 @@
         }       
     }
 }
+
+
+
+@media only screen and (max-width: 739px){
+    .popular_categori-container{
+        .popular_categori__heading{
+            h1{
+                font-size: 20px;
+            }
+        }
+        .popular_categori__listitem{
+            grid-template-columns: auto auto auto;
+            flex-wrap: wrap;
+          }
+    }
+  }

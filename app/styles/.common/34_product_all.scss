@@ -1,0 +1,51 @@
+// -------css product---------
+.slider-item--content{
+    .slider-item--title{
+      margin-top: 10px;
+      h3{
+        line-height: 20px;
+        font-size: 20px;
+        color: var(--text-color);
+      }
+    }
+    .slider-item--price{
+      margin-top: 10px;
+      display: flex;
+      height: 30px;
+      .slider-item--price_new{
+        display: flex;
+        height: 30px;
+        align-items: center;
+        p{
+          font-size: 20px;
+          color: var(--icon-color);
+          margin-right: 10px;
+          line-height: 30px;
+        }
+      }
+      .slider-item--price_old{
+        display: flex;
+        height: 30px;
+        align-items: center;
+        p{
+          font-size: 17px;
+          line-height: 30px;
+        }
+      }
+    }
+    .slider-item--iconstar{
+      margin-top: 10px;
+      i{
+        color: var(--icon-color);
+      }
+    }
+}
+
+
+//  ------css Icon start ------
+.slider-item--iconstar{
+    margin-top: 10px;
+    i{
+      color: var(--icon-color);
+    }
+  }

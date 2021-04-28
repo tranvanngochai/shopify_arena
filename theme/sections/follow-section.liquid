@@ -2,9 +2,17 @@
     <div class="follow__title">
         <h1>{{section.settings.title}}</h1>
     </div>
-    <div class="follow__list">
+    <ul class="controls" id="customize-controls-{{section.id}}" style="display:none" aria-label="Carousel Navigation" tabindex="0">
+        <li class="prev" data-controls="prev" aria-controls="customize" tabindex="-1">
+            <i class="fas fa-angle-left"></i>
+        </li>
+        <li class="next" data-controls="next" aria-controls="customize" tabindex="-1">
+            <i class="fas fa-angle-right"></i>          
+        </li>
+    </ul>
+    <div class="my-slider my-slider-{{section.id}} follow__list">
         {%- for block in section.blocks -%}                
-            <div class="follow__list-item">
+            <div class="slider-item follow__list-item">
                 <div class="follow__list-item--img">
                     <img src="{{ block.settings.img_follow | img_url : 'master' }}" alt="" >
                 </div>
@@ -12,6 +20,34 @@
         {%- endfor -%}
     </div>
 </div>
+
+
+
+<script>
+    var slider = tns({
+    container: '.my-slider-{{section.id}}',
+    loop: true,
+    items: 3,
+    gutter: 10,
+    slideBy: "page",
+    nav: false,
+    autoplay: false,
+    speed: 400,
+    autoplayButtonOutput: false,
+    mouseDrag: true,
+    controlsContainer: "#customize-controls-{{section.id}}",
+    responsive: {
+      640: {
+        items: 2
+      },
+
+      768: {
+        items: 6,
+        gutter: 10
+      }
+    }
+  });
+</script>
 
 
 

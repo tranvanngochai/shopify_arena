@@ -58,12 +58,7 @@
                         <del>{{ first_available_variant.compare_at_price | money }}</del>
                     </div>
                 </div>
-                <div class="slider-item--iconstar">
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                </div>
+                {% render 'snippets-icon_start', block: block %}
             </div>
         </div>
         {%- endfor -%}
@@ -82,7 +77,8 @@
     var slider = tns({
     container: '.my-slider-{{section.id}}',
     loop: true,
-    items: 1,
+    items: 2,
+    gutter: 10,
     slideBy: "page",
     nav: false,
     autoplay: false,
@@ -98,7 +94,7 @@
       768: {
         items: 5,
         gutter: 30,
-        edgePadding: 30
+        {% comment %} edgePadding: 30 {% endcomment %}
       }
     }
   });

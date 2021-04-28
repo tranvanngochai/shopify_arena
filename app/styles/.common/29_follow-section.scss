@@ -11,20 +11,17 @@
             font-weight: bold;
         }
     }
-    .follow__list{
-        display: grid;
-        grid-template-columns: auto auto auto auto auto auto;
-        grid-auto-rows: 200px;
-        gap: 10px;
-        .follow__list-item{
-            width: 200px;
-            .follow__list-item--img{
-                img{
-                    width: 200px;
-                    height: 200px;
-                }
+}
+
+
+
+@media only screen and (max-width: 739px){
+    .follow-container{
+        .follow__title{       
+            h1{
+                font-size: 20px;
             }
-        }
+        }   
     }
 }
 

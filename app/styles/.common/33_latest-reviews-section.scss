@@ -40,7 +40,7 @@
                         margin: auto;
                         font-weight: bold;
                     }
-                    .item--iconstar{
+                    .slider-item--iconstar{
                         width: 90%;
                         margin: auto;
                     }
@@ -51,3 +51,61 @@
     }
 }
 
+
+@media only screen and (max-width: 739px){
+    .latestreview-container{
+        height: 250px;
+        .latestreview-full{
+            .latestreview__heading{
+                padding-top: 30px;
+                padding-bottom: 10px;
+                height: 20px;
+                i{
+                    font-size: 20px;
+                    color: var(--text-color);
+                    padding-right: 20px;
+                }
+                h1{
+                    font-size: 20px;
+                    font-weight: bold;
+                    color: var(--text-color);
+                    line-height: 20px;
+                }
+            }
+            .latestreview__list{
+                
+                margin-bottom: 30px;
+                .latestreview__list--item{
+                    .latestreview__list--item_caption{
+                       
+                        color: var(--text-color);
+                        margin: auto;
+                        background-color: white;
+                        .latestreview__list--item-text{
+                            width: 90%;
+                            margin: auto;
+                            line-height: 30px;
+                        }
+                        .latestreview__list--item-author{
+                            width: 90%;
+                            margin: auto;
+                            font-weight: bold;
+                        }
+                        .slider-item--iconstar{
+                            width: 90%;
+                            margin: auto;
+                        }
+                    }
+                   
+                }
+            }
+            .controls{
+                display: none;
+            }
+        }
+    }
+    .tns-nav{
+        transform: translateY(-60px);
+    }
+    
+}
