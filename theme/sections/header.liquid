@@ -109,16 +109,19 @@
                 {% for link in linklists[section.settings.nav_link].links %}
                         <a href="{{ link.url }}"><li>{{ link.title }}</li></a>
                 {% endfor %}
+
+                {%- for block in section.blocks -%}
+                {%- if block.type == 'bottom_contact_blog' -%}
+                <div class="header__bottom-contact_blog">
+                    <a href="">Blog</a>
+                    <a href="">Contact</a>
+                </div>
+                {% endif %}
+                {%- endfor -%}
+
             </ul>
             
-            {%- for block in section.blocks -%}
-            {%- if block.type == 'bottom_contact_blog' -%}
-            <div class="header__bottom-contact_blog">
-                <a href="">Blog</a>
-                <a href="">Contact</a>
-            </div>
-            {% endif %}
-            {%- endfor -%}
+            
         </div>
         
         {%- for block in section.blocks -%}
@@ -143,9 +146,20 @@
         {%- endif -%}
 
     </div>
-    
-    
-    </div>
+  </div>
+
+
+
+<script>
+  var toggleButton = document.getElementsByClassName("header__bottom-icon")[0];
+  var menuList = document.getElementsByClassName("header__bottom-list")[0];
+
+  toggleButton.addEventListener('click', () => {
+    menuList.classList.toggle("active");
+  })
+</script>
+
+
 
 {% schema %}
 {

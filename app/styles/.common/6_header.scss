@@ -155,8 +155,8 @@
 .header__bottom{
     font-family: 'Oswald', sans-serif;
     position: relative;
-    height: 62px;
     display: flex;
+    padding: 10px 0;
     justify-content: space-between;
     align-items: center;
     .header__bottom-icon{
@@ -178,13 +178,14 @@
                 margin-right: 30px;
                 color: var(--text-color);
             }
-        }
-        .header__bottom-contact_blog{
-            display: inline-flex;
-            a:first-child{
-                padding-right: 30px;
+            .header__bottom-contact_blog{
+                display: inline-flex;
+                a:first-child{
+                    padding-right: 30px;
+                }
             }
         }
+        
     }
 }
 
@@ -284,43 +285,60 @@
     }
 
     .header__bottom{
-        
-        .header__bottom-icon{     
-                i{
-                    font-size: 15px;
-                }
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        align-items: start;
+        .header__bottom-icon{
+            margin: 5px 10px;
+            z-index: 100;
+            i{
+                font-size: 15px;
+            }
         }
         
         
         .header__bottom-list{
-            position: absolute;
             top: 0;
             left: 0;
-            bottom: 0;
-            max-width: 150px;
-            height: 100%;
-            background-color: aquamarine;
+            z-index: 99;
+            position: absolute;
+            width: 100%;
+            background-color: var(--white-color);
             transform: translateX(-100%);
-            z-index: 100;
-            
-            ul{
-                display: block;    
-                a{
+            transition: transform linear 0.2s, opacity linear 0.2s;
+            opacity: 0;
+            ul{ 
+                display: flex;
+                flex-direction: column;
+                margin: 0;
+                a{  
+                    width: 50%;
                     font-size: 10px;
+                    text-align: center;
+                    margin-left: 80px;
+                    text-align: left;
+                }
+                .header__bottom-contact_blog{
+                    display: flex;
+                    flex-direction: column;
+                    margin-right: 80px;
+                    a{
+                        text-align: left;
+                    }
                 }
             }
-            .header__bottom-contact_blog{      
-                a:first-child{
-                   
-                }
-            }
+            
         }
-        
+        .header__bottom-list.active{
+            transform: translateX(0);
+            opacity: 1;
+            
+        }
     }
 }
-.header__bottom-icon:checked ~ .header__bottom-list{
-    transform: translateX(100%);
-}
+
 
 
 @media only screen and (min-width: 740px) and (max-width: 1023px){

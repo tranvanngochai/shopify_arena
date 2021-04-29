@@ -56,8 +56,9 @@
                 color: var(--white-color);
                 top: 20%;
                 right: 50%;
-                padding: auto;
-                padding: 35px 10px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 font-size: 30px;
                 font-weight: bold;
             }
@@ -92,6 +93,52 @@
 
   @media only screen and (max-width: 739px){
     .slideshow-container{
+        margin-bottom: 0;
+        .my-slider{
+            .item__slideshow{
+                .caption__slideshow{
+                    .heading__slide{
+                        h1{
+                            font-size: 20px;
+                        }
+                    }
+                    .content__slide{
+                        p{
+                            font-size: 10px;
+                            margin: 0;
+                        }
+                    }
+                    .price__slide{
+                        .new__price{
+                            font-size: 25px;
+                            margin-top: 0;
+                        }
+                        .old__price{
+                            font-size: 10px;
+                            margin-left: 10px;
+                        }
+                    }
+                .btn__slide{
+                    width: 80px;
+                    height: auto;
+                    margin-top: 0;
+                    a{
+                         button{
+                            font-size: 15px;
+                            margin: 0;
+                            padding: 5px 5px; 
+                        }
+                    }
+                    }
+                }
+                .sale__slide{
+                    width: 40px;
+                    height: 40px;
+                    font-size: 15px;
+                    right: 30%;
+                }
+            }
+        }
         .controls{
             top: 40%;
             .prev, .next{
@@ -99,7 +146,11 @@
               height: 20px;   
               font-size: 15px;      
             }
-          }
+        }
+        .tns-nav{
+            margin: 0;
+            transform: translateY(-15px);
+        }
     }
   }
 

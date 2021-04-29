@@ -1,24 +1,16 @@
 .saleoff_container{
     font-family: 'Oswald', sans-serif;
-    height: 300px;
     display: grid;
     grid-template-columns: auto auto auto;
     grid-gap:30px;
     .saleoff__item{
         position: relative;
-        .saleoff__item-img {
-            height: 300px;
-            img{
-                height: 300px;
-            }
-        }
         // position: relative;
         .saleoff__item-caption{
             width: 60%;
             position: absolute;
             top: 10%;
             left: 10%;
-            height: 250px;
             .saleoff__item-caption_new{
                 height: 20px;
                 width: 50px;
@@ -88,5 +80,58 @@
 }
 
 
+@media only screen and (max-width: 739px){
+    .saleoff_container{
+        display: flex;
+        flex-direction: column;
+        gap:10px;
+        .saleoff__item{
+            height: 150px;
+            .saleoff__item-img{
+                height: 100%;
+                img{
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+            .saleoff__item-caption{
+                .saleoff__item-caption_new{
 
+                }
+                .saleoff__item-caption_text{
+                    h1{
+                        font-size: 15px;
+                        p{
+                            margin: 8px auto;
+                        }
+                    }
+                }
+                .saleoff__item-caption_content{
+                    .saleoff__item-caption_sale{
+                        h1{
+                            font-size: 30px;
+                        }
+                    }
+                    .saleoff__item-caption_price{
+                        .price_new{
+                            h1{
+                                font-size: 30px;
+                            }
+                        }
+                        .price_old{
+                            del{
+                                font-size: 15px;
+                            }
+                        }
+                    }
+                }
+            }
+            .saleoff__item-btn{
+                bottom: 20px;
+                height: 25px;
+                padding: 1px 14px;
+            }
+        }
+    }
+}
 
