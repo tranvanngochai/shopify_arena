@@ -24,11 +24,14 @@
                         <div class="new__price">{{block.settings.new_price}}</div>
                         <div class="old__price">{{block.settings.old_price}}</div>
                     </div>
-                    <div class="btn__slide">
-                        <a href="">
-                            <button>Shop now</button>
+                    {%- if block.settings.button != blank -%}
+                        <div class="btn__slide">
+                        <a href="{{block.settings.url_button}}">
+                            <button>{{block.settings.button}}</button>
                         </a>   
                     </div>
+                    {%- endif -%}
+                    
                 </div>
                 <div class="sale__slide">
                     {{block.settings.sale}}
@@ -122,6 +125,17 @@
                     "id": "sale",
                     "label": "Sale",
                     "default" : "-30%"
+                },
+                {
+                    "type": "text",
+                    "id": "button",
+                    "label": "Button Text",
+                    "default" : "Shop now"
+                },
+                {   
+                    "type": "text",
+                    "id": "url_button",
+                    "label": "button link"
                 }
 
             ]

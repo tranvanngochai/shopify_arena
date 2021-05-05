@@ -14,7 +14,6 @@
         grid-template-columns: auto auto auto auto auto;
         gap: 25px;
         .item {
-              height: 345px;
               width: fit-content;
               font-size: 18px;
               background: #fff;
@@ -41,11 +40,33 @@
                       }
               }
               .item--img{
-                      height: 197px;
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+                transition: 0.3s;
               }
+              
+              .addCart{
+                display: flex;
+                width: 60%;
+                height: 35px;
+                display: flex;
+                background: #FF9923;
+                bottom: 0;
+                border-radius: 30px;
+                justify-content: center;
+                align-content: center;
+                line-height: 35px;
+                color: var(--white-color);
+                cursor: pointer;
+                opacity: 1;
+                margin: auto;
+                &:hover{
+                  opacity: 0.7;
+                }
+              }   
+              
               .item--content{
                       .item--title{
                           margin-top: 10px;

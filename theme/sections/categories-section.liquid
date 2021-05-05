@@ -24,9 +24,14 @@
                     <div class="categories_top-item--heading">
                         <h1>{{block.settings.heading}}</h1>
                     </div>
-                    <div class="categories_top-item--btn">
-                        <button>{{block.settings.button}}</button>
-                    </div>
+                    {%- if block.settings.button != blank -%}
+                        <div class="categories_top-item--btn">
+                            <a href="{{block.settings.url_button}}">
+                                <button>{{block.settings.button}}</button>
+                            </a>                           
+                        </div>
+                    {%- endif -%}
+                    
                 </div>           
             </div>
             {%- endif -%}
@@ -98,6 +103,11 @@
                     "id": "button",
                     "label": "Button Text",
                     "default" : "More"
+                },
+                {   
+                    "type": "text",
+                    "id": "url_button",
+                    "label": "button link"
                 }
 
             ]

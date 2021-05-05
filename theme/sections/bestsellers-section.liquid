@@ -1,15 +1,15 @@
   <!-- Swiper -->
 <div class="container bestsellers-container">
    <div class="bestsellers-heading">
-      <h1>Top 5 Bestsellers in:</h1>
+      <h1>{{section.settings.title}}</h1>
    </div>
    <div class ="tab">
         {% for block in section.blocks %}
             {% if block.type ==  'tab-title'%}
-                {% unless  block.settings.title == blank%}
+                {% unless  block.settings.title == blank %}
                     <p class ="tab-collection {% if forloop.first %}selected{% endif %}" data-target="tab--{{block.id}}">{{block.settings.title}}</p>
-                {% endunless %} 
-            {% endif %}
+                {% endunless %}  
+            {% endif %}  
         {% endfor %}
     </div>
 
@@ -19,42 +19,52 @@
                 <div class ="gallery-product contain {% if forloop.first %}active{% endif %}" id = "tab--{{block.id}}">
                     {% for block in section.blocks offset: forloop.index %}
                         {%- if block.type != 'tab-content' -%} {%break%}{%- endif -%}
-                        {% assign collection = collections[block.settings.collection] %}
+                        {% comment %} {% assign collection = collections[block.settings.collection] %} {% endcomment %}
                         {% assign collection = collections[block.settings.list_collection] %}
                         <div class="bestsellers__item-list">
                             {%- for product in collection.products -%} 
-                            {%- liquid
-                            assign variant_first =  product.variants | first
-                            assign first_available_variant  = product.first_available_variant | default: variant_first
-                            -%}                           
-                            <div class="bestsellers__item block-{{block.id}}">
-                                <div class="bestsellers__item--sale">
-                                    <span>SALE</span>
-                                </div>              
-                                <div class="bestsellers__item--img">
-                                    <img src="{{ product | img_url: '197x197' }}" />
-                                </div>
-                                <div class="bestsellers__item--content">
-                                    <div class="bestsellers__item--title">
-                                        <h3>{{product.title}}</h3>
-                                    </div>
-                                    <div class="bestsellers__item--price">
-                                        <div class="bestsellers__item--price_new">
-                                            <p>{{ first_available_variant.price | money }}</p>
+                                {%- liquid
+                                    assign variant_first =  product.variants | first
+                                    assign first_available_variant  = product.first_available_variant | default: variant_first
+                                    assign available = product.available  
+                                    -%}
+                                {%- form 'product', product -%}
+                                    <input type="hidden" name="id" value="{{first_available_variant.id}}" />                                                     
+                                    <div class="bestsellers__item block-{{block.id}}">
+                                        {%- if block.settings.sale != blank -%}  
+                                            <div class="bestsellers__item--sale">
+                                                <span>{{block.settings.sale}}</span>
+                                            </div>
+                                        {%- endif -%}
+                                        <a href="{{product.url}}">         
+                                            <div class="bestsellers__item--img">
+                                                <img src="{{ product | img_url: '197x197' }}" />                          
+                                            </div>
+                                        </a> 
+                                        {%- if block.settings.add_cart != blank -%}               
+                                            <button type="submit" class="addCart">{{block.settings.add_cart}}</button>
+                                        {%- endif -%}
+                                        <div class="bestsellers__item--content">
+                                            <div class="bestsellers__item--title">
+                                                <h3>{{product.title}}</h3>
+                                            </div>
+                                            <div class="bestsellers__item--price">
+                                                <div class="bestsellers__item--price_new">
+                                                    <p>{{ first_available_variant.price | money }}</p>
+                                                </div>
+                                                <div class="bestsellers__item--price_old">
+                                                    <del>{{ first_available_variant.compare_at_price | money }}</del>
+                                                </div>
+                                            </div>
+                                            <div class="bestsellers__item--iconstar">
+                                                    <i class="far fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                            </div>
                                         </div>
-                                        <div class="bestsellers__item--price_old">
-                                            <del>{{ first_available_variant.compare_at_price | money }}</del>
-                                        </div>
-                                    </div>
-                                    <div class="bestsellers__item--iconstar">
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>   
-                        
+                                    </div>                                 
+                                {%- endform -%}
                             {%- endfor -%}
                         </div>            
                     {% endfor %}
@@ -63,28 +73,6 @@
         {% endfor %}
     </div>     
 </div>
-
-
-
-<script>
-    let tabSlide = () => {
-    let tab = document.querySelectorAll(".tab-collection");
-    tab.forEach((t)=>{
-        t.addEventListener("click", (e)=>{
-            tab.forEach(t=> t.classList.remove("selected"));
-                e.target && e.target.classList.add("selected");
-            let activeTab = document.querySelectorAll('.gallery-product.active');
-                activeTab.length && activeTab.forEach(slide=>slide.classList.remove('active'));
-            let selectedTab = document.getElementById(e.target.dataset.target);
-                console.log(e.target.dataset.target)
-                console.log(selectedTab)
-                selectedTab != null && selectedTab.classList.add('active');
-        })
-    })
-}
-</script>
-
-
 
 
 
@@ -108,6 +96,16 @@
             "type": "collection",
             "id": "list_collection",
             "label": "Collection Tab"
+          },
+          {
+            "type": "text",
+            "id": "sale",
+            "label": "Sale"
+          },
+          {
+            "type": "text",
+            "id": "add_cart",
+            "label": "Add to Cart"
           }
           
           ]

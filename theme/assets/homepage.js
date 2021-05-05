@@ -1,32 +1,16 @@
-var i_sections = new theme.Sections();
-i_sections.register('latest-products-section', function slideshow(id) {
-  var slider = tns({
-    container: `.my-slider-${id}`,
-    loop: true,
-    items: 1,
-    slideBy: "page",
-    nav: false,
-    autoplay: false,
-    speed: 400,
-    autoplayButtonOutput: false,
-    mouseDrag: true,
-    controlsContainer: "#customize-controls",
-    responsive: {
-      640: {
-        items: 2
-      },
-
-      768: {
-        items: 5,
-        gutter: 30,
-        edgePadding: 30
-      }
-    }
-  });
+let tabSlide = () => {
+  let tab = document.querySelectorAll(".tab-collection");
+  tab.forEach((t)=>{
+      t.addEventListener("click", (e)=>{
+          tab.forEach(t=> t.classList.remove("selected"));
+              e.target && e.target.classList.add("selected");
+          let activeTab = document.querySelectorAll('.gallery-product.active');
+              activeTab.length && activeTab.forEach(slide=>slide.classList.remove('active'));
+          let selectedTab = document.getElementById(e.target.dataset.target);
+              console.log(e.target.dataset.target)
+              console.log(selectedTab)
+              selectedTab != null && selectedTab.classList.add('active');
+      })
+  })
 }
-);
-
-
-
-
-
+tabSlide();

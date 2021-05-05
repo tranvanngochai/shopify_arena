@@ -34,12 +34,14 @@
                         }
                     }
                     .categories_top-item--btn{
+                        cursor: pointer;
                         button{
                             width: 80px;
                             height: 30px;
                             color: var(--text-color);
                             border-radius: 30px;
                             background-color: var(--white-color);
+                            cursor: pointer;
                         }
                     }
                 }

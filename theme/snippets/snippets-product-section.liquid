@@ -7,36 +7,44 @@
         {%- liquid
             assign variant_first =  product.variants | first
             assign first_available_variant  = product.first_available_variant | default: variant_first
-        -%} 
-
-  <div class="item block-{{ block.id }}">
-    <div class="item--sale">
-      <span>SALE</span>
-    </div>
-
-    <div class="item--img">
-      <img src="{{ product | img_url: '197x197' }}" />
-    </div>
-    <div class="item--content">
-      <div class="item--title">
-        <h3>{{ product.title }}</h3>
-      </div>
-      <div class="item--price">
-        <div class="item--price_new">
-          <p>{{ first_available_variant.price | money }}</p>
+            assign available = product.available  
+        -%}
+    {%- form 'product', product -%}
+      <input type="hidden" name="id" value="{{first_available_variant.id}}" />
+      <div class="item block-{{ block.id }}">
+        {%- if block.settings.sale != blank -%}
+          <div class="item--sale">
+            <span>{{block.settings.sale}}</span>
+          </div>
+        {%- endif -%}
+        <a href="{{product.url}}">
+          <div class="item--img">
+            <img src="{{ product | img_url: '197x197' }}" />
+          </div>
+        </a>
+        {%- if block.settings.add_cart != blank -%}               
+          <button type="submit" class="addCart">{{block.settings.add_cart}}</button>
+        {%- endif -%}
+        <div class="item--content">
+          <div class="item--title">
+            <h3>{{ product.title }}</h3>
+          </div>
+          <div class="item--price">
+            <div class="item--price_new">
+              <p>{{ first_available_variant.price | money }}</p>
+            </div>
+            <div class="item--price_old">
+              <del>{{ first_available_variant.compare_at_price | money }}</del>
+            </div>
+          </div>
+          <div class="item--iconstar">
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+          </div>
         </div>
-        <div class="item--price_old">
-          <del>{{ first_available_variant.compare_at_price | money }}</del>
-        </div>
       </div>
-      <div class="item--iconstar">
-        <i class="far fa-star"></i>
-        <i class="far fa-star"></i>
-        <i class="far fa-star"></i>
-        <i class="far fa-star"></i>
-      </div>
-    </div>
-  </div>
-
+    {%- endform -%}
   {%- endfor -%}
 </div>

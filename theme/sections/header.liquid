@@ -58,7 +58,9 @@
 
       <div class="container header__center">
         <div class="header__logo">
+        <a href="{{ routes.root_url }}"> 
           <img src="{{ section.settings.logo | img_url : 'master' }}" alt="">
+        </a>
         </div>
 
         {%- for block in section.blocks -%}

@@ -27,11 +27,13 @@
                     </div>  
                 </div>
             </div>
-            <div class="saleoff__item-btn">
-                <a href="">
-                    <button>{{block.settings.button}}</button>
-                </a>
-            </div>     
+            {%- if block.settings.button != blank -%}
+                <div class="saleoff__item-btn">
+                    <a href="{{block.settings.url_button}}">
+                        <button>{{block.settings.button}}</button>
+                    </a>
+                </div>
+            {%- endif -%}    
         </div>
     {%- if forloop.length == 1 -%}
       {%- style -%}

@@ -74,7 +74,11 @@
             justify-content: center;
             button{
                 color: var(--white-color);
+                &:hover{
+                    cursor: pointer;
+                }
             }
+            
         }
     }
 }

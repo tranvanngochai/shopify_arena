@@ -36,31 +36,42 @@
             {% assign collection = collections[block.settings.list_collection] %}
             {%- for product in collection.products -%} 
             {%- liquid
-            assign variant_first =  product.variants | first
-            assign first_available_variant  = product.first_available_variant | default: variant_first
+                assign variant_first =  product.variants | first
+                assign first_available_variant  = product.first_available_variant | default: variant_first
+                assign available = product.available 
             -%}
-        <div class="slider-item">
-            <div class="bestdeal__list-item--sale">
-                <span>{{block.settings.sale}}</span>
-            </div>
-            <div class="slider-item--img">
-                <img src="{{ product | img_url:'197x197' }}" />
-            </div>
-            <div class="slider-item--content">
-                <div class="slider-item--title">
-                    <h3>{{product.title}}</h3>
-                </div>
-                <div class="slider-item--price">
-                    <div class="slider-item--price_new">
-                        <p>{{ first_available_variant.price | money }}</p>
+            {%- form 'product', product -%}
+                <input type="hidden" name="id" value="{{first_available_variant.id}}" />
+                <div class="slider-item">
+                    {%- if block.settings.sale != blank -%}           
+                        <div class="bestdeal__list-item--sale">
+                            <span>{{block.settings.sale}}</span>
+                        </div>
+                    {%- endif -%}
+                    <a href="{{product.url}}">
+                        <div class="slider-item--img">
+                            <img src="{{ product | img_url:'197x197' }}" />
+                        </div>
+                    </a>
+                    {%- if block.settings.add_cart != blank -%}               
+                        <button type="submit" class="addCart">{{block.settings.add_cart}}</button>
+                    {%- endif -%}
+                    <div class="slider-item--content">
+                        <div class="slider-item--title">
+                            <h3>{{product.title}}</h3>
+                        </div>
+                        <div class="slider-item--price">
+                            <div class="slider-item--price_new">
+                                <p>{{ first_available_variant.price | money }}</p>
+                            </div>
+                            <div class="slider-item--price_old">
+                                <del>{{ first_available_variant.compare_at_price | money }}</del>
+                            </div>
+                        </div>
+                        {% render 'snippets-icon_start', block: block %}
                     </div>
-                    <div class="slider-item--price_old">
-                        <del>{{ first_available_variant.compare_at_price | money }}</del>
-                    </div>
                 </div>
-                {% render 'snippets-icon_start', block: block %}
-            </div>
-        </div>
+            {%- endform -%}
         {%- endfor -%}
         {%- endfor -%}
     </div>
@@ -115,7 +126,7 @@
           hour = minute * 60,
           day = hour * 24;
     
-    let birthday = " April 30 , 2021 00:00:00",
+    let birthday = " May 20 , 2021 00:00:00",
         countDown = new Date(birthday).getTime(),
         x = setInterval(function() {    
   
@@ -176,6 +187,11 @@
             "label": "Sale",
             "default" : "-50%"
          },
+         {
+            "type": "text",
+            "id": "add_cart",
+            "label": "Add to Cart"
+        },
          {
             "type": "text",
             "id": "time_month",
