@@ -5,7 +5,7 @@
             <h1>{{section.settings.heading}}</h1>
         </div>
 
-        <ul class="controls" id="customize-controls-{{section.id}}" style="width:79%" aria-label="Carousel Navigation" tabindex="0">
+        <ul class="controls controls_style" id="customize-controls-{{section.id}}" style="width:79%" aria-label="Carousel Navigation" tabindex="0">
             <li class="prev" data-controls="prev" aria-controls="customize" tabindex="-1">
                 <i class="fas fa-angle-left"></i>
             </li>
@@ -49,13 +49,18 @@
     mouseDrag: true,
     controlsContainer: "#customize-controls-{{section.id}}",
     responsive: {
-      640: {
-        items: 2
+      320: {
+        items: 2,
+        gutter: 10
+      },
+      766: {
+        items: 2,
+        gutter: 10
       },
 
-      768: {
+      1024: {
         items: 4,
-        gutter: 30,
+        gutter: 30
         {% comment %} edgePadding: 30 {% endcomment %}
       }
     }

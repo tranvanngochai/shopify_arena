@@ -1,10 +1,15 @@
-<div class="header__search">
+<form class="search" action="/search">
+  <div class="header__search">
     <div class="header__search-product">
-      <input type="text" placeholder="Search for products...">
+      <input
+        type="text"
+        placeholder="Search for products..."
+        name="q"
+        value="{{ search.terms | escape }}"
+      /> 
     </div>
-    <div class="header__search-icon">
-        <a href="">
-          <i class="fas fa-search"></i>
-        </a>
-    </div>
+    <button class="header__search-icon type="submit">
+      <i class="fas fa-search"></i>
+    </button>       
   </div>
+</form>

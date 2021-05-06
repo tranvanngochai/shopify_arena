@@ -1,0 +1,104 @@
+<div class="container blog-container">
+    {%- for block in section.blocks -%}
+        <div class="blog__heading">
+            <h1>From the blog</h1>
+        </div>
+
+        <ul class="controls" id="customize-controls-{{section.id}}" style="display: none" aria-label="Carousel Navigation" tabindex="0">
+            <li class="prev" data-controls="prev" aria-controls="customize" tabindex="-1">
+                <i class="fas fa-angle-left"></i>
+            </li>
+            <li class="next" data-controls="next" aria-controls="customize" tabindex="-1">
+                <i class="fas fa-angle-right"></i>          
+            </li>
+        </ul>
+
+        <div class="blog__list my-slider-{{section.id}}">
+            {% assign Listblogs = blogs[block.settings.list_blog] %}
+                {% for article in Listblogs.articles %}
+                    <div class="blog__list--item">
+                        <a href="{{ article.url }}">
+                            <div class="blog__list--item-img">
+                                <img src="{{ article.image | img_url: 'master' }}" alt="">
+                            </div>
+                            <div class="blog__list--item-title">
+                                <p>{{ article.title}}</p>
+                            </div>
+                        </a>
+                        <div class="blog__list--item-bottom">
+                            <p>{{article.created_at}}</p>
+                            <p>{{article.author}}</p>
+                        </div>
+                    </div>             
+                {% endfor %}
+        </div>
+    {%- endfor -%}
+</div>
+
+
+<script>
+    var slider = tns({
+    container: '.my-slider-{{section.id}}',
+    loop: true,
+    items: 1,
+    gutter: 20,
+    slideBy: "page",
+    nav: false,
+    autoplay: false,
+    speed: 400,
+    autoplayButtonOutput: false,
+    mouseDrag: true,
+    controlsContainer: "#customize-controls-{{section.id}}",
+    responsive: {
+      320: {
+        items: 1
+      },
+      766: {
+        items: 3,
+        gutter: 10
+      },
+
+      1024: {
+        items: 3,
+        gutter: 30
+        {% comment %} edgePadding: 30 {% endcomment %}
+      }
+    }
+  });
+</script>
+
+
+
+{% schema %}
+{
+    "name": "Blog section",
+    "settings": [
+        {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Blog"
+        }
+    ],
+    "blocks":[
+        {
+          "type": "Block_Blog",
+          "name": "Blog",
+          "settings": [
+              {
+                "type": "blog",
+                "id": "list_blog",
+                "label": "Blog"
+              }
+          ]
+      }
+        
+    ],
+    "presets": [
+        {
+            "category": "Advanced layout",
+            "name": "Blog section"
+        }
+    ]
+}
+{% endschema %}

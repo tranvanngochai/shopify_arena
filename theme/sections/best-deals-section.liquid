@@ -98,13 +98,17 @@
     mouseDrag: true,
     controlsContainer: "#customize-controls-{{section.id}}",
     responsive: {
-      640: {
+      320: {
         items: 2
       },
+      766: {
+        items: 3,
+        gutter: 10
+      },
 
-      768: {
+      1024: {
         items: 5,
-        gutter: 30,
+        gutter: 30
         {% comment %} edgePadding: 30 {% endcomment %}
       }
     }

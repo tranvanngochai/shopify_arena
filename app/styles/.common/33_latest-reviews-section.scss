@@ -1,4 +1,5 @@
 .latestreview-container{
+    font-family: 'Oswald', sans-serif;
     margin-top: 50px;
     width: 100%;
     height: 476px;
@@ -54,7 +55,7 @@
 
 @media only screen and (max-width: 739px){
     .latestreview-container{
-        height: 250px;
+        height: auto;
         .latestreview-full{
             .latestreview__heading{
                 padding-top: 30px;
@@ -106,6 +107,22 @@
     }
     .tns-nav{
         transform: translateY(-50px);
+        margin: 50px auto 0 auto;
     }
     
+}
+
+
+@media only screen and (min-width: 740px) and (max-width: 1023px){
+    .latestreview-container{
+        .latestreview-full{
+            .controls_style{
+                width: 90% !important;
+                .next{
+                    margin-right: -40px;
+                }
+            }
+        }
+    }
+
 }

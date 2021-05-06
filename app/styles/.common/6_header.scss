@@ -72,12 +72,6 @@
         
     }
     
-    
-
-
-
-
-
 
 .header__center{
     font-family: 'Oswald', sans-serif;
@@ -100,13 +94,23 @@
             border-radius: 20px;
             background-color: #F0F2F5;
         }
-        .header__search-icon i{
-            font-size: 25px;
+        .header__search-icon{
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
             position: absolute;
-            top: 12px;
-            right: 17px;
-            color: var(--text-color);
+            cursor: pointer;
+            i{
+                font-size: 25px;
+                color: var(--text-color);
+            }
         }
+        
     }
     .header__nav{
         display: flex;
@@ -148,6 +152,8 @@
         
     }
 }
+
+
 .header__hr{
     border-top: 1px solid var(--text-color);
 }
@@ -264,23 +270,21 @@
                     color:  var(--icon-color);
                 }     
             }
-            .card{
+            .cart{
                 position: relative;
                 margin-right: 0;
-            }
-            .card::before{
-         
-                font-size: 8px;
-                width: 15px;
-                height: 15px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                position: absolute;
-                top: -3px;
-                left: 9px;
-            }
-            
+                &::before{
+                    font-size: 8px;
+                    width: 15px;
+                    height: 15px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: absolute;
+                    top: -3px;
+                    left: 9px;
+                }
+            }      
         }
     }
 
@@ -400,27 +404,26 @@
             .header__icon{
                 margin-right: 10px;
                 i {
-                    font-size: 15px;
+                    font-size: 20px;
+                    left: 10px;
                     color:  var(--icon-color);
                 }     
             }
-            .card{
+            .cart{
                 position: relative;
                 margin-right: 0;
-            }
-            .card::before{
-         
-                font-size: 8px;
-                width: 15px;
-                height: 15px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                position: absolute;
-                top: -3px;
-                left: 9px;
-            }
-            
+                &::before{
+                    font-size: 8px;
+                    width: 15px;
+                    height: 15px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: absolute;
+                    top: -3px;
+                    left: 9px;
+                }
+            }       
         }
     }
 

@@ -1,8 +1,15 @@
 <div class="header__icon-list">
-  <div class="header__icon">
-    <a href="">
-      <i class="far fa-user"></i>
-    </a>
+  <div class="header__icon user">
+    {% if shop.customer_accounts_enabled %}
+      {% if customer  %}
+        <a href="/account">Your Account</a>
+      {% else %}
+        {{ '<i class="far fa-user"></i>' | customer_login_link }}
+        {% if shop.customer_accounts_optional %}
+          {{ '' | customer_register_link }}
+        {% endif %}
+      {% endif %}
+    {% endif %}
   </div>
   <div class="header__icon">
     <a href="">
@@ -15,7 +22,6 @@
     </a>
   </div>
 </div>
-
 <style>
 .cart::before{
    content: "{{cart.item_count}}";

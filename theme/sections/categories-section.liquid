@@ -54,14 +54,18 @@
     mouseDrag: true,
     controlsContainer: "#customize-controls-{{section.id}}",
     responsive: {
-      667: {
+      320: {
         items: 2
       },
+      766: {
+        items: 3,
+        gutter: 10
+      },
 
-      768: {
+      1024: {
         items: 5,
-        gutter: 10,
-        {% comment %} edgePadding: 10 {% endcomment %}
+        gutter: 30
+        {% comment %} edgePadding: 30 {% endcomment %}
       }
     }
   });

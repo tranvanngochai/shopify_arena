@@ -2,8 +2,7 @@
     font-family: 'Oswald', sans-serif;
     margin-top: 40px;
     display: grid;
-    grid-template-columns: 15% 15% 15% 15% 15% 15% ;
-    gap: 30px;
+    grid-template-columns: 16.66% 16.66% 16.66% 16.66% 16.66% 16.66%;
     padding-right: 0;
     padding-left: 0;
     .menu__optionlist-item{
@@ -38,9 +37,8 @@
 
 @media only screen and (max-width: 739px){
     .menu__optionlist{
-        grid-template-columns: 30% 30% 30% ;
-        gap: 10px;
-        margin: 30px 10px;
+        grid-template-columns: 33.33% 33.33% 33.33% ;
+        margin: 50px 0px;
         .menu__optionlist-item{
             text-align: left;
             .menu__optionlist-item--heading{
@@ -51,3 +49,19 @@
         }
     }
   }
+
+
+@media only screen and (min-width: 740px) and (max-width: 1023px){
+    .menu__optionlist{
+        grid-template-columns: 33.33% 33.33% 33.33% ;
+        margin: 50px 0px;
+        .menu__optionlist-item{
+            text-align: center;
+            .menu__optionlist-item--heading{
+                h1{
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+}

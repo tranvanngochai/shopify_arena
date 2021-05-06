@@ -5,5 +5,20 @@
 }
 
 @media only screen and (max-width: 739px){
-      
+    .featureproduct_container{
+        .item-list{
+            display: grid;
+            grid-template-columns: auto auto;
+        }     
+    }    
 }
+
+
+@media only screen and (min-width: 740px) and (max-width: 1023px){
+    .featureproduct_container{
+        .item-list{
+            display: grid;
+            grid-template-columns: auto auto auto;
+        }     
+    } 
+  }

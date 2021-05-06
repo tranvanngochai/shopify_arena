@@ -38,16 +38,16 @@
                 .saleoff__item-caption_sale{
                     h1{
                         color: var(--icon-color);
-                        font-size: 55px;
+                        font-size: 40px;
                         font-weight: bold;
                     }
                 }
                 .saleoff__item-caption_price{
-                    
+                    margin-top: -15px;
                     .price_new{
                         h1{
                             color: #FFC800;
-                            font-size: 55px;
+                            font-size: 40px;
                             font-weight: bold;                           
                         }
                     }
@@ -66,7 +66,7 @@
             background-color: var(--text-color);
             border-radius: 30px;
             padding: 10px 24px;
-            bottom: 30px;
+            bottom: 20px;
             left: 40px;
             position: absolute;
             display: flex;
@@ -117,6 +117,7 @@
                         }
                     }
                     .saleoff__item-caption_price{
+                        margin-top: 0;
                         .price_new{
                             h1{
                                 font-size: 30px;
@@ -139,3 +140,51 @@
     }
 }
 
+
+@media only screen and (min-width: 740px) and (max-width: 1023px){
+    .saleoff_container{
+        .saleoff__item{
+            .saleoff__item-caption{
+                width: 80%;
+                top: 5%;
+                left: 5%;
+                .saleoff__item-caption_new{
+
+                }
+                .saleoff__item-caption_text{
+                    width: 100%;
+                    margin-top: -15px;
+                    h1{
+                        font-size: 20px;
+                    }
+                }
+                .saleoff__item-caption_content{
+                    .saleoff__item-caption_sale{
+                        h1{
+                            font-size: 35px;
+                        }
+                    }
+                    .saleoff__item-caption_price{
+                        margin-top: -15px;
+                        .price_new{
+                            h1{
+                                font-size: 35px;
+                            }
+                        }
+                        .price_old{
+                            del{
+                                font-size: 15px;
+                            }
+                        }
+                    }
+                }
+            }
+            .saleoff__item-btn{
+                position: absolute;
+                height: 30px;
+                bottom: 15px;
+                left: 30px;      
+            }
+        }
+    }
+}

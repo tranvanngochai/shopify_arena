@@ -149,6 +149,11 @@
 
 @media only screen and (max-width: 739px){
   .bestsellers-container{
+    .bestsellers-heading{
+      h1{
+        font-size: 20px;
+      }
+    }
     .tab-content{
       .gallery-product{
         .bestsellers__item-list{
@@ -160,4 +165,14 @@
 }
 
 
-
+@media only screen and (min-width: 740px) and (max-width: 1023px){
+  .bestsellers-container{
+    .tab-content{
+      .gallery-product{
+        .bestsellers__item-list{
+          grid-template-columns: auto auto auto;
+        }
+      }
+    }
+  }
+}
