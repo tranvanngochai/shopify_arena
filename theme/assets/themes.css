@@ -2973,7 +2973,8 @@ b {
   color: var(--white-color); }
 
 .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_text {
-  width: 100%; }
+  width: 100%;
+  margin-top: 10px; }
 
 .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_text h1 {
   font-size: 25px;
@@ -2984,18 +2985,24 @@ b {
 .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_content {
   display: flex; }
 
+.saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_content .saleoff__item-caption_sale {
+  margin-top: 10px; }
+
 .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_content .saleoff__item-caption_sale h1 {
   color: var(--icon-color);
   font-size: 40px;
   font-weight: 700; }
 
 .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_content .saleoff__item-caption_price {
-  margin-top: -15px; }
+  margin-top: 10px; }
 
 .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_content .saleoff__item-caption_price .price_new h1 {
   color: #ffc800;
   font-size: 40px;
   font-weight: 700; }
+
+.saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_content .saleoff__item-caption_price .price_old {
+  margin-top: 10px; }
 
 .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_content .saleoff__item-caption_price .price_old del {
   color: var(--white-color);
@@ -3012,7 +3019,8 @@ b {
   position: absolute;
   display: flex;
   align-items: center;
-  justify-content: center; }
+  justify-content: center;
+  z-index: 999; }
 
 .saleoff_container .saleoff__item .saleoff__item-btn button {
   color: var(--white-color); }
@@ -3036,12 +3044,16 @@ b {
     font-size: 15px; }
   .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_text h1 p {
     margin: 8px auto; }
+  .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_content .saleoff__item-caption_sale {
+    margin-top: 15px; }
   .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_content .saleoff__item-caption_sale h1 {
     font-size: 30px; }
   .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_content .saleoff__item-caption_price {
     margin-top: 0; }
   .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_content .saleoff__item-caption_price .price_new h1 {
     font-size: 30px; }
+  .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_content .saleoff__item-caption_price .price_old {
+    margin-top: 0; }
   .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_content .saleoff__item-caption_price .price_old del {
     font-size: 15px; }
   .saleoff_container .saleoff__item .saleoff__item-btn {
@@ -3055,16 +3067,19 @@ b {
     top: 5%;
     left: 5%; }
   .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_text {
-    width: 100%;
-    margin-top: -15px; }
+    width: 100%; }
   .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_text h1 {
     font-size: 20px; }
+  .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_content .saleoff__item-caption_sale {
+    margin-top: 15px; }
   .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_content .saleoff__item-caption_sale h1 {
     font-size: 35px; }
   .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_content .saleoff__item-caption_price {
-    margin-top: -15px; }
+    margin-top: 3px; }
   .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_content .saleoff__item-caption_price .price_new h1 {
     font-size: 35px; }
+  .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_content .saleoff__item-caption_price .price_old {
+    margin-top: 0; }
   .saleoff_container .saleoff__item .saleoff__item-caption .saleoff__item-caption_content .saleoff__item-caption_price .price_old del {
     font-size: 15px; }
   .saleoff_container .saleoff__item .saleoff__item-btn {
@@ -3084,7 +3099,10 @@ b {
   font-size: 30px; }
 
 .categories_container .categories_top-list_item {
-  width: 100%; }
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
 
 .categories_container .categories_top-list_item .categories_top-item {
   position: relative;
@@ -3106,6 +3124,7 @@ b {
   font-weight: 700; }
 
 .categories_container .categories_top-list_item .categories_top-item .categories_top-item_caption .categories_top-item--btn {
+  margin-top: 20px;
   cursor: pointer; }
 
 .categories_container .categories_top-list_item .categories_top-item .categories_top-item_caption .categories_top-item--btn button {
@@ -3211,6 +3230,7 @@ b {
   background-color: rgba(16, 49, 120, 0.529412); }
 
 .slider-container .my-slider .slider-item {
+  background-color: #f0f2f5;
   position: relative; }
 
 .slider-container .my-slider .slider-item .slider-item--sale {
@@ -3402,12 +3422,12 @@ b {
   gap: 25px; }
 
 .bestsellers-container .tab-content .gallery-product .bestsellers__item-list .bestsellers__item {
+  background-color: #f0f2f5;
   height: 345px;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   font-size: 18px;
-  background: #fff;
   position: relative;
   display: flex;
   align-items: center;
@@ -3536,11 +3556,11 @@ b {
   gap: 25px; }
 
 .item-list .item {
+  background-color: #f0f2f5;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   font-size: 18px;
-  background: #fff;
   position: relative;
   display: flex;
   align-items: center;
@@ -4002,6 +4022,22 @@ b {
   color: var(--text-color);
   font-weight: 700;
   text-align: center; }
+
+.blog-container .blog__list .blog__list--item {
+  position: relative; }
+
+.blog-container .blog__list .blog__list--item .blog__list--item-tag {
+  display: flex;
+  position: absolute;
+  left: 10%;
+  top: 5%; }
+
+.blog-container .blog__list .blog__list--item .blog__list--item-tag span {
+  margin-right: 15px;
+  padding: 2px 20px;
+  background-color: var(--text-color);
+  color: var(--white-color);
+  border-radius: 30px; }
 
 .blog-container .blog__list .blog__list--item .blog__list--item-title p {
   font-size: 20px;

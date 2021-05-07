@@ -15,7 +15,7 @@ const port = argv.port || 9000;
  *------------------------ NEED TO DECLARE OPTION HERE ------------------------------------------
  */
 const shopifyHost = "https://tranvanngochai.myshopify.com/";
-const password = "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";
+const password = "ngochai123";
 const themeID = "121445941447";
 // const proxy = `${shopifyHost}?preview_theme_id=${themeID}`;
 const proxy = `${shopifyHost}`;

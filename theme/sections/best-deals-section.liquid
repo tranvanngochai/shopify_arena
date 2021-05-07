@@ -42,12 +42,14 @@
             -%}
             {%- form 'product', product -%}
                 <input type="hidden" name="id" value="{{first_available_variant.id}}" />
-                <div class="slider-item">
-                    {%- if block.settings.sale != blank -%}           
-                        <div class="bestdeal__list-item--sale">
-                            <span>{{block.settings.sale}}</span>
-                        </div>
-                    {%- endif -%}
+                <div class="slider-item">     
+                        {%- if product.compare_at_price_max > product.price -%}
+                            <div class="bestdeal__list-item--sale">
+                                <span>
+                                    -{{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}%
+                                </span>
+                            </div>
+                        {%- endif -%}             
                     <a href="{{product.url}}">
                         <div class="slider-item--img">
                             <img src="{{ product | img_url:'197x197' }}" />
@@ -184,12 +186,6 @@
             "type": "collection",
             "id": "list_collection",
             "label": "Collection"
-         },
-         {
-            "type": "text",
-            "id": "sale",
-            "label": "Sale",
-            "default" : "-50%"
          },
          {
             "type": "text",

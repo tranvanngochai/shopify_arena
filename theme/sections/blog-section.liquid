@@ -17,6 +17,11 @@
             {% assign Listblogs = blogs[block.settings.list_blog] %}
                 {% for article in Listblogs.articles %}
                     <div class="blog__list--item">
+                        <div class="blog__list--item-tag">
+                            {% for tag in article.tags %}
+                                <span>{{ tag }}</span>     
+                            {% endfor %}
+                        </div>
                         <a href="{{ article.url }}">
                             <div class="blog__list--item-img">
                                 <img src="{{ article.image | img_url: 'master' }}" alt="">

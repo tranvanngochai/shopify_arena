@@ -12,11 +12,25 @@
     {%- form 'product', product -%}
       <input type="hidden" name="id" value="{{first_available_variant.id}}" />
       <div class="item block-{{ block.id }}">
-        {%- if block.settings.sale != blank -%}
-          <div class="item--sale">
-            <span>{{block.settings.sale}}</span>
-          </div>
-        {%- endif -%}
+        {% for tag in product.tags %}
+                  {% if tag == 'Hot' %}
+                     <div class="item--sale" style="background-color: red">
+                        <span>{{ tag }}</span>
+                     </div> 
+                  {% elsif tag == 'New' %}
+                     <div class="item--sale" style="background-color: blue">
+                        <span>{{ tag }}</span>
+                     </div>
+                  {% elsif tag == 'Sale' %}
+                     <div class="item--sale">
+                        <span>{{ tag }}</span>
+                     </div>
+                  {% else tag == blank %}
+                     <div class="item--sale" style="display: none">
+                        <span>{{ tag }}</span>
+                     </div>
+                  {% endif %}                               
+        {% endfor %} 
         <a href="{{product.url}}">
           <div class="item--img">
             <img src="{{ product | img_url: '197x197' }}" />

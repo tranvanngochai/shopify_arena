@@ -12,6 +12,9 @@
         }
         .categories_top-list_item{
             width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             .categories_top-item{
                 position: relative;
                 display: flex;
@@ -34,6 +37,7 @@
                         }
                     }
                     .categories_top-item--btn{
+                        margin-top: 20px;
                         cursor: pointer;
                         button{
                             width: 80px;

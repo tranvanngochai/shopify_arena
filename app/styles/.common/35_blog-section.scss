@@ -11,6 +11,20 @@
    }
    .blog__list{
       .blog__list--item{
+            position: relative;
+            .blog__list--item-tag{
+                display: flex;
+                position: absolute;
+                left: 10%;
+                top: 5%;
+                span{
+                    margin-right: 15px;
+                    padding: 2px 20px;
+                    background-color: var(--text-color);
+                    color: var(--white-color);
+                    border-radius: 30px;
+                }
+            }
           .blog__list--item-title{
             p{
                 font-size: 20px;
@@ -45,7 +59,7 @@
             }
         }
         .blog__list{
-            .blog__list--item{
+            .blog__list--item{         
                 .blog__list--item-title{
                     p{
                         font-size: 18px;

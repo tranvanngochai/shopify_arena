@@ -25,6 +25,7 @@
             }
             .saleoff__item-caption_text{
                 width: 100%;
+                margin-top: 10px;
                 h1{
                     font-size: 25px;
                     font-weight: bold;
@@ -36,6 +37,7 @@
             .saleoff__item-caption_content{
                 display: flex;
                 .saleoff__item-caption_sale{
+                    margin-top: 10px;
                     h1{
                         color: var(--icon-color);
                         font-size: 40px;
@@ -43,7 +45,7 @@
                     }
                 }
                 .saleoff__item-caption_price{
-                    margin-top: -15px;
+                    margin-top: 10px;
                     .price_new{
                         h1{
                             color: #FFC800;
@@ -52,6 +54,7 @@
                         }
                     }
                     .price_old{
+                        margin-top: 10px;
                         del{
                             color: var(--white-color);
                             font-size: 20px;
@@ -72,6 +75,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 999;
             button{
                 color: var(--white-color);
                 &:hover{
@@ -112,6 +116,7 @@
                 }
                 .saleoff__item-caption_content{
                     .saleoff__item-caption_sale{
+                        margin-top: 15px;
                         h1{
                             font-size: 30px;
                         }
@@ -124,6 +129,7 @@
                             }
                         }
                         .price_old{
+                            margin-top: 0;
                             del{
                                 font-size: 15px;
                             }
@@ -153,25 +159,26 @@
                 }
                 .saleoff__item-caption_text{
                     width: 100%;
-                    margin-top: -15px;
                     h1{
                         font-size: 20px;
                     }
                 }
                 .saleoff__item-caption_content{
                     .saleoff__item-caption_sale{
+                        margin-top: 15px;
                         h1{
                             font-size: 35px;
                         }
                     }
                     .saleoff__item-caption_price{
-                        margin-top: -15px;
+                        margin-top: 3px;
                         .price_new{
                             h1{
                                 font-size: 35px;
                             }
                         }
                         .price_old{
+                            margin-top: 0;
                             del{
                                 font-size: 15px;
                             }

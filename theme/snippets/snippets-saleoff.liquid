@@ -1,41 +1,57 @@
-<div class="saleoff__item block-{{block.id}}">
-            <div class="saleoff__item-img">
-                <img src="{{ block.settings.img_saleoff | img_url : 'master' }}" alt="" >
-            </div>
-            <div class="saleoff__item-caption">
-                {%- if block.settings.tag != blank -%}
-                    <div class="saleoff__item-caption_new">
-                    <span>{{block.settings.tag}}</span>
-                </div>
-                {%- endif -%}
-                
-                <div class="saleoff__item-caption_text">
-                    <h1 style="color:{{block.settings.color_text}}">{{block.settings.heading}}</h1>
-                </div>
-            
-                <div class="saleoff__item-caption_content">
-                    <div class="saleoff__item-caption_sale">
-                        <h1>{{block.settings.sale}}</h1>
-                    </div>
-                    <div class="saleoff__item-caption_price">
-                        <div class="price_new">
-                            <h1>{{block.settings.price_new}}</h1>
+{% assign collection = collections[block.settings.list_collection] %}
+    {%- for product in collection.products -%} 
+    {%- liquid
+         assign variant_first =  product.variants | first
+         assign first_available_variant  = product.first_available_variant | default: variant_first
+         assign available = product.available  
+    -%}
+        {%- form 'product', product -%}
+            <input type="hidden" name="id" value="{{first_available_variant.id}}" />
+                <div class="saleoff__item block-{{block.id}}">
+                    <a href="{{product.url}}">
+                        <div class="saleoff__item-img">
+                            <img src="{{ product | img_url: 'master' }}" />
                         </div>
-                        <div class="price_old">
-                            <del>{{block.settings.price_old}}</del>
-                        </div>
-                    </div>  
-                </div>
-            </div>
-            {%- if block.settings.button != blank -%}
-                <div class="saleoff__item-btn">
-                    <a href="{{block.settings.url_button}}">
-                        <button>{{block.settings.button}}</button>
                     </a>
+                    <div class="saleoff__item-caption">
+                        {% for tag in product.tags %}
+                            <div class="saleoff__item-caption_new">
+                                <span>{{ tag }}</span>
+                            </div>
+                        {% endfor %}
+                        <div class="saleoff__item-caption_text">
+                            <h1 style="color:{{block.settings.color_text}}">{{product.title}}</h1>
+                        </div>
+                    
+                        <div class="saleoff__item-caption_content">
+                            {%- if block.settings.check_sale == true -%}                         
+                                <div class="saleoff__item-caption_sale">
+                                    <h1>-{{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}%</h1>
+                                </div>
+                            {%- endif -%}
+                            {%- if block.settings.check_price == true -%}
+                                <div class="saleoff__item-caption_price">
+                                    <div class="price_new">
+                                        <h1>{{ first_available_variant.price | money }}</h1>
+                                    </div>
+                                    <div class="price_old">
+                                        <del>{{ first_available_variant.compare_at_price | money }}</del>
+                                    </div>
+                                </div> 
+                            {%- endif -%} 
+                        </div>
+                    </div>
+                    {%- if block.settings.button != blank -%}
+                        <div class="saleoff__item-btn">
+                            <button type="submit">{{block.settings.button}}</button>      
+                        </div>
+                    {%- endif -%}    
                 </div>
-            {%- endif -%}    
-        </div>
-    {%- if forloop.length == 1 -%}
+        {%- endform -%}
+    {%- endfor -%}
+
+
+{%- if forloop.length == 1 -%}
       {%- style -%}
         .saleoff_container{
             grid-template-columns: auto;
@@ -54,3 +70,10 @@
         }
       {%- endstyle -%}
     {%- endif -%}
+
+
+
+
+    
+    
+    

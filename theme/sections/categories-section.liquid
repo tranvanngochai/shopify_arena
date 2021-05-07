@@ -14,27 +14,34 @@
 
         <div class="my-slider my-slider-{{section.id}} categories_top-list_item">
             {%- for block in section.blocks -%}
-            {%- if block.type == 'block_categories' -%}
-              
-            <div class="slider-item categories_top-item">
-                <div class="categories_top-item_img">
-                    <img src="{{ block.settings.img_categories | img_url : 'master' }}" alt="" >
-                </div>
-                <div class="categories_top-item_caption">
-                    <div class="categories_top-item--heading">
-                        <h1>{{block.settings.heading}}</h1>
-                    </div>
-                    {%- if block.settings.button != blank -%}
-                        <div class="categories_top-item--btn">
-                            <a href="{{block.settings.url_button}}">
-                                <button>{{block.settings.button}}</button>
-                            </a>                           
+            {% assign collection = collections[block.settings.list_collection] %}
+                {%- for product in collection.products -%} 
+                    {%- liquid
+                        assign variant_first =  product.variants | first
+                        assign first_available_variant  = product.first_available_variant | default: variant_first
+                        assign available = product.available  
+                    -%}
+                    {%- form 'product', product -%}
+                        <input type="hidden" name="id" value="{{first_available_variant.id}}" />
+                        <div class="slider-item categories_top-item">
+                            <a href="{{product.url}}">
+                                <div class="categories_top-item_img">
+                                    <img src="{{ product | img_url: 'master' }}" />
+                                </div>
+                            </a>
+                            <div class="categories_top-item_caption">
+                                <div class="categories_top-item--heading">
+                                    <h1>{{product.title}}</h1>
+                                </div>
+                                {%- if block.settings.button != blank -%}
+                                    <div class="categories_top-item--btn">
+                                        <button type="submit">{{block.settings.button}}</button>                          
+                                    </div>
+                                {%- endif -%}   
+                            </div>           
                         </div>
-                    {%- endif -%}
-                    
-                </div>           
-            </div>
-            {%- endif -%}
+                    {%- endform -%}
+                {%- endfor -%}
             {%- endfor -%}
         </div>       
 </div>
@@ -55,7 +62,8 @@
     controlsContainer: "#customize-controls-{{section.id}}",
     responsive: {
       320: {
-        items: 2
+        items: 2,
+        gutter: 10
       },
       766: {
         items: 3,
@@ -64,7 +72,7 @@
 
       1024: {
         items: 5,
-        gutter: 30
+        gutter: 10
         {% comment %} edgePadding: 30 {% endcomment %}
       }
     }
@@ -93,25 +101,15 @@
             "name": "Categories",
             "settings": [
                 {
-                    "type": "image_picker",
-                    "label": "Image Categories",
-                    "id": "img_categories"
-                },
-                {
-                    "type": "richtext",
-                    "id": "heading",
-                    "label": "Heading"
+                    "type": "collection",
+                    "id": "list_collection",
+                    "label": "Collection"
                 },
                 {
                     "type": "text",
                     "id": "button",
                     "label": "Button Text",
                     "default" : "More"
-                },
-                {   
-                    "type": "text",
-                    "id": "url_button",
-                    "label": "button link"
                 }
 
             ]

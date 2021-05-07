@@ -18,64 +18,45 @@
         "type": "text",
         "id": "title",
         "label": "Title",
-        "default": "Saleoff"
+        "default": "Sale Off"
         }
     ],
     "blocks":[
         {
-            "type": "block_saleoff",
-            "name": "Sale Off",
-            "settings": [
+          "type": "SaleOff",
+          "name": "SaleOff",
+          "settings": [
             {
-                "type": "image_picker",
-                "label": "Image SaleOff",
-                "id": "img_saleoff"
-            },
-            {
-                "type": "richtext",
-                "id": "heading",
-                "label": "Heading"
+                "type": "collection",
+                "id": "list_collection",
+                "label": "Collection"
             },
             {
                 "type": "text",
                 "id": "button",
-                "label": "Button Text",
-                "default" : "More"
-            },
-            {   
-                "type": "text",
-                "id": "url_button",
-                "label": "button link"
-                },
-            {
-                "type": "text",
-                "id": "tag",
-                "label": "Tag"
+                "label": "Button Text"
             },
             {
-                "type": "text",
-                "id": "sale",
-                "label": "sale"
+                "type": "checkbox",
+                "id": "check_sale",
+                "default": false,
+                "label": "Sale Off"
             },
             {
-                "type": "text",
-                "id": "price_new",
-                "label": "Price New"
-            },
-            {
-                "type": "text",
-                "id": "price_old",
-                "label": "Price Old"
+                "type": "checkbox",
+                "id": "check_price",
+                "default": false,
+                "label": "Price"
             },
             {
                 "type": "color",
                 "id": "color_text",
                 "label": "Color text",
                 "default": "#103178"
-            }    
-
+            }
+            
             ]
-        }
+      }
         
     ],
     "presets": [
