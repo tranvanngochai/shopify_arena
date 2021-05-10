@@ -361,31 +361,34 @@
                 height: 25px;
             }
         }
-        .header__search{
+        .search{
             width: 40%;
-            display: inline-flex;
-            position: relative;
-            .header__search-product{
-                width: 100%; 
-             input{
-                font-size: 10px;
-                height: 30px;
+            .header__search{
                 width: 100%;
-                padding-left: 10px;
-                border-radius: 20px;
-                background-color: #F0F2F5;
+                display: inline-flex;
+                position: relative;
+                .header__search-product{
+                    width: 100%; 
+                 input{
+                    font-size: 10px;
+                    height: 30px;
+                    width: 100%;
+                    padding-left: 10px;
+                    border-radius: 20px;
+                    background-color: #F0F2F5;
+                    }
                 }
-            }
-            .header__search-icon{
-                i{  
-                    font-size: 15px;
-                    position: absolute;
-                    top: 9px;
-                    right: 12px;
-                    color: var(--text-color);
+                .header__search-icon{
+                    height: 100%;
+                    i{  
+                        font-size: 15px;
+                        position: absolute;
+                        color: var(--text-color);
+                    }
                 }
             }
         }
+        
         .header__nav{
             display: inline-flex;
             .header__nav-item{

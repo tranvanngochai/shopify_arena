@@ -43,7 +43,13 @@
                     </div>
                     {%- if block.settings.button != blank -%}
                         <div class="saleoff__item-btn">
-                            <button type="submit">{{block.settings.button}}</button>      
+                            {%- if block.settings.button == 'Shop now' -%}
+                                <a href="{{product.url}}">   
+                                    {{block.settings.button}}
+                                </a> 
+                            {% else %}
+                                <button type="submit">{{block.settings.button}}</button>
+                            {%- endif -%}     
                         </div>
                     {%- endif -%}    
                 </div>

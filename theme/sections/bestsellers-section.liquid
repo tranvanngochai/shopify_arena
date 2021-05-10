@@ -3,14 +3,14 @@
    <div class="bestsellers-heading">
       <h1>{{section.settings.title}}</h1>
    </div>
-   <div class ="tab">
-        {% for block in section.blocks %}
-            {% if block.type ==  'tab-title'%}
-                {% unless  block.settings.title == blank %}
-                    <p class ="tab-collection {% if forloop.first %}selected{% endif %}" data-target="tab--{{block.id}}">{{block.settings.title}}</p>
-                {% endunless %}  
-            {% endif %}  
-        {% endfor %}
+    <div class ="tab">
+            {% for block in section.blocks %}
+                {% if block.type ==  'tab-title'%}
+                    {% unless  block.settings.title == blank %}
+                        <p class ="tab-collection {% if forloop.first %}selected{% endif %}" data-target="tab--{{block.id}}">{{block.settings.title}}</p>
+                    {% endunless %}  
+                {% endif %}  
+            {% endfor %}
     </div>
 
     <div class ="tab-content">

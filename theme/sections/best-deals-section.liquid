@@ -31,52 +31,7 @@
         </li>
     </ul>
 
-    <div class="my-slider my-slider-{{section.id}}">
-        {%- for block in section.blocks -%}
-            {% assign collection = collections[block.settings.list_collection] %}
-            {%- for product in collection.products -%} 
-            {%- liquid
-                assign variant_first =  product.variants | first
-                assign first_available_variant  = product.first_available_variant | default: variant_first
-                assign available = product.available 
-            -%}
-            {%- form 'product', product -%}
-                <input type="hidden" name="id" value="{{first_available_variant.id}}" />
-                <div class="slider-item">     
-                        {%- if product.compare_at_price_max > product.price -%}
-                            <div class="bestdeal__list-item--sale">
-                                <span>
-                                    -{{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}%
-                                </span>
-                            </div>
-                        {%- endif -%}             
-                    <a href="{{product.url}}">
-                        <div class="slider-item--img">
-                            <img src="{{ product | img_url:'197x197' }}" />
-                        </div>
-                    </a>
-                    {%- if block.settings.add_cart != blank -%}               
-                        <button type="submit" class="addCart">{{block.settings.add_cart}}</button>
-                    {%- endif -%}
-                    <div class="slider-item--content">
-                        <div class="slider-item--title">
-                            <h3>{{product.title}}</h3>
-                        </div>
-                        <div class="slider-item--price">
-                            <div class="slider-item--price_new">
-                                <p>{{ first_available_variant.price | money }}</p>
-                            </div>
-                            <div class="slider-item--price_old">
-                                <del>{{ first_available_variant.compare_at_price | money }}</del>
-                            </div>
-                        </div>
-                        {% render 'snippets-icon_start', block: block %}
-                    </div>
-                </div>
-            {%- endform -%}
-        {%- endfor -%}
-        {%- endfor -%}
-    </div>
+    {% render 'snippets-product-section', block: block, idSlide: true ,idSelaOff_product: {{section.id}} %}
     
 </div>
 

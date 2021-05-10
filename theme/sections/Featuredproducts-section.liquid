@@ -1,6 +1,9 @@
 <div class="container featureproduct_container">
     {%- for block in section.blocks -%}
-        {% render 'snippets-product-section', block: block %}
+      <div class="heading">
+        <h1>{{block.settings.heading}}</h1>
+      </div>
+        {% render 'snippets-product-section', block: block, idSlide: false , idTag_product: {{section.id}} %}
     {%- endfor -%}
 </div>
 

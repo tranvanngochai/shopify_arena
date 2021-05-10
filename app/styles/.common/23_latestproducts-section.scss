@@ -35,34 +35,8 @@
           background-color: #10317887;
         }    
       }
-    }
-    
-    .my-slider{
-
-        .slider-item {
-          background-color: #F0F2F5;
-          position: relative;
-          .slider-item--sale{
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 20px;
-            width: 50px;
-            z-index: 1;
-            border-radius: 30px;
-            background-color: var(--icon-color);
-            span{
-              color: var(--white-color);
-              font-size: 13px;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              }
-            }              
-        }
-      }
-      
-    }
+    }    
+  }
   
 
     @media only screen and (max-width: 739px){

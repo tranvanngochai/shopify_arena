@@ -11,69 +11,12 @@
         <li class="next" data-controls="next" aria-controls="customize" tabindex="-1">
             <i class="fas fa-angle-right"></i>          
         </li>
-    </ul>
+   </ul>
 
-   <div class="my-slider my-slider-{{section.id}}">
-      {%- for block in section.blocks -%}
-      {% assign collection = collections[block.settings.list_collection] %}
-      {%- for product in collection.products -%} 
-      {%- liquid
-         assign variant_first =  product.variants | first
-         assign first_available_variant  = product.first_available_variant | default: variant_first
-         assign available = product.available  
-      -%}
-         {%- form 'product', product -%}
-            <input type="hidden" name="id" value="{{first_available_variant.id}}" />
-            <div class="slider-item item">
-               {% for tag in product.tags %}
-                  {% if tag == 'Hot' %}
-                     <div class="slider-item--sale" style="background-color: red">
-                        <span>{{ tag }}</span>
-                     </div> 
-                  {% elsif tag == 'New' %}
-                     <div class="slider-item--sale" style="background-color: blue">
-                        <span>{{ tag }}</span>
-                     </div>
-                  {% elsif tag == 'Sale' %}
-                     <div class="slider-item--sale">
-                        <span>{{ tag }}</span>
-                     </div>
-                  {% else tag == blank %}
-                     <div class="slider-item--sale" style="display: none">
-                        <span>{{ tag }}</span>
-                     </div>
-                  {% endif %}              
-                                  
-               {% endfor %} 
-               <a href="{{product.url}}">       
-                  <div class="slider-item--img">
-                     <img src="{{ product | img_url: '197x197' }}" />
-                  </div>
-               </a>
-               {%- if block.settings.add_cart != blank -%}               
-                  <button type="submit" class="addCart">{{block.settings.add_cart}}</button>
-               {%- endif -%}
-               <div class="slider-item--content">
-                  <div class="slider-item--title">
-                     <h3>{{product.title}}</h3>
-                  </div>
-                  <div class="slider-item--price">
-                     <div class="slider-item--price_new">
-                        <p>{{ first_available_variant.price | money }}</p>
-                     </div>
-                     <div class="slider-item--price_old">
-                        <del>{{ first_available_variant.compare_at_price | money }}</del>
-                     </div>
-                  </div>
-                  {% render 'snippets-icon_start', block: block %}
-               </div>
-            </div>
-         {%- endform -%}
-      {%- endfor -%}
-      {%- endfor -%}
-   </div>
+    {% render 'snippets-product-section', block: block, idSlide: true ,idTag_product: {{section.id}} %}
 
 </div>
+
 
 
 <script>
