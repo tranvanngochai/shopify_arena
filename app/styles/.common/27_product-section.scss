@@ -107,6 +107,18 @@
                               color: var(--icon-color);
                             }
                       }
+                      .item--quantity{
+                        display: flex;
+                        align-items: center;
+                        justify-content: left;
+                        p:first-child{
+                          width: 80px;
+                        }
+                        p:last-child{
+                          font-size: 30px;
+                          color: var(--text-color);
+                        }
+                      }
               }      
         }
     }

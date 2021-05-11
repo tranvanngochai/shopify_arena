@@ -1,3 +1,5 @@
+
+//tab
 let tabSlide = () => {
   let tab = document.querySelectorAll(".tab-collection");
   tab.forEach((t)=>{
@@ -14,3 +16,36 @@ let tabSlide = () => {
   })
 }
 tabSlide();
+
+
+// add to cart
+// let addcarts = document.querySelectorAll(".addCart")[0].addEventListener("click", addToCart);
+
+async function addToCart(variant_id, quantity){
+    fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id:variant_id,
+            quantity:quantity
+        })
+      })
+      .then(response => {
+        return response.json();        
+      }).then(function() {
+         getComputedStyle(document.querySelectorAll('.cart')[0], ':before').getPropertyValue('content') = updateCartCount().toString();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+}
+
+
+
+var getCart = fetch('/cart.js')
+  .then(response => response.json())
+  .then(data => { return data });
+
+console.log(getCart);

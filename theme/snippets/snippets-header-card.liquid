@@ -23,7 +23,15 @@
   </div>
 </div>
 <style>
-.cart::before{
+.cart:before{
    content: "{{cart.item_count}}";
 }
 </style>
+
+<script>
+  function updateCartCount() {
+    const cartCount = {{cart.item_count}};
+    window.Shopify.cartCount = cartCount;
+    return cartCount;
+  }
+</script>

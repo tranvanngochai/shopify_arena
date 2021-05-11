@@ -15,11 +15,15 @@
 
             <div class="product-page-header">
                 <div class="row">
-                    <div class="product-gallery col-lg-6 col-12">
+                    <div class="product-gallery col-lg-4 col-12">
                         {%- render 'product-detail-media', product: product -%}
                     </div>
 
-                    <div class="product-info col-lg-6 col-12">
+                    <div class="product-service col-lg-4 col-12">
+                        {%- render 'product-detail-sercive', product: product -%}
+                    </div>
+
+                    <div class="product-info col-lg-4 col-12">
                         {%- render 'product-detail-snippet', type: 'title' -%}
                         {%- render 'product-detail-snippet', type: 'review' -%}
                         {%- render 'product-detail-snippet', type: 'price' -%}
@@ -29,6 +33,7 @@
                         {%- render 'product-detail-snippet', type: 'wlcp' -%}
                         {%- render 'product-detail-snippet', type: 'information' -%}
                     </div>
+
                 </div>
             </div>
 

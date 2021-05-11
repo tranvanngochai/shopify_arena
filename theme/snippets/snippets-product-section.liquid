@@ -6,9 +6,9 @@
             assign variant_first =  product.variants | first
             assign first_available_variant  = product.first_available_variant | default: variant_first
             assign available = product.available  
-        -%}
-            {%- form 'product', product -%}
-                <input type="hidden" name="id" value="{{first_available_variant.id}}" />
+        -%} 
+        
+           <form onsubmit="addToCart({{first_available_variant.id}}, 1); return false;" >
                 <div class="{% if idSlide == true %}slider-item{% endif %} item">
                     {%- if idTag_product != blank -%}
                         {% for tag in product.tags %}
@@ -44,37 +44,43 @@
                     {%- endif -%}
                     
 
-                <a href="{{product.url}}">       
-                    <div class="item--img">
-                        <img src="{{ product | img_url: '197x197' }}" />
-                    </div>
-                </a>
-                {%- if block.settings.add_cart != blank -%}               
-                    <button type="submit" class="addCart">{{block.settings.add_cart}} </button>
-                {%- endif -%}
-                <div class="item--content">
-                    <div class="item--title">
-                        <h3>{{product.title}}</h3>
-                    </div>
-                    <div class="item--price">
-                        <div class="item--price_new">
-                            <p>{{ first_available_variant.price | money }}</p>
+                    <a href="{{product.url}}">       
+                        <div class="item--img">
+                            <img src="{{ product | img_url: '197x197' }}" />
                         </div>
-                        {%- if product.compare_at_price_max > product.price -%}
-                            <div class="item--price_old">
-                                <del>{{ first_available_variant.compare_at_price | money }}</del>
+                    </a>
+                    {%- if block.settings.add_cart != blank -%}               
+                        <button type="submit" class="addCart">{{block.settings.add_cart}} </button>
+                    {%- endif -%}
+                    <div class="item--content">
+                        <div class="item--title">
+                            <h3>{{product.title}}</h3>
+                        </div>
+                        <div class="item--price">
+                            <div class="item--price_new">
+                                <p>{{ first_available_variant.price | money }}</p>
                             </div>
-                        {%- endif -%}     
-                    </div>
-                    <div class="item--iconstar">
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star"></i>
+                            {%- if product.compare_at_price_max > product.price -%}
+                                <div class="item--price_old">
+                                    <del>{{ first_available_variant.compare_at_price | money }}</del>
+                                </div>
+                            {%- endif -%}     
+                        </div>
+                        <div class="item--iconstar">
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        {%- if idSelaOff_product != blank -%} 
+                            <div class="item--quantity">
+                                <p>No of pcs available</p>
+                                <p>{{first_available_variant.inventory_quantity}}</p>
+                            </div>
+                        {%- endif -%}
                     </div>
                 </div>
-                </div>
-            {%- endform -%}
+            </form>
         {%- endfor -%}
       {%- endfor -%}
    </div>
