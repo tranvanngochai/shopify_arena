@@ -11,7 +11,7 @@
       {% endif %}
     {% endif %}
   </div>
-  <div class="header__icon">
+  <div class="header__icon heart">
     <a href="">
       <i class="far fa-heart"></i>
     </a>
@@ -20,18 +20,7 @@
     <a href="{{ routes.cart_url }}">
       <i class="fas fa-shopping-cart"></i>
     </a>
+    <span id="cart__count">{{cart.item_count}}</span>
   </div>
 </div>
-<style>
-.cart:before{
-   content: "{{cart.item_count}}";
-}
-</style>
 
-<script>
-  function updateCartCount() {
-    const cartCount = {{cart.item_count}};
-    window.Shopify.cartCount = cartCount;
-    return cartCount;
-  }
-</script>

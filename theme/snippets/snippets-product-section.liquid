@@ -8,7 +8,9 @@
             assign available = product.available  
         -%} 
         
-           <form onsubmit="addToCart({{first_available_variant.id}}, 1); return false;" >
+           <form class="form__submit">
+                <input name="id" type="hidden" value="{{first_available_variant.id}}" data-value="{{first_available_variant.id}}">
+                <input name="quantity" type="hidden" value="1" data-value="1">
                 <div class="{% if idSlide == true %}slider-item{% endif %} item">
                     {%- if idTag_product != blank -%}
                         {% for tag in product.tags %}
