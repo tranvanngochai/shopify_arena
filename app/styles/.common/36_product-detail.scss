@@ -68,3 +68,52 @@
         font-size: 15px;
     }
 }
+
+
+
+
+.product-info{
+    background-color: #F0F2F5;
+// product-detail-snippet stock 
+    .product-stock{
+        margin-top: 30px;
+        background-color: #12A05C;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 30px;
+        width: 60%;
+        p{
+            color: var(--white-color);
+            font-size: 20px;
+            padding: 10px 20px;
+            font-weight: bold;
+        }
+    }
+    .product-price{
+        display: flex;
+        margin-top: 30px;
+        height: 30px;
+        .product-price_new{
+            display: flex;
+            height: 30px;
+            align-items: center;
+            p{
+                font-size: 30px;
+                color: var(--icon-color);
+                margin-right: 10px;
+                line-height: 30px;
+                font-weight: bold;
+            }
+        }
+        .product-price_old{
+            display: flex;
+            height: 30px;
+            align-items: center;
+            del{
+                font-size: 18px;
+                color: #9BABCD;
+            }
+        }
+  }
+}

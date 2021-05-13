@@ -1,10 +1,10 @@
-//Header bar mobile
-var toggleButton = document.getElementsByClassName("header__bottom-icon")[0];
-var menuList = document.getElementsByClassName("header__bottom-list")[0];
+// Header bar mobile
+  var toggleButton = document.getElementsByClassName("header__bottom-icon")[0];
+  var menuList = document.getElementsByClassName("header__bottom-list")[0];
 
-toggleButton.addEventListener('click', () => {
-  menuList.classList.toggle("active");
-})
+  toggleButton.addEventListener('click', () => {
+    menuList.classList.toggle("active");
+  })
 
 
 
@@ -32,8 +32,9 @@ tabSlide();
 document.querySelectorAll(".form__submit").forEach(element => {
   element.addEventListener('click', function(e){
     e.preventDefault();
-    const variantId = document.querySelector("[name='id']").value
-    const quantity = document.querySelector("[name='quantity']").value
+    console.log(this);
+    const variantId = this.querySelector("[name='id']").value
+    const quantity = this.querySelector("[name='quantity']").value
     addToCart(variantId, quantity);
   })
 

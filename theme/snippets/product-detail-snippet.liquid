@@ -1,3 +1,12 @@
+{% comment %} //arena_add {% endcomment %}
+{%- liquid
+    assign variant_first =  product.variants | first
+    assign first_available_variant  = product.first_available_variant | default: variant_first
+	assign available = product.available
+-%}
+{% comment %} //arena_add {% endcomment %}
+
+
 {%- liquid
 	assign productSelect 		= product.selected_or_first_available_variant
 	assign product_metafield 	= product.metafields.c_f
@@ -27,13 +36,16 @@
 
   	{%- when 'stock' -%}
   		<div class="product-stock">
-  			<p>{{- 'products.product.availability' | t -}}:
+  			{% comment %} <p>{{- 'products.product.availability' | t -}}:
   				<span id="stock">
   					{%- if productSelect.available -%}{{- 'products.product.in_stock' | t -}}
   					{%- else -%}{{- 'products.product.out_stockk' | t -}}
   					{%- endif -%}
   				</span>
-  			</p>
+  			</p> {% endcomment %}
+
+			<p>Only {{first_available_variant.sku}} left in stock</p>
+
   		</div>
 
   	{%- when 'information' -%}
@@ -47,7 +59,20 @@
   			</div>
   		</div>
 
-  	{%- when 'price' -%}
+	{%- when 'price' -%}
+		<div class="product-price">
+			<div class="product-price_new">
+				<p>{{ first_available_variant.price | money }}</p>
+			</div>
+			{%- if product.compare_at_price_max > product.price -%}
+				<div class="product-price_old">
+					<del>{{ first_available_variant.compare_at_price | money }}</del>
+				</div>
+			{%- endif -%}     
+		</div>
+
+
+  	{% comment %} {%- when 'price' -%}
 		{%- liquid
 			assign compare_price 		= productSelect.compare_at_price
 			assign price         		= productSelect.price
@@ -75,7 +100,7 @@
 			</div>
 		{%- endif -%}
 
-	    <div class="product-price notranslate{% if disableDefaultVariant %} hide{% endif %}" data-product-price>{{__productPrice}}</div>
+	    <div class="product-price notranslate{% if disableDefaultVariant %} hide{% endif %}" data-product-price>{{__productPrice}}</div> {% endcomment %}
 
 	{%- when 'form' -%}
 		<div class="product-form-cart">

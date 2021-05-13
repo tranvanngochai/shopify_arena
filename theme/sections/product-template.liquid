@@ -24,10 +24,10 @@
                     </div>
 
                     <div class="product-info col-lg-4 col-12">
-                        {%- render 'product-detail-snippet', type: 'title' -%}
-                        {%- render 'product-detail-snippet', type: 'review' -%}
-                        {%- render 'product-detail-snippet', type: 'price' -%}
+                        {% comment %} {%- render 'product-detail-snippet', type: 'title' -%} {% endcomment %}
+                        {% comment %} {%- render 'product-detail-snippet', type: 'review' -%} {% endcomment %}
                         {%- render 'product-detail-snippet', type: 'stock' -%}
+                        {%- render 'product-detail-snippet', type: 'price' -%}
                         {%- render 'product-detail-snippet', type: 'short_description' -%}
                         {%- render 'product-detail-snippet', type: 'form', section: section -%}
                         {%- render 'product-detail-snippet', type: 'wlcp' -%}

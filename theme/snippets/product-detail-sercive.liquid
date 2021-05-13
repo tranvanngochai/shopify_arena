@@ -1,8 +1,13 @@
+{%- liquid
+    assign variant_first =  product.variants | first
+    assign first_available_variant  = product.first_available_variant | default: variant_first 
+-%}
+
 <div class="heading__top">
     <p>Thermometer Brand</p>
 </div>
 <div class="title">
-    <h1>Digital Thermometer X30-Pro</h1>
+    <h1>{{product.title}}</h1>
 </div>
 <div class="icon__star">
     <i class="far fa-star"></i>
@@ -40,12 +45,14 @@
 </div>
 <div class="tag">
     <p>Tags</p>
-    <p>Thermometer</p>
-    <p>Health</p>
+    {% for tag in product.tags %}
+        <p>{{ tag }}</p>     
+    {% endfor %}
+    
 </div>
 <div class="sku">
     <p>SKU</p>
-    <p>8DJ21A</p>
+    <p>{{first_available_variant.sku}}</p>
 </div>
 <div class="icon__socialNetwork">
     <i class="fab fa-facebook-f"></i>
