@@ -95,7 +95,7 @@
         margin-top: 30px;
         height: 30px;
         .product-price_new{
-            display: flex;
+            display: flex;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
             height: 30px;
             align-items: center;
             p{
@@ -115,5 +115,53 @@
                 color: #9BABCD;
             }
         }
-  }
+    }
+    .product-form-cart{
+        .product-form{
+            .product-cart{
+                .product-cart-inner{
+                    display: block;
+                    .product-cart-qty{     
+                        .qty-select{
+                            width: 80%;
+                            background-color: white;
+                            border-radius: 30px;
+                            position: relative;
+                            height: 50px;
+                            margin: auto;
+                            .qty-group{
+                                width: 100%;
+                                input{
+                                    max-width: 50px;
+                                }
+                                input[type="number"] {
+                                    padding: 10px 15px;
+                                    font-size: 20px;
+                                }
+                                .qty-plus{
+                                    position: absolute;
+                                    right: 0;
+                                    font-size: 25px;
+                                }
+                                .qty-minus{
+                                    position: absolute;
+                                    left: 0;
+                                    font-size: 25px;
+                                }
+                            }
+                        }
+                        
+                    }
+                    .product-cart_button{
+                        width: 80%;
+                        margin: 15px auto;
+                        button{
+                            border-radius: 30px;
+                        }
+                    }    
+                }
+                
+            }
+        }
+    }
 }

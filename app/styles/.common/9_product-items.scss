@@ -488,7 +488,10 @@
             margin-bottom: 5px; 
 			color: var(--body-link);
             p {
-                margin: 0;
+				font-size: 20px;
+				font-weight: bold;
+				margin: 0;
+				color: var(--text-color);
             }
         }
         .swatch-item {
@@ -518,19 +521,20 @@
                     + label {
                         cursor: pointer;
                         font-size: var(--body-font-size);
-                        border: 1px solid var(--btn1-hover-border-cl);
-                        background: var(--btn1-hover-bg-cl);
-                        color: var( --btn1-hover-cl);
+                        background-color: var(--white-color);
+						color: var(--text-color);
+						border-radius: 30px;
                         padding: 7px 10px;
                         margin: 0;
-                        min-width: 40px;
+                        min-width: 60px;
                         line-height: 18px;
                         text-align: center;
                     }
                     &:checked + label {
-                        background: var(--btn1-bg-cl);
-                        color: var(--btn1-cl);
-                        border-color: var(--btn1-border-cl);
+						background-color: var(--white-color);
+						color: var(--text-color);
+						border-radius: 30px;
+						border: 2px solid var(--text-color);
                     }
                 }
                 &.swt-type-color {
@@ -541,8 +545,9 @@
                 }
             }
             .swt-color {
-                width: 40px;
-                height: 34px;
+				border-radius: 50%;
+                width: 30px;
+                height: 30px;
                 margin: 0;
                 position: relative;
                 font-size: 0;

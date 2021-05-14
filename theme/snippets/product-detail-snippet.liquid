@@ -149,10 +149,13 @@
 		          		<div class="product-cart-qty" data-quantity>
 		          			<div class="qty-wrapper">
 		          				<div class="qty-select">
-		          					<input type="number" name="quantity" value="1" min="1">
+		          					{% comment %} <input type="number" name="quantity" value="1" min="1"> {% endcomment %}
 		          					<div class="qty-group">
-		          						<a href="javascript:void(0);" class="qty-plus">{%- render 'svg', type: 'icon_plus', fill: '#333333' -%}</a>
-		          						<a href="javascript:void(0);" class="qty-minus">{%- render 'svg', type: 'icon_minus', fill: '#333333' -%}</a>
+		          						{% comment %} <a href="javascript:void(0);" class="qty-plus">{%- render 'svg', type: 'icon_plus', fill: '#333333' -%}</a>
+		          						<a href="javascript:void(0);" class="qty-minus">{%- render 'svg', type: 'icon_minus', fill: '#333333' -%}</a> {% endcomment %}
+										<input type="number" name="quantity" value="1" min="1">
+										<a href="javascript:void(0);" class="qty-plus">+</a>
+		          						<a href="javascript:void(0);" class="qty-minus">-</a>
 		          					</div>
 		          				</div>
 		          			</div>
@@ -172,13 +175,18 @@
 
 	          	</div>
 	        {%- endform -%}
-        </div>
+        </div> 
 
-  	{%- when 'short_description' -%}
+  	
+
+
+	{%- when 'short_description' -%}
 	  	{%- if product_metafield.description_excerpt != blank-%}
 	  		<div class="product-detail_short-description">{{ product_metafield.description_excerpt }}</div>
 	  	{%- endif -%}
 
+	
+	
 	{%- when 'json' -%}
 		{%- capture content -%}
 			{%- assign days_product_price_valid_until = 10 | times: 86400 -%}
