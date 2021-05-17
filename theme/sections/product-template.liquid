@@ -21,6 +21,7 @@
 
                     <div class="product-service col-lg-4 col-12">
                         {%- render 'product-detail-sercive', product: product -%}
+                        {%- render 'product-detail-snippet', type: 'information' -%}
                     </div>
 
                     <div class="product-info col-lg-4 col-12">
@@ -31,7 +32,7 @@
                         {%- render 'product-detail-snippet', type: 'short_description' -%}
                         {%- render 'product-detail-snippet', type: 'form', section: section -%}
                         {%- render 'product-detail-snippet', type: 'wlcp' -%}
-                        {%- render 'product-detail-snippet', type: 'information' -%}
+                        {% comment %} {%- render 'product-detail-snippet', type: 'information' -%} {% endcomment %}
                     </div>
 
                 </div>

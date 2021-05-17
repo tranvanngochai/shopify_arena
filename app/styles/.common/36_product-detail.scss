@@ -60,12 +60,19 @@
         }
     }
 }
-.icon__socialNetwork{
-    i{
+.list-inline{
+    .social-item{
         margin-right: 15px;
-        background-color: aqua;
-        padding: 10px;
+        background-color: #0ff;
         font-size: 15px;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        a{
+            color: var(--white-color);
+        }   
     }
 }
 
@@ -164,4 +171,30 @@
             }
         }
     }
+}
+
+
+// img slide
+.product-media{
+    display: block;
+    .product-thumbnail{
+        width: 100%;
+        #tns2-mw{
+            height: auto !important;
+        }
+        .product-gallery--thumbnail{
+            display: flex;
+            .media-thumbnail{
+                width: 80px;
+                height: 80px;
+                .image__style{
+                    width: 80px;
+                    height: 80px;
+                }
+            }
+        }
+    } 
+    // .tns-nav-active{
+    //    border: 2px solid black !important;     
+    // } 
 }

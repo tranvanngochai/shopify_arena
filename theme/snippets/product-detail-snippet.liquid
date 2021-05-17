@@ -50,9 +50,9 @@
 
   	{%- when 'information' -%}
   		<div class="product-information">
-  			<div class="product-vendor">
+  			{% comment %} <div class="product-vendor">
   				<p><span class="vendor-title">{{- 'products.product.vendor' | t -}}:</span>{{product.vendor}}</p>
-  			</div>
+  			</div> {% endcomment %}
   			<div class="product-share">
   				<p class="share-title">{{- 'products.product.share' | t -}}:</p>
   				{%- render 'social-sharing' -%}

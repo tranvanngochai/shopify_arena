@@ -28,8 +28,8 @@
                                     assign first_available_variant  = product.first_available_variant | default: variant_first
                                     assign available = product.available  
                                     -%}
-                                {%- form 'product', product -%}
-                                    <input type="hidden" name="id" value="{{first_available_variant.id}}" />                                                     
+                               
+                                                                                         
                                     <div class="bestsellers__item block-{{block.id}}">
                                         {% for tag in product.tags %}
                                             {% if tag == 'Hot' %}
@@ -56,9 +56,26 @@
                                                 <img src="{{ product | img_url: '197x197' }}" />                          
                                             </div>
                                         </a> 
-                                        {%- if block.settings.add_cart != blank -%}               
-                                            <button type="submit" class="addCart">{{block.settings.add_cart}}</button>
-                                        {%- endif -%}
+                                        
+                                        <form class="form__submit">
+                                            <input name="id" type="hidden" value="{{first_available_variant.id}}" data-value="{{first_available_variant.id}}">
+                                            <input name="quantity" type="hidden" value="1" data-value="1">
+                                            {%- if block.settings.add_cart != blank -%}               
+                                                <button type="submit" class="addCart Click-here">{{block.settings.add_cart}} </button>
+                                                <div class="custom-model-main">
+                                                    <div class="custom-model-inner">        
+                                                        <div class="close-btn">×</div>
+                                                        <div class="custom-model-wrap">
+                                                            <div class="pop-up-content-wrap">
+                                                                Content Here
+                                                            </div>
+                                                        </div>  
+                                                        </div>  
+                                                    <div class="bg-overlay"></div>
+                                                </div> 
+                                            {%- endif -%}
+                                        </form>
+
                                         <div class="bestsellers__item--content">
                                             <div class="bestsellers__item--title">
                                                 <h3>{{product.title}}</h3>
@@ -79,7 +96,7 @@
                                             </div>
                                         </div>
                                     </div>                                 
-                                {%- endform -%}
+                               
                             {%- endfor -%}
                         </div>            
                     {% endfor %}

@@ -37,8 +37,9 @@ document.querySelectorAll(".form__submit").forEach(element => {
     const quantity = this.querySelector("[name='quantity']").value
     addToCart(variantId, quantity);
   })
-
 });
+
+
 
 async function addToCart(variant_id, quantity) {
   fetch("/cart/add.js", {
@@ -69,4 +70,16 @@ async function getCart() {
     .then(response => response.json())
     .then(data => data);
 }
+
+
+
+
+
+//Popup
+  $(".Click-here").on('click', function() {
+    $(".custom-model-main").addClass('model-open');
+  }); 
+  $(".close-btn, .bg-overlay").click(function(){
+    $(".custom-model-main").removeClass('model-open');
+  });
 

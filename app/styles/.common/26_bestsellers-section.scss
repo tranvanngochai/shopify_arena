@@ -84,25 +84,28 @@
                     }   
                   }
         }
-
-        .addCart{
-          display: flex;
-          width: 60%;
-          height: 35px;
-          display: flex;
-          background: #FF9923;
-          border-radius: 30px;
-          justify-content: center;
-          align-content: center;
-          line-height: 35px;
-          color: var(--white-color);
-          cursor: pointer;
-          opacity: 1;
-          margin: auto;
-          &:hover{
-            opacity: 0.7;
-          }
-        }   
+        .form__submit{
+          width: 100%;
+          .addCart{
+            display: flex;
+            width: 60%;
+            height: 35px;
+            display: flex;
+            background: #FF9923;
+            border-radius: 30px;
+            justify-content: center;
+            align-content: center;
+            line-height: 35px;
+            color: var(--white-color);
+            cursor: pointer;
+            opacity: 1;
+            margin: auto;
+            &:hover{
+              opacity: 0.7;
+            }
+          }  
+        }
+         
 
         .bestsellers__item--content{
           .bestsellers__item--title{

@@ -1,5 +1,5 @@
 
-<div class="container slider-container">
+<div class="container slider-container" data-section-id="{{section.id}}">
    <div class="slider-heading">
       <h1>{{section.settings.title}}</h1>
    </div>
@@ -13,9 +13,20 @@
         </li>
    </ul>
 
-    {% render 'snippets-product-section', block: block, idSlide: true ,idTag_product: {{section.id}} %}
+    {% render 'snippets-product-section', block: block, idSlide: true ,idTag_product: 'tag', section_id: section.id %}
+     
 
 </div>
+
+
+ <script>
+    var sectionID = {
+        id: "{{section.id}}"
+    }
+    console.log(sectionID.id)
+</script>
+
+
 
 
 
@@ -51,11 +62,7 @@
 </script>
 
 
-{% comment %} <script>
-   slideshow({{section.id}})
-   console.log(typeof slideshow);
-   console.log(i_sections);
-</script> {% endcomment %}
+
 
 
 

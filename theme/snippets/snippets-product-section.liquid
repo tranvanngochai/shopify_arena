@@ -53,9 +53,12 @@
                         <input name="id" type="hidden" value="{{first_available_variant.id}}" data-value="{{first_available_variant.id}}">
                         <input name="quantity" type="hidden" value="1" data-value="1">
                         {%- if block.settings.add_cart != blank -%}               
-                            <button type="submit" class="addCart">{{block.settings.add_cart}} </button>
+                            <button type="submit" class="addCart Click-here">{{block.settings.add_cart}} </button>
                         {%- endif -%}
                     </form>
+                    
+       
+                    
 
                     <div class="item--content">
                         <div class="item--title">
@@ -89,3 +92,7 @@
         {%- endfor -%}
       {%- endfor -%}
    </div>
+
+
+
+  

@@ -3466,7 +3466,10 @@ b {
 .bestsellers-container .tab-content .gallery-product .bestsellers__item-list .bestsellers__item .bestsellers__item--img:hover span:hover {
   opacity: .7; }
 
-.bestsellers-container .tab-content .gallery-product .bestsellers__item-list .bestsellers__item .addCart {
+.bestsellers-container .tab-content .gallery-product .bestsellers__item-list .bestsellers__item .form__submit {
+  width: 100%; }
+
+.bestsellers-container .tab-content .gallery-product .bestsellers__item-list .bestsellers__item .form__submit .addCart {
   width: 60%;
   height: 35px;
   display: flex;
@@ -3480,7 +3483,7 @@ b {
   opacity: 1;
   margin: auto; }
 
-.bestsellers-container .tab-content .gallery-product .bestsellers__item-list .bestsellers__item .addCart:hover {
+.bestsellers-container .tab-content .gallery-product .bestsellers__item-list .bestsellers__item .form__submit .addCart:hover {
   opacity: .7; }
 
 .bestsellers-container .tab-content .gallery-product .bestsellers__item-list .bestsellers__item .bestsellers__item--content .bestsellers__item--title {
@@ -3557,8 +3560,7 @@ b {
 
 .item-list {
   display: grid;
-  grid-template-columns: auto auto auto auto auto;
-  gap: 25px; }
+  grid-template-columns: auto auto auto auto auto; }
 
 .item-list .item {
   background-color: #f0f2f5;
@@ -3596,7 +3598,10 @@ b {
   position: relative;
   transition: .3s; }
 
-.item-list .item .addCart {
+.item-list .item .form__submit {
+  width: 100%; }
+
+.item-list .item .form__submit .addCart {
   width: 60%;
   height: 35px;
   display: flex;
@@ -3611,7 +3616,7 @@ b {
   opacity: 1;
   margin: auto; }
 
-.item-list .item .addCart:hover {
+.item-list .item .form__submit .addCart:hover {
   opacity: .7; }
 
 .item-list .item .item--content .item--title {
@@ -4069,11 +4074,18 @@ b {
   font-weight: 700;
   color: var(--text-color); }
 
-.icon__socialNetwork i {
+.list-inline .social-item {
   margin-right: 15px;
   background-color: #0ff;
-  padding: 10px;
-  font-size: 15px; }
+  font-size: 15px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
+.list-inline .social-item a {
+  color: var(--white-color); }
 
 .product-info {
   background-color: #f0f2f5; }
@@ -4156,3 +4168,109 @@ b {
 
 .product-info .product-form-cart .product-form .product-cart .product-cart-inner .product-cart_button button {
   border-radius: 30px; }
+
+.product-media {
+  display: block; }
+
+.product-media .product-thumbnail {
+  width: 100%; }
+
+.product-media .product-thumbnail #tns2-mw {
+  height: auto !important; }
+
+.product-media .product-thumbnail .product-gallery--thumbnail {
+  display: flex; }
+
+.product-media .product-thumbnail .product-gallery--thumbnail .media-thumbnail, .product-media .product-thumbnail .product-gallery--thumbnail .media-thumbnail .image__style {
+  width: 80px;
+  height: 80px; }
+
+.custom-model-main {
+  text-align: center;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+  opacity: 0;
+  transition: opacity .15s linear,z-index .15;
+  z-index: -1;
+  overflow-x: hidden;
+  overflow-y: auto; }
+
+.model-open {
+  z-index: 99999;
+  opacity: 1;
+  overflow: hidden; }
+
+.custom-model-inner {
+  transform: translateY(-25%);
+  transition: transform .3s ease-out;
+  display: inline-block;
+  vertical-align: middle;
+  width: 600px;
+  margin: 30px auto;
+  max-width: 97%; }
+
+.custom-model-wrap {
+  display: block;
+  width: 100%;
+  position: relative;
+  background-color: #fff;
+  border: 1px solid #999;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  background-clip: padding-box;
+  outline: 0;
+  text-align: left;
+  padding: 20px;
+  box-sizing: border-box;
+  max-height: calc(100vh - 70px);
+  overflow-y: auto; }
+
+.model-open .custom-model-inner {
+  transform: translate(0);
+  position: relative;
+  z-index: 999; }
+
+.model-open .bg-overlay {
+  background: rgba(0, 0, 0, 0.05);
+  z-index: 99; }
+
+.bg-overlay {
+  background: transparent;
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  transition: background .15s linear; }
+
+.close-btn {
+  position: absolute;
+  right: 0;
+  top: -30px;
+  cursor: pointer;
+  z-index: 99;
+  font-size: 30px;
+  color: #fff; }
+
+@media screen and (min-width: 800px) {
+  .custom-model-main:before {
+    content: "";
+    display: inline-block;
+    height: auto;
+    vertical-align: middle;
+    margin-right: 0;
+    height: 100%; } }
+
+@media screen and (max-width: 799px) {
+  .custom-model-inner {
+    margin-top: 45px; } }
