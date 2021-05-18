@@ -35,7 +35,10 @@ document.querySelectorAll(".form__submit").forEach(element => {
     console.log(this);
     const variantId = this.querySelector("[name='id']").value
     const quantity = this.querySelector("[name='quantity']").value
+    const handle = this.querySelector("[name='handle']").value
+
     addToCart(variantId, quantity);
+    getProduct(handle);
   })
 });
 
@@ -55,6 +58,7 @@ async function addToCart(variant_id, quantity) {
     .then(response => {
       return response.json();
     })
+    .then(data => showPopupQuickAddToCart(data))
     .then(async function() {
       document.querySelectorAll("#cart__count")[0].innerHTML = (
         await getCart()
@@ -65,10 +69,53 @@ async function addToCart(variant_id, quantity) {
     });
 }
 
+
 async function getCart() {
   return fetch("/cart.js")
     .then(response => response.json())
     .then(data => data);
+}
+
+
+async function getProduct(handle) {
+  return fetch('/products/'+handle+'.js')
+    .then(response => response.json())
+    .then(data => console.log("Get Product",data));
+}
+
+
+
+
+
+//show Popup
+async function showPopupQuickAddToCart(data){
+  console.log("show",data);
+
+  const {
+    image,
+    product_title,
+    final_line_price,
+    price
+  } = data;
+
+  const popup = document.querySelector("#custom-model-main");
+
+  let productTitle = popup.querySelector("[data-popup-title]"),
+      productimage = popup.querySelector("[data-popup-product-image]"),
+      productPriceNew = popup.querySelector("[data-popup-price__new]"),
+      productPriceOld = popup.querySelector("[data-popup-price__old]");
+
+  productimage.src = image;
+  productTitle.innerHTML = product_title;
+  productPriceNew.innerHTML = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(price);
+  
+  productPriceOld.innerHTML = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(final_line_price);
 }
 
 
@@ -79,7 +126,7 @@ async function getCart() {
   $(".Click-here").on('click', function() {
     $(".custom-model-main").addClass('model-open');
   }); 
-  $(".close-btn, .bg-overlay").click(function(){
+  $(".close-btn, .bg-overlay, .continue").click(function(){
     $(".custom-model-main").removeClass('model-open');
   });
 

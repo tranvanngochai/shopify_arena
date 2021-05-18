@@ -52,6 +52,7 @@
                     <form class="form__submit">
                         <input name="id" type="hidden" value="{{first_available_variant.id}}" data-value="{{first_available_variant.id}}">
                         <input name="quantity" type="hidden" value="1" data-value="1">
+                        <input name="handle" type="hidden" value="{{product.handle}}" data-value="{{product.handle}}">
                         {%- if block.settings.add_cart != blank -%}               
                             <button type="submit" class="addCart Click-here">{{block.settings.add_cart}} </button>
                         {%- endif -%}
